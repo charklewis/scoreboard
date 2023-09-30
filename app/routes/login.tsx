@@ -2,6 +2,7 @@ import { json, type ActionFunctionArgs } from "@remix-run/node";
 import { db } from "~/database/db";
 
 async function action({ request }: ActionFunctionArgs) {
+  process.env.DATABASE_URL;
   // const users = await db.query.user.findFirst();
   // console.log({ users });
   // const body = await request.formData();
