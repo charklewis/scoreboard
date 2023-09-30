@@ -1,0 +1,21 @@
+name: Continuous Integration
+
+on:
+  push:
+
+jobs:
+  basic_checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      - name: Install Packages
+        run: bun install
+      - name: Typecheck
+        run: bun typecheck
+      - name: Eslint
+        run: bun lint
+      - name: Jest Test
+        run: bun test --coverage
+      - name: Build
+        run: bun run build
