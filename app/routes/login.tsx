@@ -3,8 +3,8 @@ import { db } from "~/database/db";
 
 async function action({ request }: ActionFunctionArgs) {
   try {
-    console.log(db);
-    // console.log({ users });
+    const users = db.query.user.findFirst();
+    console.log({ users });
 
     const body = await request.formData();
     const email = body.get("email");
