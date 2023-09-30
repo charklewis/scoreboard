@@ -13,10 +13,13 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { db } from "./database/db";
 
 const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 
 async function action({ request }: ActionFunctionArgs) {
+  const users = await db.query.user.findFirst();
+  console.log({ users });
   const body = await request.formData();
   const email = body.get("email");
   console.log(email);
