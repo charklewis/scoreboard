@@ -1,5 +1,5 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 export default {
-  ignoredRouteFiles: ["**/.*"],
+  ignoredRouteFiles: ["**/*/*.test.{js,jsx,ts,tsx}"],
   tailwind: true,
 };
