@@ -2,11 +2,11 @@ import { json, type ActionFunctionArgs } from "@remix-run/node";
 import { db } from "~/database/db";
 
 async function action({ request }: ActionFunctionArgs) {
-  const users = await db.query.user.findFirst();
-  console.log({ users });
-  const body = await request.formData();
-  const email = body.get("email");
-  console.log(email);
+  // const users = await db.query.user.findFirst();
+  // console.log({ users });
+  // const body = await request.formData();
+  // const email = body.get("email");
+  // console.log(email);
   return json({ hi: "world" });
 }
 
