@@ -1,4 +1,8 @@
-import type { LinksFunction } from "@remix-run/node";
+import {
+  type ActionFunctionArgs,
+  type LinksFunction,
+  json,
+} from "@remix-run/node";
 import stylesheet from "~/tailwind.css";
 
 import {
@@ -12,16 +16,24 @@ import {
 
 const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 
+async function action({ request }: ActionFunctionArgs) {
+  const body = await request.formData();
+  const email = body.get("email");
+  console.log(email);
+  return json({});
+}
+
 function App() {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full bg-white">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="noindex" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="h-full">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
@@ -31,5 +43,5 @@ function App() {
   );
 }
 
-export { links };
+export { links, action };
 export default App;
