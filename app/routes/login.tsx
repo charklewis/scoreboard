@@ -3,7 +3,7 @@ import { db } from "~/database/db";
 
 async function action({ request }: ActionFunctionArgs) {
   try {
-    const users = db.query.user.findFirst();
+    const users = await db.query.user.findFirst();
     console.log({ users });
 
     const body = await request.formData();
