@@ -2,7 +2,6 @@ import { json, type ActionFunctionArgs } from "@remix-run/node";
 import { db } from "~/database/db";
 
 async function action({ request }: ActionFunctionArgs) {
-  console.log("env", process.env.DATABASE_URL);
   try {
     const users = await db.query.user.findFirst();
     console.log({ users });
@@ -10,6 +9,7 @@ async function action({ request }: ActionFunctionArgs) {
     const email = body.get("email");
     console.log(email);
   } catch (error) {
+    console.log("error");
     console.log(error);
   }
   return json({ hi: "world" });
