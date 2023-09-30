@@ -3,12 +3,12 @@ import { db } from "~/database/db";
 
 async function action({ request }: ActionFunctionArgs) {
   try {
-    const users = await db.query.user.findFirst();
-    console.log({ users });
+    // const users = await db.query.user.findFirst();
     // console.log({ users });
-    // const body = await request.formData();
-    // const email = body.get("email");
-    // console.log(email);
+
+    const body = await request.formData();
+    const email = body.get("email");
+    console.log(email);
   } catch (error) {
     console.log("error");
     console.log(error);
