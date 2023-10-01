@@ -8,6 +8,20 @@
       "when": 1696057623896,
       "tag": "0000_careless_doorman",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1696123356856,
+      "tag": "0001_giant_gargoyle",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1696134667230,
+      "tag": "0002_overjoyed_stranger",
+      "breakpoints": true
     }
   ]
 }

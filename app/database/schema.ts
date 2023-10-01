@@ -1,10 +1,13 @@
-import { serial, mysqlTable, text, timestamp } from "drizzle-orm/mysql-core";
+import { type InferSelectModel } from 'drizzle-orm'
+import { serial, mysqlTable, text, timestamp } from 'drizzle-orm/mysql-core'
 
-const user = mysqlTable("users", {
-  id: serial("id").primaryKey(),
-  fullName: text("full_name").notNull(),
-  stytchId: text("stytch_id").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+const users = mysqlTable('users', {
+  id: serial('id').primaryKey(),
+  stytchId: text('stytch_id').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+})
 
-export { user };
+type User = InferSelectModel<typeof users>
+// export type NewUser = InferInsertModel<typeof users>
+
+export { users, type User }

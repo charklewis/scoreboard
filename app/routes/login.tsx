@@ -1,66 +1,90 @@
-import { json, type ActionFunctionArgs } from "@remix-run/node";
-import { db } from "~/database/db";
+import { json, type ActionFunctionArgs } from '@remix-run/node'
+import { useActionData } from '@remix-run/react'
+import { namedAction } from 'remix-utils/named-action'
+
+import { LoadingPrimaryButton, TextSecondaryButton } from '~/components/button'
+import { Form, InputGroup, OtpInput } from '~/components/form'
+import { TextField } from '~/components/form/text-field'
 
 async function action({ request }: ActionFunctionArgs) {
-  try {
-    const users = await db.query.user.findFirst();
-    console.log({ users });
+  const test = new Promise(function (resolve) {
+    setTimeout(resolve, 5000)
+  })
 
-    const body = await request.formData();
-    const email = body.get("email");
-    console.log(email);
-  } catch (error) {
-    console.log("error");
-    console.log(error);
-  }
-  return json({ hi: "world" });
+  await Promise.all([test])
+
+  return namedAction(request, {
+    async signIn() {
+      //fix with zod
+      const body = await request.formData()
+      const email = body.get('email') as string
+      return json({ methodId: 'abc', email })
+    },
+    async otp() {
+      return json({ methodId: 'abc', email: '' })
+    },
+    async resend() {
+      return json({ methodId: 'abc', email: '' })
+    },
+  })
+}
+
+function SignIn() {
+  return (
+    <>
+      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+        Sign in to your account
+      </h2>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <Form id="login" action="?/signIn" className="space-y-6">
+          <InputGroup name="email">
+            <TextField label={{ children: 'Email' }} input={{ type: 'email' }} />
+          </InputGroup>
+          <LoadingPrimaryButton type="submit" text="Sign in" loadingText="Signing in..." />
+        </Form>
+      </div>
+    </>
+  )
+}
+
+function OneTimeCode({ email, methodId }: { email: string; methodId: string }) {
+  return (
+    <>
+      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Verification</h2>
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <Form id="otp" action="?/otp" className="space-y-6">
+          <input type="hidden" name="methodId" value={methodId} />
+          <input type="hidden" name="email" value={email} />
+          <input type="hidden" name="code" value={email} />
+          <p className="text-center">Enter your OTP code</p>
+          <InputGroup name="code">
+            <OtpInput />
+          </InputGroup>
+          <LoadingPrimaryButton type="submit" text="Verify" loadingText="Verifying..." />
+        </Form>
+        <div className="w-full border-t border-gray-200" />
+        <Form id="otp-resend" action="?/resend" className="space-y-6">
+          <input type="hidden" name="methodId" value={methodId} />
+          <input type="hidden" name="email" value={email} />
+          <TextSecondaryButton text="Resend new code" loadingText="Sending..." />
+        </Form>
+      </div>
+    </>
+  )
 }
 
 function Login() {
+  const { email, methodId } = useActionData<typeof action>() || {}
+
   return (
-    <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
-        </div>
+    <main className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        {email && methodId ? <OneTimeCode email={email} methodId={methodId} /> : <SignIn />}
+        {/* <OneTimeCode email={email} methodId={methodId} /> */}
       </div>
-    </>
-  );
+    </main>
+  )
 }
 
-export { action };
-export default Login;
+export { action }
+export default Login

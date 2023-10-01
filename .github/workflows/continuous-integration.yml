@@ -14,7 +14,7 @@ jobs:
       - name: Typecheck
         run: bun typecheck
       - name: Eslint
-        run: bun lint
+        run: bun lint:repo
       - name: Jest Test
         run: bun test --coverage
       - name: Build
