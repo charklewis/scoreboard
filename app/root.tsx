@@ -1,16 +1,20 @@
-import { type LinksFunction } from "@remix-run/node";
-import stylesheet from "~/tailwind.css";
+import { type LoaderFunctionArgs, type LinksFunction, type MetaFunction } from '@remix-run/node'
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+import { authenticator } from '~/services/identity.server'
+import stylesheet from '~/tailwind.css'
 
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }]
 
-const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
+const meta: MetaFunction = () => {
+  return [{ title: 'Scoreboard' }]
+}
+
+async function loader({ request }: LoaderFunctionArgs) {
+  if (request.url.toLowerCase().includes('/login')) return null
+  return await authenticator.isAuthenticated(request, {
+    failureRedirect: '/login',
+  })
+}
 
 function App() {
   return (
@@ -29,8 +33,8 @@ function App() {
         <LiveReload />
       </body>
     </html>
-  );
+  )
 }
 
-export { links };
-export default App;
+export { links, loader, meta }
+export default App

@@ -1,66 +1,130 @@
-import { json, type ActionFunctionArgs } from "@remix-run/node";
-import { db } from "~/database/db";
+import { json, type ActionFunctionArgs } from '@remix-run/node'
+import { useActionData, useNavigation } from '@remix-run/react'
+import { namedAction } from 'remix-utils/named-action'
+import { string } from 'zod'
+
+import { LoadingButton, TextButton } from '~/components/button'
+import { ErrorMessage, Form, InputGroup, OtpInput } from '~/components/form'
+import { TextField } from '~/components/form/text-field'
+import { authenticator, loginWithOtp } from '~/services/identity.server'
 
 async function action({ request }: ActionFunctionArgs) {
-  try {
-    const users = await db.query.user.findFirst();
-    console.log({ users });
+  return namedAction(request, {
+    async sendOtp() {
+      try {
+        const formData = await request.formData()
+        const email = string().email().parse(formData.get('email'))
+        const methodId = await loginWithOtp(email)
+        if (methodId) {
+          return json({ methodId, email })
+        }
+        return json({ errors: { email: 'An error occured while verifying your email, please try again later' } })
+      } catch {
+        return json({ errors: { email: 'An email is required' } })
+      }
+    },
+    async verifyOtp() {
+      try {
+        return await authenticator.authenticate('otp', request, {
+          successRedirect: '/dashboard',
+          failureRedirect: '/login',
+        })
+      } catch (error) {
+        //this is the successful redirect
+        if (error instanceof Response) throw error
+        //otherwise handle the error
+        if (error instanceof Error) {
+          console.log(error.cause)
+          const [methodId, email] = (error.cause as string).split(':')
+          return json({ methodId, email, errors: { code: error.message } })
+        }
+        return json({ errors: { generic: 'Our system appears to be down, please try again later' } })
+      }
+    },
+    async resendOtp() {
+      try {
+        const formData = await request.formData()
+        const email = string().email().parse(formData.get('email'))
+        const methodId = await loginWithOtp(email)
+        if (methodId) {
+          return json({ methodId, email, sent: new Date() })
+        }
+        return json({ errors: { email: 'An error occured while resending a new code, please try again later' } })
+      } catch {
+        return json({ errors: { email: 'An email is required' } })
+      }
+    },
+  })
+}
 
-    const body = await request.formData();
-    const email = body.get("email");
-    console.log(email);
-  } catch (error) {
-    console.log("error");
-    console.log(error);
-  }
-  return json({ hi: "world" });
+function SignIn() {
+  const { errors } = useActionData<{ errors?: { email: string; generic?: string } }>() || {}
+  return (
+    <>
+      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+        Sign in to your account
+      </h2>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <Form id="login" action="?/sendOtp" errors={errors} className="space-y-6">
+          <InputGroup name="email">
+            <TextField label={{ children: 'Email' }} input={{ type: 'email' }} />
+          </InputGroup>
+          {errors?.generic ? (
+            <p className="mt-2 text-sm text-red-600" data-testid="error-message-generic">
+              {errors.generic}
+            </p>
+          ) : null}
+          <LoadingButton variant="primary" type="submit" text="Sign in" loadingText="Signing in..." />
+        </Form>
+      </div>
+    </>
+  )
+}
+
+function OneTimeCode({ methodId, email }: { methodId: string; email?: string }) {
+  const { errors, sent } = useActionData<{ errors?: { code: string }; sent: string }>() || {}
+  const navigation = useNavigation()
+  const isLoading = navigation.state !== 'idle'
+  return (
+    <>
+      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Verification</h2>
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <Form id="otp" action="?/verifyOtp" className="space-y-6" errors={errors}>
+          <input type="hidden" name="methodId" value={methodId} />
+          <input type="hidden" name="email" value={email} />
+          <p className="text-center">Enter your OTP code</p>
+          <InputGroup name="code">
+            <OtpInput />
+            <ErrorMessage />
+          </InputGroup>
+          <LoadingButton variant="primary" type="submit" text="Verify" loadingText="Verifying..." />
+        </Form>
+        <div className="w-full border-t border-gray-200" />
+        <Form id="otp-resend" action="?/resendOtp" className="space-y-6">
+          <input type="hidden" name="email" value={email} />
+          <div>
+            <TextButton variant="secondary" type="submit" text="Resend new code" loadingText="Sending..." />
+            {!isLoading && sent ? (
+              <p className="text-center text-xs text-gray-600">Sent: {new Date(sent).toLocaleString()}</p>
+            ) : null}
+          </div>
+        </Form>
+      </div>
+    </>
+  )
 }
 
 function Login() {
+  const { methodId, email } = useActionData<{ methodId?: string; email?: string }>() || {}
+
   return (
-    <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
-        </div>
+    <main className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        {methodId ? <OneTimeCode methodId={methodId} email={email} /> : <SignIn />}
       </div>
-    </>
-  );
+    </main>
+  )
 }
 
-export { action };
-export default Login;
+export { action }
+export default Login

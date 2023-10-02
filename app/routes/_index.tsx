@@ -1,13 +1,7 @@
-import { type MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { redirect } from '@remix-run/node'
 
-const meta: MetaFunction = () => {
-  return [{ title: "Scoreboard" }];
-};
-
-function Index() {
-  return <Link to="login">Go to login</Link>;
+async function loader() {
+  return redirect('/dashboard')
 }
 
-export { meta };
-export default Index;
+export { loader }
