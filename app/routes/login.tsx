@@ -34,7 +34,6 @@ async function action({ request }: ActionFunctionArgs) {
         if (error instanceof Response) throw error
         //otherwise handle the error
         if (error instanceof Error) {
-          console.log(error.cause)
           const [methodId, email] = (error.cause as string).split(':')
           return json({ methodId, email, errors: { code: error.message } })
         }
