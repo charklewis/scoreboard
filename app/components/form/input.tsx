@@ -1,12 +1,13 @@
 import classNames from 'classnames'
 import { type ComponentProps } from 'react'
 import { Input as ReactAriaInput } from 'react-aria-components'
-import { useInputGroup } from '.'
+import { useForm, useInputGroup } from '.'
 
 type Props = Pick<ComponentProps<typeof ReactAriaInput>, 'placeholder' | 'type'>
 
 function Input(props: Props) {
-  const { name, defaultValue, error, formIsLoading } = useInputGroup()
+  const { isLoading } = useForm()
+  const { name, defaultValue, error } = useInputGroup()
 
   return (
     <ReactAriaInput
@@ -23,7 +24,7 @@ function Input(props: Props) {
       id={name}
       name={name}
       data-testid={`input-${name}`}
-      readOnly={formIsLoading}
+      readOnly={isLoading}
       {...props}
     />
   )

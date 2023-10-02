@@ -11,7 +11,7 @@
     "test": "vitest",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:repo": "bun lint -- --config .eslintrc.repo.cjs",
-    "typecheck": "tsc",
+    "typecheck": "tsc --noEmit --skipLibCheck --esModuleInterop --jsx react-jsx",
     "db:migrate": "drizzle-kit generate:mysql --schema=./app/database/schema.ts",
     "db:push": "drizzle-kit push:mysql --config ./drizzle.config.ts"
   },
@@ -69,8 +69,8 @@
   },
   "lint-staged": {
     "**/*.+(js|jsx|ts|tsx)": [
+      "bun run typecheck",
       "bun run lint:repo -- --fix",
-      "bun run test -- --run",
       "prettier --write --ignore-unknown"
     ]
   },
