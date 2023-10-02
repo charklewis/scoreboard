@@ -24,9 +24,9 @@ async function authenticateOtp({ methodId, code }: { methodId: string; code: str
   return false
 }
 
-async function sendOtp(email: string) {
+async function loginWithOtp(email: string) {
   try {
-    const response = await client.otps.email.loginOrCreate({ email: email })
+    const response = await client.otps.email.loginOrCreate({ email })
     if (response.status_code !== 200) {
       return false
     }
@@ -39,14 +39,22 @@ class OtpStrategy extends Strategy<User, { code: string; methodId: string }> {
   name = 'otp'
   async authenticate(request: Request, sessionStorage: SessionStorage, options: AuthenticateOptions): Promise<User> {
     const formData = await request.formData()
-    const code = string().parse(formData.get('code'))
-    const methodId = string().parse(formData.get('methodId'))
+    let code = ''
+    let methodId = ''
+    let email = ''
+    try {
+      code = string().parse(formData.get('code'))
+      methodId = string().parse(formData.get('methodId'))
+      email = string().email().parse(formData.get('email'))
+    } catch {
+      throw new Error('We are having issues verifying your information', { cause: `${methodId}:${email}` })
+    }
 
     try {
       const user = await this.verify({ code, methodId })
       return this.success(user, request, sessionStorage, options)
     } catch (error) {
-      throw new Error((error as Error)?.message || 'Unknown error', { cause: methodId })
+      throw new Error((error as Error)?.message || 'Unknown error', { cause: `${methodId}:${email}` })
     }
   }
 }
@@ -56,18 +64,13 @@ const authenticator = new Authenticator<User>(sessionStorage)
 authenticator.use(
   new OtpStrategy(async ({ code, methodId }) => {
     const stytchId = await authenticateOtp({ methodId, code })
-    if (!stytchId) {
-      throw new Error('Your code was not valid')
-    }
+    if (!stytchId) throw new Error('Your code was not valid')
 
     const user = await createUser(stytchId)
-
-    if (!user) {
-      throw new Error('We are having issues verifying your account')
-    }
+    if (!user) throw new Error('We are having issues verifying your account')
 
     return { stytchId }
   })
 )
 
-export { authenticator, sendOtp, authenticateOtp }
+export { authenticator, loginWithOtp, authenticateOtp }

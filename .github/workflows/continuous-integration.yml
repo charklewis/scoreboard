@@ -17,3 +17,5 @@ jobs:
         run: bun lint:repo
       - name: Jest Test
         run: bun test --coverage
+      - name: Build
+        run: bun run build

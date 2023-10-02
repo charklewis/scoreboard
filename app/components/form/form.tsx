@@ -26,7 +26,9 @@ function Form({ method = 'post', ...props }: Props) {
 
   return (
     <RemixForm id={id} className={className} method={method} action={action} data-testid={`form-${id}`}>
-      <Context.Provider value={{ action, isLoading, errors, defaultValues }}>{children}</Context.Provider>
+      <Context.Provider value={{ action, isLoading, errors: isLoading ? {} : errors, defaultValues }}>
+        {children}
+      </Context.Provider>
     </RemixForm>
   )
 }
