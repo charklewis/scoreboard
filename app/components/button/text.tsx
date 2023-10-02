@@ -22,32 +22,35 @@ function Spinner() {
   )
 }
 
-function TextSecondaryButton({
+function TextButton({
+  variant,
   type = 'button',
   text,
   loadingText,
 }: {
   type?: 'button' | 'submit'
+  variant: 'primary' | 'secondary'
   text: string
   loadingText: string
 }) {
   const { isLoading, action } = useForm()
   const { formAction } = useNavigation()
   const isWaiting = isLoading && action && formAction && formAction.includes(action)
+
+  const primary = classNames()
+
+  const secondary = classNames(
+    'flex w-full justify-center rounded-md px-3 py-1.5 hover:text-gray-800',
+    'text-sm font-semibold',
+    'disabled:opacity-50 disabled:hover:text-black'
+  )
+
   return (
-    <Button
-      type={type}
-      isDisabled={isLoading}
-      className={classNames(
-        'flex w-full justify-center rounded-md px-3 py-1.5 hover:text-gray-800',
-        'text-sm font-semibold',
-        'disabled:opacity-50 disabled:hover:text-black'
-      )}
-    >
+    <Button type={type} isDisabled={isLoading} className={variant === 'primary' ? primary : secondary}>
       {isWaiting ? <Spinner /> : null}
       {isWaiting ? loadingText : text}
     </Button>
   )
 }
 
-export { TextSecondaryButton }
+export { TextButton }

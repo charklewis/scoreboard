@@ -13,7 +13,6 @@ async function loader({ request }: LoaderFunctionArgs) {
   if (request.url.toLowerCase().includes('/login')) return null
   return await authenticator.isAuthenticated(request, {
     failureRedirect: '/login',
-    successRedirect: '/dashboard',
   })
 }
 

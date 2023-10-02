@@ -1,12 +1,18 @@
+import { eq } from 'drizzle-orm'
 import { db } from './db'
 import { users as schema } from './schema'
 
-async function getOrCreateUser(stytchId: string) {
-  const user = await db.query.users.findFirst({ with: { stytchId } })
+async function createUser(stytchId: string) {
+  const user = await db.query.users.findFirst({ where: eq(schema.stytchId, stytchId) })
   if (user) {
-    return user.stytchId
+    return true
   }
-  return db.insert(schema).values({ stytchId })
+
+  const newUser = await db.insert(schema).values({ stytchId })
+  if (newUser.rowsAffected === 1) {
+    return true
+  }
+  return false
 }
 
-export { getOrCreateUser }
+export { createUser }

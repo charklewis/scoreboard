@@ -1,6 +1,6 @@
 import { type ComponentProps } from 'react'
 import { TextField as ReactAriaTextField, Text } from 'react-aria-components'
-import { Label, Input, useInputGroup } from '.'
+import { Label, Input, useInputGroup, ErrorMessage } from '.'
 
 type Props = { label: ComponentProps<typeof Label>; input: ComponentProps<typeof Input>; description?: string }
 
@@ -18,11 +18,7 @@ function TextField(props: Props) {
           {props.description}
         </Text>
       ) : null}
-      {error ? (
-        <Text slot="errorMessage" className="mt-2 text-sm text-red-600">
-          {error}
-        </Text>
-      ) : null}
+      <ErrorMessage />
     </ReactAriaTextField>
   )
 }

@@ -13,7 +13,7 @@ function OtpInput() {
   }
 
   return (
-    <>
+    <div>
       <OTPInput
         value={code}
         onChange={setCode}
@@ -32,7 +32,7 @@ function OtpInput() {
               'ring-1 ring-inset focus:ring-2 focus:ring-inset',
               'read-only:bg-gray-50 read-only:text-gray-500 read-only:focus:ring-1 read-only:focus:ring-gray-200',
               error
-                ? 'ring-red-300 placeholder:text-red-300 focus:ring-red-500'
+                ? 'ring-red-400 placeholder:text-red-300 focus:ring-red-500'
                 : 'ring-gray-300 placeholder:text-gray-400 focus:ring-green-600'
             )}
             data-testid={`input-${name}-${index}`}
@@ -40,7 +40,7 @@ function OtpInput() {
         )}
       />
       <input type="hidden" name={name} value={code} />
-    </>
+    </div>
   )
 }
 
