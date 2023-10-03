@@ -11,7 +11,7 @@ vi.mock('@remix-run/react', () => ({ useNavigation: vi.fn().mockReturnValue({ fo
 vi.mock('~/components/form/form', () => ({ useForm: vi.fn().mockReturnValue({ isLoading: false, action: '' }) }))
 
 beforeEach(() => {
-  ;(useForm as Mock).mockReturnValue({ isLoading: false, action: '' })
+  (useForm as Mock).mockReturnValue({ isLoading: false, action: '' })
   ;(useNavigation as Mock).mockReturnValue({ formAction: '' })
 })
 

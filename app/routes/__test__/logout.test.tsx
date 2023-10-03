@@ -6,7 +6,7 @@ vi.mock('~/services/identity.server', () => ({ identity: { logout: vi.fn() } }))
 
 describe('loader', () => {
   test('the identity logout function is called', async () => {
-    ;(identity.logout as Mock).mockResolvedValue(true)
+    (identity.logout as Mock).mockResolvedValue(true)
     const response = await loader({
       request: new Request('http://test/logout'),
       params: {},

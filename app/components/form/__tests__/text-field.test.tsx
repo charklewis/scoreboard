@@ -10,7 +10,7 @@ vi.mock('~/components/form/form', () => ({ useForm: vi.fn().mockReturnValue({ is
 vi.mock('~/components/form/input-group', () => ({ useInputGroup: vi.fn() }))
 
 beforeEach(() => {
-  ;(useForm as Mock).mockReturnValue({ isLoading: false, action: '' })
+  (useForm as Mock).mockReturnValue({ isLoading: false, action: '' })
 })
 
 test('renders a label and input', async () => {
