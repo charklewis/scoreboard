@@ -3,12 +3,17 @@ import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
 
 import userEvent from '@testing-library/user-event'
-import { expect, test, vi, type Mock } from 'vitest'
+import { expect, test, vi, beforeEach, type Mock } from 'vitest'
 import { LoadingTextButton } from '~/components/button/loading-text'
 import { useForm } from '~/components/form/form'
 
 vi.mock('@remix-run/react', () => ({ useNavigation: vi.fn().mockReturnValue({ formAction: '' }) }))
 vi.mock('~/components/form/form', () => ({ useForm: vi.fn().mockReturnValue({ isLoading: false, action: '' }) }))
+
+beforeEach(() => {
+  ;(useForm as Mock).mockReturnValue({ isLoading: false, action: '' })
+  ;(useNavigation as Mock).mockReturnValue({ formAction: '' })
+})
 
 test('renders a button', async () => {
   const id = faker.lorem.word()

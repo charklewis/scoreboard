@@ -1,6 +1,6 @@
 import { type LoaderFunctionArgs, type LinksFunction, type MetaFunction } from '@remix-run/node'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
-import { authenticator } from '~/services/identity.server'
+import { identity } from '~/services/identity.server'
 import stylesheet from '~/tailwind.css'
 
 const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }]
@@ -11,7 +11,7 @@ const meta: MetaFunction = () => {
 
 async function loader({ request }: LoaderFunctionArgs) {
   if (request.url.toLowerCase().includes('/login')) return null
-  return await authenticator.isAuthenticated(request, {
+  return await identity.isAuthenticated(request, {
     failureRedirect: '/login',
   })
 }

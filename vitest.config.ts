@@ -7,6 +7,7 @@ export default {
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest-setup.ts'],
+    restoreMocks: true,
   },
   resolve: {
     alias: {

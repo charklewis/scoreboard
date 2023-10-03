@@ -6,7 +6,7 @@ import { string } from 'zod'
 import { LoadingSolidButton, LoadingTextButton } from '~/components/button'
 import { ErrorMessage, Form, InputGroup, OtpInput } from '~/components/form'
 import { TextField } from '~/components/form/text-field'
-import { authenticator, loginWithOtp } from '~/services/identity.server'
+import { identity, loginWithOtp } from '~/services/identity.server'
 
 async function action({ request }: ActionFunctionArgs) {
   return namedAction(request, {
@@ -25,7 +25,7 @@ async function action({ request }: ActionFunctionArgs) {
     },
     async verifyOtp() {
       try {
-        return await authenticator.authenticate('otp', request, {
+        return await identity.authenticate('otp', request, {
           successRedirect: '/dashboard',
           failureRedirect: '/login',
         })
