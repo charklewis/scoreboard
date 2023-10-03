@@ -4,6 +4,7 @@ import { identity } from '~/services/identity.server'
 async function loader({ request }: LoaderFunctionArgs) {
   if (request.url.toLowerCase().includes('/login')) return null
   return await identity.logout(request, { redirectTo: '/login' })
+  console.log('hi')
 }
 
 export { loader }
