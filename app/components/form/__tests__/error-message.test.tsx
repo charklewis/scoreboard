@@ -6,26 +6,6 @@ import { useInputGroup } from '~/components/form/input-group'
 
 vi.mock('~/components/form/input-group', () => ({ useInputGroup: vi.fn() }))
 
-// function render() {
-//   const id = faker.lorem.word()
-//   const name = faker.lorem.word()
-//   const router = createMemoryRouter([
-//     {
-//       path: '/',
-//       element: (
-//         <Form id={id}>
-//           <InputGroup name={name}>
-//             <ErrorMessage />
-//           </InputGroup>
-//         </Form>
-//       ),
-//     },
-//   ])
-
-//   const view = renderRtl(<RouterProvider router={router} />)
-//   return { id, name, ...view }
-// }
-
 test("nothing is rendered when there's no error", () => {
   const name = faker.lorem.word()
   ;(useInputGroup as Mock).mockReturnValue({ name })

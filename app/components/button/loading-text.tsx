@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { Button } from 'react-aria-components'
 import { useForm } from '~/components/form'
 
-function Spinner() {
+function Spinner({ id }: { id: string }) {
   return (
     <svg
       className="-ml-1 mr-3 h-5 w-5 animate-spin text-black"
@@ -11,6 +11,7 @@ function Spinner() {
       fill="none"
       viewBox="0 0 24 24"
       aria-hidden="true"
+      data-testid={`button-spinner-${id}`}
     >
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
       <path
@@ -22,14 +23,16 @@ function Spinner() {
   )
 }
 
-function TextButton({
-  variant,
+function LoadingTextButton({
+  id,
+  variant = 'primary',
   type = 'button',
   text,
   loadingText,
 }: {
+  id: string
   type?: 'button' | 'submit'
-  variant: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary'
   text: string
   loadingText: string
 }) {
@@ -37,7 +40,7 @@ function TextButton({
   const { formAction } = useNavigation()
   const isWaiting = isLoading && action && formAction && formAction.includes(action)
 
-  const primary = classNames()
+  const primary = classNames('flex w-full justify-center rounded-md px-3 py-1.5 hover:text-green-800')
 
   const secondary = classNames(
     'flex w-full justify-center rounded-md px-3 py-1.5 hover:text-gray-800',
@@ -46,11 +49,16 @@ function TextButton({
   )
 
   return (
-    <Button type={type} isDisabled={isLoading} className={variant === 'primary' ? primary : secondary}>
-      {isWaiting ? <Spinner /> : null}
+    <Button
+      type={type}
+      isDisabled={isLoading}
+      className={variant === 'primary' ? primary : secondary}
+      data-testid={`button-${id}`}
+    >
+      {isWaiting ? <Spinner id={id} /> : null}
       {isWaiting ? loadingText : text}
     </Button>
   )
 }
 
-export { TextButton }
+export { LoadingTextButton }

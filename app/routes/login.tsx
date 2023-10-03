@@ -3,7 +3,7 @@ import { useActionData, useNavigation } from '@remix-run/react'
 import { namedAction } from 'remix-utils/named-action'
 import { string } from 'zod'
 
-import { LoadingButton, TextButton } from '~/components/button'
+import { LoadingSolidButton, LoadingTextButton } from '~/components/button'
 import { ErrorMessage, Form, InputGroup, OtpInput } from '~/components/form'
 import { TextField } from '~/components/form/text-field'
 import { authenticator, loginWithOtp } from '~/services/identity.server'
@@ -73,7 +73,7 @@ function SignIn() {
               {errors.generic}
             </p>
           ) : null}
-          <LoadingButton variant="primary" type="submit" text="Sign in" loadingText="Signing in..." />
+          <LoadingSolidButton id="sign-ign" type="submit" text="Sign in" loadingText="Signing in..." />
         </Form>
       </div>
     </>
@@ -96,13 +96,19 @@ function OneTimeCode({ methodId, email }: { methodId: string; email?: string }) 
             <OtpInput />
             <ErrorMessage />
           </InputGroup>
-          <LoadingButton variant="primary" type="submit" text="Verify" loadingText="Verifying..." />
+          <LoadingSolidButton id="submit-otp" type="submit" text="Verify" loadingText="Verifying..." />
         </Form>
         <div className="w-full border-t border-gray-200" />
         <Form id="otp-resend" action="?/resendOtp" className="space-y-6">
           <input type="hidden" name="email" value={email} />
           <div>
-            <TextButton variant="secondary" type="submit" text="Resend new code" loadingText="Sending..." />
+            <LoadingTextButton
+              id="resend-otp"
+              variant="secondary"
+              type="submit"
+              text="Resend new code"
+              loadingText="Sending..."
+            />
             {!isLoading && sent ? (
               <p className="text-center text-xs text-gray-600">Sent: {new Date(sent).toLocaleString()}</p>
             ) : null}
