@@ -1,8 +1,8 @@
-import { type ComponentProps } from 'react'
+import { type ComponentProps, type ReactNode } from 'react'
 import { TextField as ReactAriaTextField, Text } from 'react-aria-components'
 import { Label, Input, useInputGroup, ErrorMessage, useForm } from '.'
 
-type Props = { label: ComponentProps<typeof Label>; input: ComponentProps<typeof Input>; description?: string }
+type Props = { label: ReactNode; input?: ComponentProps<typeof Input>; description?: string }
 
 function TextField(props: Props) {
   const { isLoading } = useForm()
@@ -10,7 +10,7 @@ function TextField(props: Props) {
 
   return (
     <ReactAriaTextField data-testid={`textfield-${name}`} isInvalid={Boolean(error)} isReadOnly={isLoading}>
-      <Label {...props.label} />
+      <Label>{props.label}</Label>
       <div className="mt-2">
         <Input {...props.input} />
       </div>

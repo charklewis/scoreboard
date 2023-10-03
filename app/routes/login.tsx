@@ -66,7 +66,7 @@ function SignIn() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <Form id="login" action="?/sendOtp" errors={errors} className="space-y-6">
           <InputGroup name="email">
-            <TextField label={{ children: 'Email' }} input={{ type: 'email' }} />
+            <TextField label="Email" input={{ type: 'email' }} />
           </InputGroup>
           {errors?.generic ? (
             <p className="mt-2 text-sm text-red-600" data-testid="error-message-generic">
