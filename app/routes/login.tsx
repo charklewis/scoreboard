@@ -81,8 +81,9 @@ function SignIn() {
   )
 }
 
-function OneTimeCode({ methodId, email }: { methodId: string; email?: string }) {
-  const { errors, sent } = useActionData<{ errors?: { code: string }; sent: string }>() || {}
+function OneTimeCode() {
+  const { errors, methodId, email, sent } =
+    useActionData<{ errors?: { code: string }; email: string; methodId: string; sent: string }>() || {}
   const navigation = useNavigation()
   const isLoading = navigation.state !== 'idle'
   return (
@@ -121,13 +122,11 @@ function OneTimeCode({ methodId, email }: { methodId: string; email?: string }) 
 }
 
 function Login() {
-  const { methodId, email } = useActionData<{ methodId?: string; email?: string }>() || {}
+  const { methodId } = useActionData<{ methodId?: string }>() || {}
 
   return (
     <main className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        {methodId ? <OneTimeCode methodId={methodId} email={email} /> : <SignIn />}
-      </div>
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">{methodId ? <OneTimeCode /> : <SignIn />}</div>
     </main>
   )
 }

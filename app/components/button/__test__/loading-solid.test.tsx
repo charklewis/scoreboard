@@ -10,9 +10,12 @@ import { useForm } from '~/components/form/form'
 vi.mock('@remix-run/react', () => ({ useNavigation: vi.fn().mockReturnValue({ formAction: '' }) }))
 vi.mock('~/components/form/form', () => ({ useForm: vi.fn().mockReturnValue({ isLoading: false, action: '' }) }))
 
+const MockUseForm = useForm as Mock
+const MockUseNavigation = useNavigation as Mock
+
 beforeEach(() => {
-  (useForm as Mock).mockReturnValue({ isLoading: false, action: '' })
-  ;(useNavigation as Mock).mockReturnValue({ formAction: '' })
+  MockUseForm.mockReturnValue({ isLoading: false, action: '' })
+  MockUseNavigation.mockReturnValue({ formAction: '' })
 })
 
 test('renders a button', async () => {
@@ -61,8 +64,8 @@ test('displays loading text when the form is loading', () => {
   const loadingText = faker.lorem.words(5)
   const action = faker.lorem.word()
 
-  ;(useForm as Mock).mockReturnValue({ isLoading: true, action })
-  ;(useNavigation as Mock).mockReturnValue({ formAction: action })
+  MockUseForm.mockReturnValue({ isLoading: true, action })
+  MockUseNavigation.mockReturnValue({ formAction: action })
 
   render(<LoadingSolidButton id={id} text={text} loadingText={loadingText} />)
   screen.getByText(loadingText)
@@ -74,8 +77,8 @@ test('does not displays loading text if the action belongs to another form', () 
   const text = faker.lorem.words(3)
   const loadingText = faker.lorem.words(5)
 
-  ;(useForm as Mock).mockReturnValue({ isLoading: true })
-  ;(useNavigation as Mock).mockReturnValue({ formAction: faker.lorem.word() })
+  MockUseForm.mockReturnValue({ isLoading: true })
+  MockUseNavigation.mockReturnValue({ formAction: faker.lorem.word() })
   render(<LoadingSolidButton id={id} text={text} loadingText={loadingText} />)
 
   expect(screen.queryByText(loadingText)).not.toBeInTheDocument()
@@ -87,7 +90,7 @@ test('the button is disabled while the form is loading', () => {
   const text = faker.lorem.words(3)
   const loadingText = faker.lorem.words(5)
 
-  ;(useForm as Mock).mockReturnValue({ isLoading: true })
+  MockUseForm.mockReturnValue({ isLoading: true })
   render(<LoadingSolidButton id={id} text={text} loadingText={loadingText} />)
 
   const button = screen.getByText(text)
