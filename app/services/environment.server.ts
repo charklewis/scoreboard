@@ -9,10 +9,12 @@ declare global {
   }
 }
 
+console.log(process.env)
+
 const getVariable = (name: keyof NodeJS.ProcessEnv) => {
   const variable = process.env[name] || ''
   if (!variable && process.env['NODE_ENV'] !== 'test') {
-    throw new Error(`${name} environment variable is required.`)
+    // throw new Error(`${name} environment variable is required.`)
   }
   return variable
 }
