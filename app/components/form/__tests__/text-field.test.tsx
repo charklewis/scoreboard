@@ -9,15 +9,18 @@ import { TextField } from '~/components/form/text-field'
 vi.mock('~/components/form/form', () => ({ useForm: vi.fn().mockReturnValue({ isLoading: false }) }))
 vi.mock('~/components/form/input-group', () => ({ useInputGroup: vi.fn() }))
 
+const UseInputGroupMock = useInputGroup as Mock
+const UseFormMock = useForm as Mock
+
 beforeEach(() => {
-  (useForm as Mock).mockReturnValue({ isLoading: false, action: '' })
+  UseFormMock.mockReturnValue({ isLoading: false, action: '' })
 })
 
 test('renders a label and input', async () => {
   const name = faker.lorem.word()
   const label = faker.lorem.words(2)
   const value = faker.lorem.words(3)
-  ;(useInputGroup as Mock).mockReturnValue({ name })
+  UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<TextField label={label} />)
 
@@ -32,7 +35,7 @@ test('renders a description', async () => {
   const name = faker.lorem.word()
   const label = faker.lorem.words(2)
   const description = faker.lorem.words(5)
-  ;(useInputGroup as Mock).mockReturnValue({ name })
+  UseInputGroupMock.mockReturnValue({ name })
   render(<TextField label={label} description={description} />)
   screen.getByText(description)
 })
@@ -41,7 +44,7 @@ test('renders an error message', async () => {
   const name = faker.lorem.word()
   const label = faker.lorem.words(2)
   const error = faker.lorem.words(5)
-  ;(useInputGroup as Mock).mockReturnValue({ name, error })
+  UseInputGroupMock.mockReturnValue({ name, error })
   render(<TextField label={label} />)
   screen.getByText(error)
 })

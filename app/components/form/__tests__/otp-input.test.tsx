@@ -7,10 +7,12 @@ import { OtpInput } from '~/components/form/otp-input'
 
 vi.mock('~/components/form/input-group', () => ({ useInputGroup: vi.fn() }))
 
+const UseInputGroupMock = useInputGroup as Mock
+
 test('renders an input to enter a code', async () => {
   const name = faker.lorem.word()
   const code = faker.string.numeric(6)
-  ;(useInputGroup as Mock).mockReturnValue({ name })
+  UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<OtpInput />)
   const input = screen.getByTestId(`input-${name}-0`)
@@ -23,7 +25,7 @@ test('renders an input to enter a code', async () => {
 test('renders a hidden input that has the value', async () => {
   const name = faker.lorem.word()
   const code = faker.string.numeric(6)
-  ;(useInputGroup as Mock).mockReturnValue({ name })
+  UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<OtpInput />)
   const input = screen.getByTestId(`input-${name}-0`)
@@ -34,7 +36,7 @@ test('renders a hidden input that has the value', async () => {
 test('user can paste a code', async () => {
   const name = faker.lorem.word()
   const code = faker.string.numeric(6)
-  ;(useInputGroup as Mock).mockReturnValue({ name })
+  UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<OtpInput />)
   const input = screen.getByTestId(`input-${name}-0`)

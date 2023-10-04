@@ -6,9 +6,11 @@ import { useInputGroup } from '~/components/form/input-group'
 
 vi.mock('~/components/form/input-group', () => ({ useInputGroup: vi.fn() }))
 
+const UseInputGroupMock = useInputGroup as Mock
+
 test("nothing is rendered when there's no error", () => {
   const name = faker.lorem.word()
-  ;(useInputGroup as Mock).mockReturnValue({ name })
+  UseInputGroupMock.mockReturnValue({ name })
   const { container } = render(<ErrorMessage />)
   expect(container).toBeEmptyDOMElement()
 })
@@ -16,7 +18,7 @@ test("nothing is rendered when there's no error", () => {
 test('error message is rendered', () => {
   const name = faker.lorem.word()
   const error = faker.lorem.words(3)
-  ;(useInputGroup as Mock).mockReturnValue({ name, error })
+  UseInputGroupMock.mockReturnValue({ name, error })
   render(<ErrorMessage />)
   screen.getByTestId(`error-message-${name}`)
   screen.getByText(error)

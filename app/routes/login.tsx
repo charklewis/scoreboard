@@ -15,6 +15,7 @@ async function action({ request }: ActionFunctionArgs) {
         const formData = await request.formData()
         const email = string().email().parse(formData.get('email'))
         const methodId = await loginWithOtp(email)
+
         if (methodId) {
           return json({ methodId, email })
         }

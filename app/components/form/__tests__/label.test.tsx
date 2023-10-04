@@ -6,10 +6,12 @@ import { Label } from '~/components/form/label'
 
 vi.mock('~/components/form/input-group', () => ({ useInputGroup: vi.fn() }))
 
+const UseInputGroupMock = useInputGroup as Mock
+
 test('label is rendered', () => {
   const name = faker.lorem.word()
   const text = faker.lorem.words(2)
-  ;(useInputGroup as Mock).mockReturnValue({ name })
+  UseInputGroupMock.mockReturnValue({ name })
   render(<Label>{text}</Label>)
   screen.getByTestId(`label-${name}`)
   screen.getByText(text)
