@@ -2,11 +2,10 @@ name: Cypress Tests
 
 on:
   deployment_status:
-    ignore-branches:
-      - add-login-tests
+
 jobs:
   run_e2e:
-    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'preview'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
