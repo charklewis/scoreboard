@@ -26,4 +26,7 @@ jobs:
           bun cypress install
           bun cypress verify
       - name: Cypress tests
-        run: bun cy:run -- --config baseUrl=${{ github.event.deployment_status.environment_url }}
+        run: bun cy:run -- --record --tag "preview" --config baseUrl=$BASE_URL
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          BASE_URL: ${{ github.event.deployment_status.environment_url }}
