@@ -17,13 +17,12 @@ const InputGroup = ({ name, children }: Props) => {
 
 const useInputGroup = () => {
   const input = useContext(Context)
-  const { errors, isLoading, defaultValues } = useForm()
+  const { errors, defaultValues } = useForm()
 
   return {
     ...input,
     defaultValue: defaultValues?.[input.name],
     error: errors?.[input.name],
-    formIsLoading: isLoading,
   }
 }
 

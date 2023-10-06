@@ -1,38 +1,10 @@
-# Welcome to Remix!
+### Testing
 
-- [Remix Docs](https://remix.run/docs)
+- I am currently using vitest while waiting for `bun:test` to have enough parity with `jest`
+- I have had to set `"module": "ESNext"` in `tsconfig.json` to get `cypress` to work
 
-## Development
+### Bugs
 
-From your terminal:
-
-```sh
-npm run dev
-```
-
-This starts your app in development mode, rebuilding assets on file changes.
-
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
+- `vitest` does can not find any test when running in lint-staged so I have skipped it
+- `typecheck` does not work properly in lint-staged so I have skipped it
+- `prettier` conflicts with some eslint rules so I have skipped it in lint-staged

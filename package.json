@@ -8,6 +8,9 @@
     "build": "remix build",
     "dev": "remix dev --manual",
     "start": "remix-serve ./build/index.js",
+    "test": "vitest",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:repo": "bun lint -- --config .eslintrc.repo.cjs",
     "typecheck": "tsc",
@@ -36,24 +39,32 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.1.0",
     "@happy-dom/global-registrator": "^12.2.1",
     "@remix-run/dev": "^2.0.1",
     "@remix-run/eslint-config": "^2.0.1",
+    "@testing-library/cypress": "^10.0.1",
+    "@testing-library/user-event": "^14.5.1",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/web": "^0.0.115",
+    "@vitejs/plugin-react": "^4.1.0",
+    "@vitest/coverage-v8": "^0.34.6",
     "bun-types": "^1.0.3",
+    "cypress": "^13.3.0",
     "drizzle-kit": "^0.19.13",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-prefer-let": "^3.0.1",
+    "jsdom": "^22.1.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4",
     "simple-git-hooks": "^2.9.0",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.6"
   },
   "engines": {
     "node": "18"
@@ -63,14 +74,17 @@
   },
   "lint-staged": {
     "**/*.+(js|jsx|ts|tsx)": [
-      "bun run lint:repo -- --fix",
-      "bun test",
-      "prettier --write --ignore-unknown"
+      "bun run lint:repo -- --fix"
     ]
   },
   "eslintIgnore": [
     "/node_modules",
     "/build",
     "/public/build"
-  ]
+  ],
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest-setup.ts"
+    ]
+  }
 }

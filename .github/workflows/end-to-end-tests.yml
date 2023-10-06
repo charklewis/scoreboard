@@ -1,0 +1,22 @@
+name: Cypress Tests
+
+on:
+  deployment_status:
+
+jobs:
+  run_e2e:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'preview'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - name: Install Packages
+        run: bun install
+      - name: Install Cypress
+        run: bun cypress install && bun cypress verify
+      - name: Cypress tests
+        run: bun cy:run -- --record --tag "preview" --config baseUrl=$BASE_URL
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          BASE_URL: ${{ github.event.deployment_status.environment_url }}

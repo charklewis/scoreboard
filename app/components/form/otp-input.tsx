@@ -39,7 +39,7 @@ function OtpInput() {
           />
         )}
       />
-      <input type="hidden" name={name} value={code} />
+      <input type="hidden" name={name} value={code} data-testid={`input-hidden-${name}`} />
     </div>
   )
 }

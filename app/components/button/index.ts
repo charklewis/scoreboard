@@ -1,2 +1,2 @@
-export { LoadingButton } from './loading'
-export { TextButton } from './text'
+export { LoadingSolidButton } from './loading-solid'
+export { LoadingTextButton } from './loading-text'

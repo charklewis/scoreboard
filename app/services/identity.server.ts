@@ -59,9 +59,9 @@ class OtpStrategy extends Strategy<User, { code: string; methodId: string }> {
   }
 }
 
-const authenticator = new Authenticator<User>(sessionStorage)
+const identity = new Authenticator<User>(sessionStorage)
 
-authenticator.use(
+identity.use(
   new OtpStrategy(async ({ code, methodId }) => {
     const stytchId = await authenticateOtp({ methodId, code })
     if (!stytchId) throw new Error('Your code was not valid')
@@ -73,4 +73,4 @@ authenticator.use(
   })
 )
 
-export { authenticator, loginWithOtp, authenticateOtp }
+export { identity, loginWithOtp, authenticateOtp }
