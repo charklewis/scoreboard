@@ -1,6 +1,7 @@
 ### Testing
 
 - I am currently using vitest while waiting for `bun:test` to have enough parity with `jest`
+- I have had to set `"module": "ESNext"` in `tsconfig.json` to get `cypress` to work
 
 ### Bugs
 

@@ -21,7 +21,7 @@ function SignIn() {
               {errors.generic}
             </p>
           ) : null}
-          <LoadingSolidButton id="sign-ign" type="submit" text="Sign in" loadingText="Signing in..." />
+          <LoadingSolidButton id="sign-in" type="submit" text="Sign in" loadingText="Signing in..." />
         </Form>
       </div>
     </>
