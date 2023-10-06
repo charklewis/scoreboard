@@ -9,9 +9,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Yarn Install
-        run: yarn install
-      - name: Cypress
-        uses: cypress-io/github-action@v6
+      - uses: oven-sh/setup-bun@v1
+      - name: Cache node modules
+        uses: actions/cache@v3
         with:
-          config: baseUrl=${{ github.event.deployment_status.environment_url }}
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+      - name: Cache Cypress binary
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/bun.lockb') }}
+      - name: Install dependencies and verify Cypress
+        run: |
+          bun install
+          bun cypress install
+          bun cypress verify
+      - name: Cypress tests
+        run: bun cy:run -- --config baseUrl=${{ github.event.deployment_status.environment_url }}
