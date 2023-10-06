@@ -2,6 +2,8 @@ name: Cypress Tests
 
 on:
   deployment_status:
+    ignore-branches:
+      - master
 jobs:
   run_e2e:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
