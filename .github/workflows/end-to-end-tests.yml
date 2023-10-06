@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Cypress Tests
 
 on:
   deployment_status:
@@ -7,11 +7,9 @@ jobs:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: oven-sh/setup-bun@v1
-      - name: Install Packages
-        run: bun install
-      - name: Run Cypress
-        run: bun cy:run -- --config baseUrl=$BASE_URL
-        env:
-          BASE_URL: ${{ github.event.deployment_status.environment_url }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          config: baseUrl=${{ github.event.deployment_status.environment_url }}
