@@ -21,6 +21,7 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@planetscale/database": "^1.11.0",
+    "@react-aria/link": "^3.6.0",
     "@remix-run/node": "^2.0.1",
     "@remix-run/react": "^2.0.1",
     "@remix-run/serve": "^2.0.1",

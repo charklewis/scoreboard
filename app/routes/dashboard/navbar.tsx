@@ -3,7 +3,7 @@ import { TrophyIcon, CogIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useLocation } from '@remix-run/react'
 import classNames from 'classnames'
 import { Fragment } from 'react'
-import { IconOnlyButton } from '~/components/button'
+import { IconOnlyButton, TextOnlyLink } from '~/components/button'
 
 const navigation = [
   { name: 'Scoreboards', href: 'dashboard', icon: TrophyIcon },
@@ -89,6 +89,13 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
                       )
                     })}
                   </ul>
+                  <TextOnlyLink
+                    id="logout"
+                    text="Logout"
+                    variant="danger"
+                    className="-mx-6 mb-4 mt-auto text-center"
+                    href="/logout"
+                  />
                 </nav>
               </div>
             </Dialog.Panel>
@@ -139,6 +146,13 @@ function Desktop({ show }: { show: boolean }) {
               )
             })}
           </ul>
+          <TextOnlyLink
+            id="logout"
+            text="Logout"
+            variant="danger"
+            className="-mx-6 mb-4 mt-auto text-center"
+            href="/logout"
+          />
         </nav>
       </div>
     </div>
