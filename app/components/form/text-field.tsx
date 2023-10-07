@@ -15,7 +15,7 @@ function TextField(props: Props) {
         <Input {...props.input} />
       </div>
       {props.description ? (
-        <Text slot="description" className="mt-2 text-sm text-gray-500">
+        <Text slot="description" className="mt-2 text-sm text-neutral-500">
           {props.description}
         </Text>
       ) : null}

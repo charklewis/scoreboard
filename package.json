@@ -18,6 +18,8 @@
     "db:push": "drizzle-kit push:mysql --config ./drizzle.config.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
     "@planetscale/database": "^1.11.0",
     "@remix-run/node": "^2.0.1",
     "@remix-run/react": "^2.0.1",

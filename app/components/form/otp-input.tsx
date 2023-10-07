@@ -22,18 +22,18 @@ function OtpInput() {
         skipDefaultStyles
         shouldAutoFocus
         containerStyle="gap-1"
-        renderSeparator={<span className="text-xl text-gray-400">-</span>}
+        renderSeparator={<span className="text-xl text-neutral-400">-</span>}
         renderInput={(props, index) => (
           <input
             {...props}
             className={classNames(
               'block w-1/6 rounded-md border-0 py-4 pl-4',
-              'text-4xl text-gray-900 shadow-sm placeholder:text-gray-400 sm:leading-6',
+              'text-4xl text-neutral-900 shadow-sm placeholder:text-neutral-400 sm:leading-6',
               'ring-1 ring-inset focus:ring-2 focus:ring-inset',
-              'read-only:bg-gray-50 read-only:text-gray-500 read-only:focus:ring-1 read-only:focus:ring-gray-200',
+              'read-only:bg-neutral-50 read-only:text-neutral-500 read-only:focus:ring-1 read-only:focus:ring-neutral-200',
               error
                 ? 'ring-red-400 placeholder:text-red-300 focus:ring-red-500'
-                : 'ring-gray-300 placeholder:text-gray-400 focus:ring-green-600'
+                : 'ring-neutral-300 placeholder:text-neutral-400 focus:ring-green-600'
             )}
             data-testid={`input-${name}-${index}`}
           />

@@ -55,7 +55,7 @@ test('renders a button with the secondary variant', () => {
   const loadingText = faker.lorem.words(5)
 
   render(<LoadingSolidButton id={id} variant="secondary" text={text} loadingText={loadingText} />)
-  expect(screen.getByText(text)).toHaveClass('hover:bg-gray-50')
+  expect(screen.getByText(text)).toHaveClass('hover:bg-neutral-50')
 })
 
 test('displays loading text when the form is loading', () => {

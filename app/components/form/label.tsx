@@ -7,7 +7,7 @@ function Label({ children }: { children: ReactNode }) {
 
   return (
     <ReactAriaLabel
-      className="block text-sm font-medium leading-6 text-gray-900"
+      className="block text-sm font-medium leading-6 text-neutral-900"
       htmlFor={name}
       data-testid={`label-${name}`}
     >
