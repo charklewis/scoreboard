@@ -43,13 +43,14 @@ function LoadingTextButton({
   const primary = classNames('flex w-full justify-center rounded-md px-3 py-1.5 hover:text-green-800')
 
   const secondary = classNames(
-    'flex w-full justify-center rounded-md px-3 py-1.5 hover:text-gray-800',
+    'flex w-full justify-center rounded-md px-3 py-1.5 hover:text-neutral-800',
     'text-sm font-semibold',
     'disabled:opacity-50 disabled:hover:text-black'
   )
 
   return (
     <Button
+      id={`button-${id}`}
       type={type}
       isDisabled={isLoading}
       className={variant === 'primary' ? primary : secondary}

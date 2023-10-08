@@ -48,15 +48,16 @@ function LoadingSolidButton({
   )
 
   const secondary = classNames(
-    'flex w-full justify-center rounded-md px-3 py-1.5 shadow-sm hover:bg-gray-50',
+    'flex w-full justify-center rounded-md px-3 py-1.5 shadow-sm hover:bg-neutral-50',
     'text-sm font-semibold',
-    'ring-1 ring-inset ring-gray-300',
-    'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-100',
+    'ring-1 ring-inset ring-neutral-300',
+    'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-100',
     'disabled:opacity-50 disabled:hover:bg-white'
   )
 
   return (
     <Button
+      id={`button-${id}`}
       type={type}
       isDisabled={isLoading}
       className={variant === 'primary' ? primary : secondary}

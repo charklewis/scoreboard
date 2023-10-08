@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
-
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi, type Mock, beforeEach } from 'vitest'
 import { LoadingSolidButton } from '~/components/button/loading-solid'
@@ -55,7 +54,7 @@ test('renders a button with the secondary variant', () => {
   const loadingText = faker.lorem.words(5)
 
   render(<LoadingSolidButton id={id} variant="secondary" text={text} loadingText={loadingText} />)
-  expect(screen.getByText(text)).toHaveClass('hover:bg-gray-50')
+  expect(screen.getByText(text)).toHaveClass('hover:bg-neutral-50')
 })
 
 test('displays loading text when the form is loading', () => {
