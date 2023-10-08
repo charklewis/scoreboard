@@ -34,14 +34,16 @@ function IconWithTextLink({
   const current = location.pathname.includes(href)
 
   const primaryLink = classNames(
-    current ? 'bg-neutral-50 text-green-600' : 'text-neutral-700 hover:bg-neutral-50 hover:text-green-600',
+    current ? 'bg-neutral-50 text-green-600' : 'text-neutral-700 ',
     'group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold leading-6',
+    isDisabled ? 'opacity-50 pointer-events-none' : 'hover:bg-neutral-50 hover:text-green-600',
     className
   )
 
   const primaryIcon = classNames(
-    current ? 'text-green-600' : 'text-neutral-400 group-hover:text-green-600',
-    'h-6 w-6 shrink-0'
+    current ? 'text-green-600' : 'text-neutral-400 ',
+    'h-6 w-6 shrink-0',
+    isDisabled ? '' : 'group-hover:text-green-600'
   )
 
   return (
@@ -51,9 +53,10 @@ function IconWithTextLink({
       ref={ref}
       to={href}
       className={primaryLink}
-      data-testid={`button-${id}`}
+      onClick={(event) => (isDisabled ? event.preventDefault() : null)}
+      data-testid={`link-${id}`}
     >
-      <Icon className={primaryIcon} aria-hidden="true" />
+      <Icon className={primaryIcon} data-testid={`link-icon-${id}`} aria-hidden="true" />
       {text}
     </RemixLink>
   )
