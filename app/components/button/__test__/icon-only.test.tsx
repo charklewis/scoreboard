@@ -31,6 +31,7 @@ test('renders a button', async () => {
   await user.click(button)
   expect(onClick).toHaveBeenCalled()
 })
+
 test('the button is disabled while the form is loading', () => {
   MockUseNavigation.mockReturnValue({ state: 'loading' })
   const id = faker.lorem.word()
@@ -38,6 +39,7 @@ test('the button is disabled while the form is loading', () => {
 
   expect(screen.getByTestId(`button-${id}`)).toBeDisabled()
 })
+
 test('the button can have additional classes applied', () => {
   const id = faker.lorem.word()
   const className = faker.lorem.words(2)

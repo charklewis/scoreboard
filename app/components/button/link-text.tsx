@@ -24,21 +24,21 @@ function TextOnlyLink({
   const primary = classNames(
     'rounded-md px-3 py-1.5 text-green-600',
     'text-sm font-semibold',
-    isDisabled ? 'opacity-50' : 'hover:text-green-800',
+    isDisabled ? 'opacity-50 pointer-events-none' : 'hover:text-green-800',
     className
   )
 
   const secondary = classNames(
     'rounded-md px-3 py-1.5',
     'text-sm font-semibold',
-    isDisabled ? 'opacity-50' : 'hover:text-neutral-800',
+    isDisabled ? 'opacity-50 pointer-events-none' : 'hover:text-neutral-800',
     className
   )
 
   const danger = classNames(
     'rounded-md px-3 py-1.5 text-red-600',
     'text-sm font-semibold',
-    isDisabled ? 'opacity-50' : 'hover:text-red-800',
+    isDisabled ? 'opacity-50 pointer-events-none' : 'hover:text-red-800',
     className
   )
 
@@ -59,7 +59,8 @@ function TextOnlyLink({
       ref={ref}
       to={href}
       className={getClassName()}
-      data-testid={`button-${id}`}
+      onClick={(event) => (isDisabled ? event.preventDefault() : null)}
+      data-testid={`link-${id}`}
     >
       {text}
     </RemixLink>
