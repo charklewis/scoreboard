@@ -1,9 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { TrophyIcon, CogIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useLocation } from '@remix-run/react'
 import classNames from 'classnames'
 import { Fragment } from 'react'
-import { IconOnlyButton, TextOnlyLink } from '~/components/button'
+import { IconOnlyButton, IconWithTextLink, TextOnlyLink } from '~/components/button'
 
 const navigation = [
   { name: 'Scoreboards', href: 'dashboard', icon: TrophyIcon },
@@ -12,7 +11,6 @@ const navigation = [
 ]
 
 function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
-  const location = useLocation()
   return (
     <Transition.Root show={show} as={Fragment}>
       <Dialog as="div" className="relative z-50 xl:hidden" onClose={() => onClose()}>
@@ -38,7 +36,7 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
+            <Dialog.Panel as="aside" className="relative mr-16 flex w-full max-w-xs flex-1">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -69,25 +67,16 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
                 </div>
                 <nav className="flex flex-1 flex-col">
                   <ul className="-mx-2 space-y-1">
-                    {navigation.map((item) => {
-                      const current = location.pathname.includes(item.href)
-                      return (
-                        <li key={item.name}>
-                          <a
-                            href={item.href}
-                            className={classNames(
-                              current
-                                ? 'bg-neutral-50 text-green-600'
-                                : 'text-neutral-700 hover:bg-neutral-50 hover:text-green-600',
-                              'group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold leading-6'
-                            )}
-                          >
-                            <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
-                            {item.name}
-                          </a>
-                        </li>
-                      )
-                    })}
+                    {navigation.map((item) => (
+                      <li key={item.href}>
+                        <IconWithTextLink
+                          id={item.name.toLowerCase().replaceAll(' ', '-')}
+                          href={item.href}
+                          text={item.name}
+                          Icon={item.icon}
+                        />
+                      </li>
+                    ))}
                   </ul>
                   <TextOnlyLink
                     id="logout"
@@ -107,9 +96,8 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
 }
 
 function Desktop({ show }: { show: boolean }) {
-  const location = useLocation()
   return (
-    <div className={classNames('hidden', show ? 'xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col ' : '')}>
+    <aside className={classNames('hidden', show ? 'xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col ' : '')}>
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-900/5 bg-neutral-700/5 px-6">
         <div className="flex h-16 shrink-0 items-center">
           <img
@@ -120,31 +108,16 @@ function Desktop({ show }: { show: boolean }) {
         </div>
         <nav className="flex flex-1 flex-col ">
           <ul className="-mx-2 space-y-1">
-            {navigation.map((item) => {
-              const current = location.pathname.includes(item.href)
-              return (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    className={classNames(
-                      current
-                        ? 'bg-neutral-50 text-green-600'
-                        : 'text-neutral-700 hover:bg-neutral-50 hover:text-green-600',
-                      'group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm font-semibold leading-6'
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        current ? 'text-green-600' : 'text-neutral-400 group-hover:text-green-600',
-                        'h-6 w-6 shrink-0'
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                </li>
-              )
-            })}
+            {navigation.map((item) => (
+              <li key={item.href}>
+                <IconWithTextLink
+                  id={item.name.toLowerCase().replaceAll(' ', '-')}
+                  href={item.href}
+                  text={item.name}
+                  Icon={item.icon}
+                />
+              </li>
+            ))}
           </ul>
           <TextOnlyLink
             id="logout"
@@ -155,7 +128,7 @@ function Desktop({ show }: { show: boolean }) {
           />
         </nav>
       </div>
-    </div>
+    </aside>
   )
 }
 
