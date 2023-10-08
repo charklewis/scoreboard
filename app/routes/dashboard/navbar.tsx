@@ -13,7 +13,7 @@ const navigation = [
 function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
   return (
     <Transition.Root show={show} as={Fragment}>
-      <Dialog as="div" className="relative z-50 xl:hidden" onClose={() => onClose()}>
+      <Dialog as="div" data-testid="navbar-mobile" className="relative z-50 xl:hidden" onClose={() => onClose()}>
         <Transition.Child
           as={Fragment}
           enter="transition-opacity ease-linear duration-300"
@@ -97,7 +97,10 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
 
 function Desktop({ show }: { show: boolean }) {
   return (
-    <aside className={classNames('hidden', show ? 'xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col ' : '')}>
+    <aside
+      data-testid="navbar-desktop"
+      className={classNames('hidden', show ? 'xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col ' : '')}
+    >
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-900/5 bg-neutral-700/5 px-6">
         <div className="flex h-16 shrink-0 items-center">
           <img

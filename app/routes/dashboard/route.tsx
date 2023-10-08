@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { IconOnlyButton } from '~/components/button'
 import { Desktop, Mobile } from './navbar'
 
-export default function Example() {
+function Dashboard() {
   const [mobileViewOpen, setMobileViewOpen] = useState(false)
   const [desktopViewOpen, setDesktopViewOpen] = useState(true)
   return (
@@ -35,3 +35,5 @@ export default function Example() {
     </div>
   )
 }
+
+export default Dashboard
