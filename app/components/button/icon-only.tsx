@@ -36,7 +36,7 @@ function IconOnlyButton({
       className={classNames('rounded-md p-2.5 text-neutral-900', isDisabled ? '' : 'hover:bg-neutral-500/5', className)}
     >
       <span className="sr-only">{description}</span>
-      <Icon className="h-5 w-5" aria-hidden="true" />
+      <Icon className="h-5 w-5" data-testid={`button-icon-${id}`} aria-hidden="true" />
     </Button>
   )
 }

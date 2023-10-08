@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
-
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi, type Mock, beforeEach } from 'vitest'
 import { LoadingSolidButton } from '~/components/button/loading-solid'
