@@ -99,7 +99,7 @@ function Desktop({ show }: { show: boolean }) {
   return (
     <aside
       data-testid="navbar-desktop"
-      className={classNames('hidden', show ? 'xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col ' : '')}
+      className={classNames('hidden', show ? 'xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-64 xl:flex-col ' : '')}
     >
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-900/5 bg-neutral-700/5 px-6">
         <div className="flex h-16 shrink-0 items-center">

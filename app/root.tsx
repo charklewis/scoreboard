@@ -11,7 +11,8 @@ const meta: MetaFunction = () => {
 }
 
 async function loader({ request }: LoaderFunctionArgs) {
-  if (request.url.toLowerCase().includes('/login')) return null
+  const { pathname } = new URL(request.url.toLowerCase())
+  if (pathname === '/login' || pathname === '/login/') return null
   return await identity.isAuthenticated(request, {
     failureRedirect: '/login',
   })
