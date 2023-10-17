@@ -1,7 +1,7 @@
 import { useNavigation } from '@remix-run/react'
 import classNames from 'classnames'
 import { type ForwardRefExoticComponent, type RefAttributes } from 'react'
-import { Button, type PressEvent } from 'react-aria-components'
+import { Button as ReactAriaButton, type PressEvent } from 'react-aria-components'
 
 //note: this is from @heroicons/react
 type Icon = ForwardRefExoticComponent<
@@ -11,7 +11,7 @@ type Icon = ForwardRefExoticComponent<
   } & RefAttributes<SVGSVGElement>
 >
 
-function IconOnlyButton({
+function Button({
   id,
   className,
   description,
@@ -27,7 +27,7 @@ function IconOnlyButton({
   const navigation = useNavigation()
   const isDisabled = navigation.state !== 'idle'
   return (
-    <Button
+    <ReactAriaButton
       id={`button-${id}`}
       type="button"
       onPress={onClick}
@@ -37,8 +37,8 @@ function IconOnlyButton({
     >
       <span className="sr-only">{description}</span>
       <Icon className="h-5 w-5" data-testid={`button-icon-${id}`} aria-hidden="true" />
-    </Button>
+    </ReactAriaButton>
   )
 }
 
-export { IconOnlyButton }
+export { Button }

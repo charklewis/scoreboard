@@ -4,7 +4,7 @@ import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { test, vi, type Mock, expect } from 'vitest'
-import { IconWithTextLink } from '~/components/button/link-icon-text'
+import { LinkWithIcon } from '~/routes/dashboard/link'
 
 vi.mock('@remix-run/react', async () => {
   const actual: Object = await vi.importActual('@remix-run/react')
@@ -24,7 +24,7 @@ test('renders a link', async () => {
 
   render(
     <MemoryRouter>
-      <IconWithTextLink id={id} href={href} text={text} Icon={XMarkIcon} />
+      <LinkWithIcon id={id} href={href} text={text} Icon={XMarkIcon} />
     </MemoryRouter>
   )
 
@@ -40,7 +40,7 @@ test('the button is disabled while the form is loading', () => {
   const id = faker.lorem.word()
   render(
     <MemoryRouter>
-      <IconWithTextLink id={id} href={faker.internet.url()} text={faker.lorem.sentence()} Icon={XMarkIcon} />
+      <LinkWithIcon id={id} href={faker.internet.url()} text={faker.lorem.sentence()} Icon={XMarkIcon} />
     </MemoryRouter>
   )
   expect(screen.getByTestId(`link-${id}`)).toHaveClass('pointer-events-none')
@@ -51,7 +51,7 @@ test('the button can have additional classes applied', () => {
   const className = faker.lorem.words(2)
   render(
     <MemoryRouter>
-      <IconWithTextLink
+      <LinkWithIcon
         id={id}
         href={faker.internet.url()}
         text={faker.lorem.sentence()}
