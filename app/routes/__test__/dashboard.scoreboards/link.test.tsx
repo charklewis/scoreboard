@@ -3,7 +3,7 @@ import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { test, vi, type Mock, expect } from 'vitest'
-import { SidebarLink } from '~/components/button/link-sidebar'
+import { Link } from '~/routes/dashboard.scoreboards/link'
 
 vi.mock('@remix-run/react', async () => {
   const actual: Object = await vi.importActual('@remix-run/react')
@@ -23,9 +23,9 @@ test('renders a link', async () => {
 
   render(
     <MemoryRouter>
-      <SidebarLink id={id} href={href}>
+      <Link id={id} href={href}>
         {text}
-      </SidebarLink>
+      </Link>
     </MemoryRouter>
   )
 
@@ -41,9 +41,9 @@ test('the button is disabled while the form is loading', () => {
   const text = faker.lorem.sentence()
   render(
     <MemoryRouter>
-      <SidebarLink id={id} href={faker.internet.url()}>
+      <Link id={id} href={faker.internet.url()}>
         {text}
-      </SidebarLink>
+      </Link>
     </MemoryRouter>
   )
 

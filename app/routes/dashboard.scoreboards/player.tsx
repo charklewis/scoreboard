@@ -31,7 +31,7 @@ function Player({ player }: { player: PlayerType }) {
   const { triggerProps, tooltipProps } = useTooltipTrigger({ delay, closeDelay }, state, ref)
 
   return (
-    <span style={{ position: 'relative' }}>
+    <span data-testid={`player-${player.id}`} style={{ position: 'relative' }}>
       <dd ref={ref} {...triggerProps}>
         <div
           className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-white"
@@ -41,9 +41,11 @@ function Player({ player }: { player: PlayerType }) {
         </div>
       </dd>
 
-      {state.isOpen ? <Tooltip state={state} {...tooltipProps}>
+      {state.isOpen ? (
+        <Tooltip state={state} {...tooltipProps}>
           {player.name}
-        </Tooltip> : null}
+        </Tooltip>
+      ) : null}
     </span>
   )
 }

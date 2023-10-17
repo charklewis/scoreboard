@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { type ReactNode } from 'react'
@@ -13,4 +14,25 @@ function renderWithRouter(element: ReactNode, path: string) {
   return { ...view, user, action }
 }
 
-export { renderWithRouter }
+const createPlayer = () => ({
+  id: faker.string.uuid(),
+  name: faker.person.fullName(),
+  background: faker.color.rgb(),
+  emoji: faker.internet.emoji(),
+})
+
+const createScoreboard = () => ({
+  id: faker.string.uuid(),
+  title: faker.lorem.word(),
+  createdAt: faker.date.past(),
+  players: Array(faker.number.int({ min: 2, max: 6 }))
+    .fill(0)
+    .map(() => createPlayer()),
+})
+
+const createScoreboardList = () =>
+  Array(faker.number.int({ min: 1, max: 15 }))
+    .fill(0)
+    .map(() => createScoreboard())
+
+export { renderWithRouter, createPlayer, createScoreboard, createScoreboardList }

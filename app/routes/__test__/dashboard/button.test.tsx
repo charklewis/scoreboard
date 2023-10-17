@@ -4,7 +4,7 @@ import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { test, vi, type Mock, expect } from 'vitest'
-import { IconOnlyButton } from '~/components/button/icon-only'
+import { Button } from '~/routes/dashboard/button'
 
 vi.mock('@remix-run/react', () => ({ useNavigation: vi.fn() }))
 
@@ -20,7 +20,7 @@ test('renders a button', async () => {
   const onClick = vi.fn()
   const user = userEvent.setup()
 
-  render(<IconOnlyButton id={id} description={description} onClick={onClick} Icon={XMarkIcon} />)
+  render(<Button id={id} description={description} onClick={onClick} Icon={XMarkIcon} />)
 
   //check icon rendered
   screen.getByText(description)
@@ -35,7 +35,7 @@ test('renders a button', async () => {
 test('the button is disabled while the form is loading', () => {
   MockUseNavigation.mockReturnValue({ state: 'loading' })
   const id = faker.lorem.word()
-  render(<IconOnlyButton id={id} description={faker.lorem.sentence()} onClick={vi.fn()} Icon={XMarkIcon} />)
+  render(<Button id={id} description={faker.lorem.sentence()} onClick={vi.fn()} Icon={XMarkIcon} />)
 
   expect(screen.getByTestId(`button-${id}`)).toBeDisabled()
 })
@@ -45,13 +45,7 @@ test('the button can have additional classes applied', () => {
   const className = faker.lorem.words(2)
 
   render(
-    <IconOnlyButton
-      id={id}
-      description={faker.lorem.sentence()}
-      onClick={vi.fn()}
-      Icon={XMarkIcon}
-      className={className}
-    />
+    <Button id={id} description={faker.lorem.sentence()} onClick={vi.fn()} Icon={XMarkIcon} className={className} />
   )
 
   expect(screen.getByTestId(`button-${id}`)).toHaveClass(className)

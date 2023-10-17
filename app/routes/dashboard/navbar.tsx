@@ -2,7 +2,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import { TrophyIcon, CogIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { Fragment } from 'react'
-import { IconOnlyButton, IconWithTextLink, TextOnlyLink } from '~/components/button'
+import { TextOnlyLink } from '~/components/button'
+import { Button } from './button'
+import { LinkWithIcon } from './link'
 
 const navigation = [
   { name: 'Scoreboards', href: 'dashboard', icon: TrophyIcon },
@@ -47,7 +49,7 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
                 leaveTo="opacity-0"
               >
                 <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                  <IconOnlyButton
+                  <Button
                     id="sidebar-mobile-close"
                     Icon={XMarkIcon}
                     description="Close sidebar"
@@ -69,7 +71,7 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
                   <ul className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.href}>
-                        <IconWithTextLink
+                        <LinkWithIcon
                           id={item.name.toLowerCase().replaceAll(' ', '-')}
                           href={item.href}
                           text={item.name}
@@ -113,7 +115,7 @@ function Desktop({ show }: { show: boolean }) {
           <ul className="-mx-2 space-y-1">
             {navigation.map((item) => (
               <li key={item.href}>
-                <IconWithTextLink
+                <LinkWithIcon
                   id={item.name.toLowerCase().replaceAll(' ', '-')}
                   href={item.href}
                   text={item.name}

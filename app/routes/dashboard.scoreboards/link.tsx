@@ -3,16 +3,11 @@ import { Link as RemixLink, useNavigation } from '@remix-run/react'
 import classNames from 'classnames'
 import { useRef, type ReactNode } from 'react'
 
-function SidebarLink({ id, href, children }: { id: string; href: string; children: ReactNode }) {
+function Link({ id, href, children }: { id: string; href: string; children: ReactNode }) {
   const navigation = useNavigation()
   const ref = useRef(null)
   const isDisabled = navigation.state !== 'idle'
   const { linkProps } = useLink({ href, isDisabled }, ref)
-
-  const primary = classNames(
-    'rounded-md px-4 my-1.5 w-full block ',
-    isDisabled ? 'opacity-50 pointer-events-none' : 'hover:bg-neutral-100'
-  )
 
   return (
     <RemixLink
@@ -20,7 +15,10 @@ function SidebarLink({ id, href, children }: { id: string; href: string; childre
       id={`link-${id}`}
       ref={ref}
       to={href}
-      className={primary}
+      className={classNames(
+        'my-1.5 block w-full rounded-md px-4 ',
+        isDisabled ? 'pointer-events-none opacity-50' : 'hover:bg-neutral-100'
+      )}
       onClick={(event) => (isDisabled ? event.preventDefault() : null)}
       data-testid={`link-${id}`}
     >
@@ -29,4 +27,4 @@ function SidebarLink({ id, href, children }: { id: string; href: string; childre
   )
 }
 
-export { SidebarLink }
+export { Link }

@@ -7,7 +7,7 @@ describe('Login', () => {
     cy.viewport('iphone-x')
   })
 
-  it.skip('a user can login', () => {
+  it('a user can login', () => {
     cy.findByTestId(/input-email/i).type('sandbox@stytch.com')
     cy.findByTestId(/button-sign-in/i).click()
     cy.findByTestId(/input-code-0/i).type('000000')
