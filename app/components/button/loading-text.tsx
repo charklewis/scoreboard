@@ -1,5 +1,5 @@
 import { useNavigation } from '@remix-run/react'
-import classNames from 'classnames'
+import { clsx } from 'clsx'
 import { Button } from 'react-aria-components'
 import { useForm } from '~/components/form'
 
@@ -40,9 +40,9 @@ function LoadingTextButton({
   const { formAction } = useNavigation()
   const isWaiting = isLoading && action && formAction && formAction.includes(action)
 
-  const primary = classNames('flex w-full justify-center rounded-md px-3 py-1.5 hover:text-green-800')
+  const primary = clsx('flex w-full justify-center rounded-md px-3 py-1.5 hover:text-green-800')
 
-  const secondary = classNames(
+  const secondary = clsx(
     'flex w-full justify-center rounded-md px-3 py-1.5 hover:text-neutral-800',
     'text-sm font-semibold',
     'disabled:opacity-50 disabled:hover:text-black'

@@ -1,6 +1,7 @@
 import { Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { redirect, type LoaderFunctionArgs } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
+
 import { useState } from 'react'
 import { AddNewScoreboard } from './add-new-scoreboard'
 import { Button } from './button'

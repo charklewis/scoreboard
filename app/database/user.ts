@@ -1,9 +1,9 @@
 import { eq } from 'drizzle-orm'
 import { db } from './db'
-import { users as schema } from './schema'
+import { user as schema } from './schema'
 
 async function createUser(stytchId: string) {
-  const user = await db.query.users.findFirst({ where: eq(schema.stytchId, stytchId) })
+  const user = await db.query.user.findFirst({ where: eq(schema.stytchId, stytchId) })
   if (user) {
     return true
   }

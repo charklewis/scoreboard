@@ -1,7 +1,6 @@
 import { useNavigation } from '@remix-run/react'
-import classNames from 'classnames'
-import { type ForwardRefExoticComponent, type RefAttributes } from 'react'
-import { Button as ReactAriaButton, type PressEvent } from 'react-aria-components'
+import { clsx } from 'clsx'
+import { type ForwardRefExoticComponent, type RefAttributes, type MouseEventHandler } from 'react'
 
 //note: this is from @heroicons/react
 type Icon = ForwardRefExoticComponent<
@@ -21,23 +20,23 @@ function Button({
   id: string
   description: string
   className?: string
-  onClick: (e: PressEvent) => void
+  onClick: MouseEventHandler<HTMLButtonElement>
   Icon: Icon
 }) {
   const navigation = useNavigation()
   const isDisabled = navigation.state !== 'idle'
   return (
-    <ReactAriaButton
+    <button
       id={`button-${id}`}
       type="button"
-      onPress={onClick}
-      isDisabled={isDisabled}
+      onClick={onClick}
+      disabled={isDisabled}
       data-testid={`button-${id}`}
-      className={classNames('rounded-md p-2.5 text-neutral-900', isDisabled ? '' : 'hover:bg-neutral-500/5', className)}
+      className={clsx('rounded-md p-2.5 text-neutral-900', isDisabled ? '' : 'hover:bg-neutral-500/5', className)}
     >
       <span className="sr-only">{description}</span>
       <Icon className="h-5 w-5" data-testid={`button-icon-${id}`} aria-hidden="true" />
-    </ReactAriaButton>
+    </button>
   )
 }
 

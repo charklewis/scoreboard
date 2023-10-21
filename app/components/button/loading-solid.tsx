@@ -1,12 +1,12 @@
 import { useNavigation } from '@remix-run/react'
-import classNames from 'classnames'
+import { clsx } from 'clsx'
 import { Button } from 'react-aria-components'
 import { useForm } from '~/components/form'
 
 function Spinner({ id, variant }: { id: string; variant: 'primary' | 'secondary' }) {
   return (
     <svg
-      className={classNames('-ml-1 mr-3 h-5 w-5 animate-spin', variant === 'primary' ? 'text-white' : 'text-black')}
+      className={clsx('-ml-1 mr-3 h-5 w-5 animate-spin', variant === 'primary' ? 'text-white' : 'text-black')}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -40,14 +40,14 @@ function LoadingSolidButton({
   const { formAction } = useNavigation()
   const isWaiting = isLoading && action && formAction && formAction.includes(action)
 
-  const primary = classNames(
+  const primary = clsx(
     'flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 shadow-sm hover:bg-green-500',
     'text-sm font-semibold leading-6 text-white',
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600',
     'disabled:opacity-50 disabled:hover:bg-green-600'
   )
 
-  const secondary = classNames(
+  const secondary = clsx(
     'flex w-full justify-center rounded-md px-3 py-1.5 shadow-sm hover:bg-neutral-50',
     'text-sm font-semibold',
     'ring-1 ring-inset ring-neutral-300',
