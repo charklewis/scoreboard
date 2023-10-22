@@ -1,11 +1,12 @@
 import { type LoaderFunctionArgs, json, type ActionFunctionArgs, redirect } from '@remix-run/node'
-import { Outlet, useLoaderData } from '@remix-run/react'
+import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { Fragment } from 'react'
 import { identity } from '~/services/identity.server'
 import { Link } from './link'
 import { Player } from './player'
 import { fetchScoreboards, insertGame } from './api.server'
 import { namedAction } from 'remix-utils/named-action'
+import { clsx } from 'clsx'
 
 async function action({ request }: ActionFunctionArgs) {
   const user = await identity.isAuthenticated(request.clone())
@@ -38,6 +39,7 @@ async function loader({ request }: LoaderFunctionArgs) {
 
 function Scoreboards() {
   const scoreboards = useLoaderData<typeof loader>()
+  const location = useLocation()
 
   return (
     <div className="flex">
@@ -47,29 +49,44 @@ function Scoreboards() {
             No Scoreboards
           </li>
         ) : (
-          scoreboards.map((scoreboard: any) => (
-            <Fragment key={scoreboard.id}>
-              <Link id={scoreboard.id} href={scoreboard.id}>
-                <li className="flex flex-wrap items-center justify-between gap-x-6 py-2">
-                  <div>
-                    <p className="text-sm font-semibold capitalize leading-6 text-neutral-900">{scoreboard.title}</p>
-                    <div className="flex items-center gap-x-2 text-xs leading-5 text-neutral-500">
-                      <time dateTime={scoreboard.createdAt}>{new Date(scoreboard.createdAt).toDateString()}</time>
+          scoreboards.map((scoreboard: any) => {
+            const isSelected = location.pathname.includes(scoreboard.id)
+            return (
+              <Fragment key={scoreboard.id}>
+                <Link isSelected={isSelected} id={scoreboard.id} href={scoreboard.id}>
+                  <li className={clsx('flex flex-wrap items-center justify-between gap-x-6 py-2')}>
+                    <div>
+                      <p
+                        className={clsx(
+                          'text-sm font-semibold capitalize leading-6',
+                          isSelected ? 'text-white' : 'text-neutral-900'
+                        )}
+                      >
+                        {scoreboard.title}
+                      </p>
+                      <div
+                        className={clsx(
+                          'flex items-center gap-x-2 text-xs leading-5',
+                          isSelected ? 'text-neutral-50' : 'text-neutral-500'
+                        )}
+                      >
+                        <time dateTime={scoreboard.createdAt}>{new Date(scoreboard.createdAt).toDateString()}</time>
+                      </div>
                     </div>
-                  </div>
-                  <dl className="mt-1 flex w-full flex-none justify-between gap-x-8">
-                    <div className="flex -space-x-0.5">
-                      <dt className="sr-only">Players</dt>
-                      {scoreboard.players.map((player: any) => (
-                        <Player key={player.id} player={player} />
-                      ))}
-                    </div>
-                  </dl>
-                </li>
-              </Link>
-              <div className="border-t border-black/5" />
-            </Fragment>
-          ))
+                    <dl className="mt-1 flex w-full flex-none justify-between gap-x-8">
+                      <div className="flex -space-x-0.5">
+                        <dt className="sr-only">Players</dt>
+                        {scoreboard.players.map((player: any) => (
+                          <Player key={player.id} player={player} />
+                        ))}
+                      </div>
+                    </dl>
+                  </li>
+                </Link>
+                <div className="border-t border-black/5" />
+              </Fragment>
+            )
+          })
         )}
       </ul>
       <Outlet />

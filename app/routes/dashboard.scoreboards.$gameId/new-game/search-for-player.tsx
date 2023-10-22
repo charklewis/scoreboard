@@ -45,8 +45,8 @@ function SearchForPlayer({ addPlayer }: { addPlayer: (player: Player) => void })
                 onClick={() => addPlayer(player)}
                 className={({ active }) =>
                   clsx(
-                    'relative cursor-default select-none py-2 pl-3 pr-9',
-                    active ? 'bg-green-600 text-white' : 'text-neutral-900'
+                    'relative cursor-default select-none py-2 pl-3 pr-9 hover:cursor-pointer',
+                    active ? 'bg-neutral-100 text-black' : 'text-neutral-900'
                   )
                 }
               >

@@ -5,6 +5,7 @@
 ### General
 
 - I would like to use `Dialog` (or similar component) from react-aria for the sidebar nav, however the API requires the dialog and button to live in the same component which is not possible with the current design. So, for now, I am using headless-ui
+- We can use [sonner](https://sonner.emilkowal.ski/getting-started) for a toast library
 
 ### Testing
 

@@ -36,8 +36,6 @@ async function fetchScoreboards(stytchId: string) {
       where: eq(game.scoreKeeper, userId),
     })
 
-    console.log({ games })
-
     return games.map((game) => ({
       id: encode(game.gameId),
       title: game.gameType,
@@ -73,7 +71,6 @@ async function insertGame(type: 'scrabble', stytchId: string) {
       return encode(Number(gameId))
     }
   } catch {}
-  return
 }
 
 export { fetchScoreboards, insertGame }

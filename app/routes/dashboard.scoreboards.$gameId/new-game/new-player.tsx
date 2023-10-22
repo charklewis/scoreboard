@@ -1,14 +1,25 @@
-import { useNavigation } from '@remix-run/react'
+import { useActionData, useNavigation } from '@remix-run/react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import { clsx } from 'clsx'
-import { Form, TextField, InputGroup, ErrorMessage, ColorPicker } from '~/components/form'
+import { Form, TextField, InputGroup, ErrorMessage, ColorPicker, EmojiPicker } from '~/components/form'
 import { LoadingSolidButton } from '~/components/button'
+import { color, emoji } from '~/database/static'
 
 function CreateNewPlayer() {
+  const action = useActionData<{ success: boolean; error: string }>()
   const [isOpen, setIsOpen] = useState(false)
   const navigation = useNavigation()
   const isDisabled = navigation.state !== 'idle'
+
+  const [selectedColor, setColor] = useState<keyof typeof color>()
+  const [selectedEmoji, setEmoji] = useState<keyof typeof emoji>()
+
+  useEffect(() => {
+    if (action?.success) {
+      closeModal()
+    }
+  }, [action])
 
   const closeModal = () => {
     setIsOpen(false)
@@ -29,7 +40,7 @@ function CreateNewPlayer() {
           'block w-max whitespace-nowrap rounded-md bg-green-600 px-3 py-1.5 shadow-sm hover:bg-green-500',
           'text-sm font-semibold leading-6 text-white',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600',
-          'disabled:opacity-50 disabled:hover:bg-green-600'
+          'disabled:hover:bg-green-600'
         )}
         data-testid="button-create-new-player"
       >
@@ -64,33 +75,53 @@ function CreateNewPlayer() {
                   <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-neutral-900">
                     Create New Player
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-neutral-500">This player will be available for all of your games.</p>
-                  </div>
+
+                  <p className="mt-2 text-sm text-neutral-500">This player will be available for all games.</p>
 
                   <div className="mt-4">
-                    <Form id="create-new-player" action="?create-new-player" className="space-y-6">
+                    <Form id="create-new-player" action="?/createNewPlayer" className="space-y-6">
+                      {selectedColor && selectedEmoji ? (
+                        <div className="relative -mb-4">
+                          <div
+                            className={clsx(
+                              color[selectedColor].bgColor,
+                              'mx-auto flex h-40 w-40 items-center justify-center rounded-full'
+                            )}
+                          >
+                            <div className=" text-8xl">{emoji[selectedEmoji]}</div>
+                          </div>
+                        </div>
+                      ) : null}
+
                       <InputGroup name="name">
                         <TextField label="Name" input={{ type: 'text' }} />
                         <ErrorMessage />
                       </InputGroup>
 
-                      <InputGroup name="color">
-                        <ColorPicker />
-                        <ErrorMessage />
-                      </InputGroup>
-
-                      {/* {errors?.generic ? (
-                        <p className="mt-2 text-sm text-red-600" data-testid="error-message-generic">
-                          {errors.generic}
-                        </p>
-                      ) : null} */}
                       <LoadingSolidButton
                         id="submit-create-new-player"
                         type="submit"
                         text="Add Player"
                         loadingText="Creating..."
                       />
+
+                      {action?.error ? (
+                        <p className="mt-2 text-sm text-red-600" data-testid="error-message-create-new-player">
+                          {action.error}
+                        </p>
+                      ) : null}
+
+                      <div className="h-1 border-t border-black/10" />
+
+                      <InputGroup name="color">
+                        <ColorPicker onChange={(value: any) => (color !== value ? setColor(value) : null)} />
+                        <ErrorMessage />
+                      </InputGroup>
+
+                      <InputGroup name="emoji">
+                        <EmojiPicker onChange={(value: any) => (emoji !== value ? setEmoji(value) : null)} />
+                        <ErrorMessage />
+                      </InputGroup>
                     </Form>
                   </div>
                 </Dialog.Panel>
