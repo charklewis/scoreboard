@@ -31,7 +31,9 @@ async function loginWithOtp(email: string) {
       return false
     }
     return response.email_id || false
-  } catch {}
+  } catch {
+    //todo: handle "error_type":"inactive_email" (ask the user to unblock stytch)
+  }
   return false
 }
 

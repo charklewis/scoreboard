@@ -1,8 +1,7 @@
 import { useActionData } from '@remix-run/react'
 
 import { LoadingSolidButton } from '~/components/button'
-import { Form, InputGroup } from '~/components/form'
-import { TextField } from '~/components/form/text-field'
+import { Form, InputGroup, TextField } from '~/components/form'
 
 function SignIn() {
   const { errors } = useActionData<{ errors?: { email: string; generic?: string } }>() || {}

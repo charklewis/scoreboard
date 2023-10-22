@@ -15,7 +15,6 @@ function TextOnlyLink({
   className?: string
 }) {
   const navigation = useNavigation()
-
   const isDisabled = navigation.state !== 'idle'
 
   const primary = clsx(
