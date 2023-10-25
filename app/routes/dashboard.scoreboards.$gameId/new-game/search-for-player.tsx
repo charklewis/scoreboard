@@ -5,12 +5,18 @@ import { clsx } from 'clsx'
 import { useLoaderData, useNavigation } from '@remix-run/react'
 import { type Player } from '../api.server'
 
-function SearchForPlayer({ addPlayer }: { addPlayer: (player: Player) => void }) {
+function SearchForPlayer({
+  playerLimitReached,
+  addPlayer,
+}: {
+  playerLimitReached: boolean
+  addPlayer: (player: Player) => void
+}) {
   const navigation = useNavigation()
   const [query, setQuery] = useState('')
   const { players } = useLoaderData<{ players: Player[] }>()
 
-  const isDisabled = navigation.state !== 'idle' || players.length <= 0
+  const isDisabled = navigation.state !== 'idle' || players.length <= 0 || playerLimitReached
 
   const filteredPlayers =
     query === ''
@@ -29,12 +35,20 @@ function SearchForPlayer({ addPlayer }: { addPlayer: (player: Player) => void })
             isDisabled ? 'pointer-events-none' : 'focus:ring-2 focus:ring-inset focus:ring-green-600'
           )}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder={players.length > 0 ? 'Search for a player' : 'No players available'}
+          placeholder={
+            playerLimitReached
+              ? 'Player limit reached'
+              : players.length > 0
+              ? 'Search for a player'
+              : 'No players available'
+          }
           readOnly={isDisabled}
         />
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-          <ChevronUpDownIcon className="h-5 w-5 text-neutral-400" aria-hidden="true" />
-        </Combobox.Button>
+        {isDisabled ? null : (
+          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+            <ChevronUpDownIcon className="h-5 w-5 text-neutral-400" aria-hidden="true" />
+          </Combobox.Button>
+        )}
 
         {filteredPlayers.length > 0 && (
           <Combobox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
@@ -50,10 +64,7 @@ function SearchForPlayer({ addPlayer }: { addPlayer: (player: Player) => void })
                   )
                 }
               >
-                <div className="flex items-center">
-                  {/* <img src={player.imageUrl} alt="" className="h-6 w-6 flex-shrink-0 rounded-full" /> */}
-                  <span className={'ml-3 truncate'}>{player.name}</span>
-                </div>
+                <div className="ml-3 truncate">{player.name}</div>
               </Combobox.Option>
             ))}
           </Combobox.Options>
@@ -63,4 +74,4 @@ function SearchForPlayer({ addPlayer }: { addPlayer: (player: Player) => void })
   )
 }
 
-export default SearchForPlayer
+export { SearchForPlayer }

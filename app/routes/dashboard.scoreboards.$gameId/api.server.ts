@@ -1,5 +1,6 @@
 import { eq } from 'drizzle-orm'
 import { db } from '~/database/db'
+import { color, emoji } from '~/database/static'
 import { player, user } from '~/database/schema'
 import { encode } from '~/services/public-ids.server'
 
@@ -19,8 +20,8 @@ async function fetchPlayers(stytchId: string) {
     return players.map((player) => ({
       id: encode(player.playerId),
       name: player.playerName,
-      background: player.backgroundColor,
-      emoji: player.emoji,
+      background: color[player.backgroundColor as keyof typeof color].bgColor,
+      emoji: emoji[player.emoji as keyof typeof emoji],
     }))
   } catch {
     return []
@@ -37,6 +38,11 @@ async function insertPlayer(stytchId: string, { name, color, emoji }: { name: st
   await db.insert(player).values({ playerName: name, backgroundColor: color, emoji, createdBy: userId })
 }
 
-type Player = Awaited<ReturnType<typeof fetchPlayers>>[0]
+type Player = {
+  id: string
+  name: string
+  background: keyof typeof color
+  emoji: keyof typeof emoji
+}
 
 export { fetchPlayers, insertPlayer, type Player }

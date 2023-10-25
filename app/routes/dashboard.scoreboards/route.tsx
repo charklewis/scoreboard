@@ -56,20 +56,8 @@ function Scoreboards() {
                 <Link isSelected={isSelected} id={scoreboard.id} href={scoreboard.id}>
                   <li className={clsx('flex flex-wrap items-center justify-between gap-x-6 py-2')}>
                     <div>
-                      <p
-                        className={clsx(
-                          'text-sm font-semibold capitalize leading-6',
-                          isSelected ? 'text-white' : 'text-neutral-900'
-                        )}
-                      >
-                        {scoreboard.title}
-                      </p>
-                      <div
-                        className={clsx(
-                          'flex items-center gap-x-2 text-xs leading-5',
-                          isSelected ? 'text-neutral-50' : 'text-neutral-500'
-                        )}
-                      >
+                      <p className="text-sm font-semibold capitalize leading-6 text-neutral-900">{scoreboard.title}</p>
+                      <div className="flex items-center gap-x-2 text-xs leading-5 text-neutral-500">
                         <time dateTime={scoreboard.createdAt}>{new Date(scoreboard.createdAt).toDateString()}</time>
                       </div>
                     </div>

@@ -1,4 +1,4 @@
-import { eq, sql } from 'drizzle-orm'
+import { desc, eq, sql } from 'drizzle-orm'
 import { db } from '~/database/db'
 import { game, user } from '~/database/schema'
 import { encode } from '~/services/public-ids.server'
@@ -13,6 +13,7 @@ async function fetchScoreboards(stytchId: string) {
     if (!userId) return []
     const games = await db.query.game.findMany({
       columns: { gameId: true, gameType: true, dateCreated: true },
+      orderBy: [desc(game.dateCreated)],
       with: {
         rounds: {
           columns: {},

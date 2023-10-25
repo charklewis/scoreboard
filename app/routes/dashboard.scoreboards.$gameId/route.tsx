@@ -24,6 +24,9 @@ async function action({ request }: ActionFunctionArgs) {
           })
         }
       },
+      async startGame() {
+        return json({ success: true })
+      },
     })
   }
   return json({})

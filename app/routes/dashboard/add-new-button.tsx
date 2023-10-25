@@ -1,5 +1,6 @@
 import { useNavigation } from '@remix-run/react'
 import { clsx } from 'clsx'
+import { useEffect } from 'react'
 import { useForm } from '~/components/form'
 
 function Spinner({ id }: { id: string }) {
@@ -22,10 +23,18 @@ function Spinner({ id }: { id: string }) {
   )
 }
 
-function AddNewScoreboardButton({ id, text }: { id: string; text: string }) {
+function AddNewScoreboardButton({ id, text, closeMenu }: { id: string; text: string; closeMenu: Function }) {
   const { isLoading, action } = useForm()
-  const { formAction } = useNavigation()
+  const { formAction, state } = useNavigation()
   const isWaiting = Boolean(isLoading && action && formAction && formAction.includes(action))
+
+  useEffect(() => {
+    if (!formAction || !action) return
+    if (formAction.includes(action) && state === 'loading') {
+      closeMenu()
+    }
+  }, [action, closeMenu, formAction, state])
+
   return (
     <button
       id={`button-new-scoreboard-${id}`}

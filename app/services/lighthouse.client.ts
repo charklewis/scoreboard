@@ -16,7 +16,7 @@ function getConnectionSpeed() {
 function sendToAnalytics(metric: Metric) {
   const analyticsId = window?.ENV?.VERCEL_ANALYTICS_ID
 
-  if (!analyticsId) return
+  if (!analyticsId || analyticsId === 'local') return
 
   const body = {
     dsn: analyticsId,

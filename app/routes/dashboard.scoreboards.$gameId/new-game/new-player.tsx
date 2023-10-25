@@ -134,4 +134,4 @@ function CreateNewPlayer() {
   )
 }
 
-export default CreateNewPlayer
+export { CreateNewPlayer }
