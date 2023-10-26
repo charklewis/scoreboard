@@ -1,11 +1,11 @@
 import { type ActionFunctionArgs, json, type LoaderFunctionArgs } from '@remix-run/node'
 import NewGame from './new-game'
 import { identity } from '~/services/identity.server'
-import { fetchPlayers, insertPlayer } from './api.server'
+import { fetchPlayers, insertPlayer, startGame } from './api.server'
 import { namedAction } from 'remix-utils/named-action'
-import { string } from 'zod'
+import { array, string } from 'zod'
 
-async function action({ request }: ActionFunctionArgs) {
+async function action({ request, params }: ActionFunctionArgs) {
   const user = await identity.isAuthenticated(request.clone())
   if (user) {
     return namedAction(request, {
@@ -25,17 +25,33 @@ async function action({ request }: ActionFunctionArgs) {
         }
       },
       async startGame() {
-        return json({ success: true })
+        try {
+          const { gameId } = params
+          if (!gameId) throw new Error('No game id provided')
+          const formData = await request.formData()
+          const players = array(string())
+            .min(2)
+            .max(4)
+            .parse(JSON.parse(formData.get('players') as string))
+          await startGame(user.stytchId, { gameId, players })
+          return json({ success: true })
+        } catch {
+          return json({
+            error: 'An error occured while starting the game. If the error persists please try again later.',
+          })
+        }
       },
     })
   }
   return json({})
 }
 
-async function loader({ request }: LoaderFunctionArgs) {
+async function loader({ request, params }: LoaderFunctionArgs) {
   const user = await identity.isAuthenticated(request)
   if (user) {
     const players = await fetchPlayers(user.stytchId)
+    //todo: get game from params and load information
+    //this is to check if its a new game (ie no rounds) or a game ready to play
     return json({ players })
   }
   return json({ players: [] })

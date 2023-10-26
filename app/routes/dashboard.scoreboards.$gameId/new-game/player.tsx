@@ -54,7 +54,7 @@ function Player({
         </div>
         <p className="text-neutral-900">{player.name}</p>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-1">
         <p className="text-xs text-neutral-600">{ordinalSuffix(index + 1)} Player</p>
         <button
           onClick={() => removePlayer(player.id)}
@@ -64,7 +64,7 @@ function Player({
             isDisabled ? 'cursor-default' : 'hover:bg-red-50'
           )}
         >
-          <XMarkIcon className="h-4 w-4" />
+          <XMarkIcon className="h-5 w-5" />
         </button>
       </div>
     </li>

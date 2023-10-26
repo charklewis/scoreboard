@@ -8,8 +8,10 @@ import { CreateNewPlayer } from './new-player'
 import { Player } from './player'
 import { Form } from '~/components/form'
 import { LoadingSolidButton } from '~/components/button'
+import { useActionData } from '@remix-run/react'
 
 function NewGame() {
+  const { error } = useActionData<{ error: string }>() || {}
   const [players, setPlayers] = useState<PlayerType[]>([])
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -58,7 +60,8 @@ function NewGame() {
       {players.length > 1 ? (
         <Form id="start-game" action="?/startGame" className="mt-8">
           <input type="hidden" name="players" value={JSON.stringify(players.map((player) => player.id))} />
-          <LoadingSolidButton id="start-game" text="Start Game" loadingText="Starting game..." />
+          <LoadingSolidButton id="start-game" type="submit" text="Start Game" loadingText="Starting game..." />
+          {error ? <p className="mt-2 text-sm text-red-500">{error}</p> : null}
         </Form>
       ) : null}
     </div>

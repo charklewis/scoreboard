@@ -23,7 +23,7 @@ test('renders a link', async () => {
 
   render(
     <MemoryRouter>
-      <Link id={id} href={href}>
+      <Link id={id} href={href} isSelected={false}>
         {text}
       </Link>
     </MemoryRouter>
@@ -41,7 +41,7 @@ test('the button is disabled while the form is loading', () => {
   const text = faker.lorem.sentence()
   render(
     <MemoryRouter>
-      <Link id={id} href={faker.internet.url()}>
+      <Link id={id} href={faker.internet.url()} isSelected={false}>
         {text}
       </Link>
     </MemoryRouter>

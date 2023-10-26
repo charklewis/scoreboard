@@ -8,7 +8,7 @@ function encode(id: number) {
 }
 
 function decode(id: string) {
-  return hashids.decode(id)[0]
+  return hashids.decode(id)[0] as number
 }
 
 export { encode, decode }
