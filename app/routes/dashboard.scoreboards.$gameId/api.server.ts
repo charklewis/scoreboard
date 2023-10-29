@@ -1,30 +1,44 @@
 import { eq, sql } from 'drizzle-orm'
 import { db } from '~/database/db'
 import { color, emoji } from '~/database/static'
-import { player, user, round, roundPlayer } from '~/database/schema'
+import { player, user, game, round, roundPlayer } from '~/database/schema'
 import { decode, encode } from '~/services/public-ids.server'
 
-async function fetchPlayers(stytchId: string) {
+type GameStatus = 'new' | 'in-progress' | 'finished' | 'error'
+
+async function fetchScoreboardAndPlayers(stytchId: string, gameId: string) {
   try {
     const scoreKeeper = await db.query.user.findFirst({
       where: eq(user.stytchId, stytchId),
       columns: { userId: true },
     })
     const userId = scoreKeeper?.userId
-    if (!userId) return []
+    if (!userId) return { players: [], gameStatus: 'error' as GameStatus }
+
     const players = await db.query.player.findMany({
       columns: { playerId: true, playerName: true, backgroundColor: true, emoji: true },
       where: eq(player.createdBy, userId),
     })
 
-    return players.map((player) => ({
-      id: encode(player.playerId),
-      name: player.playerName,
-      background: color[player.backgroundColor as keyof typeof color].bgColor,
-      emoji: emoji[player.emoji as keyof typeof emoji],
-    }))
+    const gameDetails = await db.query.game.findFirst({
+      where: eq(game.gameId, decode(gameId)),
+      columns: { dateFinished: true },
+      with: { rounds: { columns: { roundId: true }, limit: 1 } },
+    })
+
+    const gameStatus = gameDetails?.dateFinished ? 'finished' : gameDetails?.rounds.length ? 'in-progress' : 'new'
+
+    return {
+      players: players.map((player) => ({
+        id: encode(player.playerId),
+        name: player.playerName,
+        background: color[player.backgroundColor as keyof typeof color].bgColor,
+        emoji: emoji[player.emoji as keyof typeof emoji],
+      })),
+      gameStatus: gameStatus as GameStatus,
+    }
   } catch {
-    return []
+    return { players: [], gameStatus: 'error' as GameStatus }
   }
 }
 
@@ -65,4 +79,4 @@ type Player = {
   emoji: keyof typeof emoji
 }
 
-export { fetchPlayers, insertPlayer, startGame, type Player }
+export { fetchScoreboardAndPlayers, insertPlayer, startGame, type Player, type GameStatus }

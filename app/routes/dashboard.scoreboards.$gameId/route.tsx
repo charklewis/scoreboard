@@ -1,7 +1,8 @@
 import { type ActionFunctionArgs, json, type LoaderFunctionArgs } from '@remix-run/node'
-import NewGame from './new-game'
+import { useLoaderData } from '@remix-run/react'
+import { NewGame } from './new-game'
 import { identity } from '~/services/identity.server'
-import { fetchPlayers, insertPlayer, startGame } from './api.server'
+import { fetchScoreboardAndPlayers, insertPlayer, startGame, type GameStatus } from './api.server'
 import { namedAction } from 'remix-utils/named-action'
 import { array, string } from 'zod'
 
@@ -47,20 +48,28 @@ async function action({ request, params }: ActionFunctionArgs) {
 }
 
 async function loader({ request, params }: LoaderFunctionArgs) {
+  const { gameId } = params
   const user = await identity.isAuthenticated(request)
-  if (user) {
-    const players = await fetchPlayers(user.stytchId)
-    //todo: get game from params and load information
-    //this is to check if its a new game (ie no rounds) or a game ready to play
-    return json({ players })
+  if (user && gameId) {
+    const { players, gameStatus } = await fetchScoreboardAndPlayers(user.stytchId, gameId)
+    return json({ players, gameStatus })
   }
-  return json({ players: [] })
+  return json({ players: [], gameStatus: 'error' })
 }
 
 function Game() {
+  const { gameStatus } = useLoaderData<{ gameStatus: GameStatus }>()
   return (
     <section className="w-[calc(100%-18rem)] p-6">
-      <NewGame />
+      {gameStatus === 'new' ? (
+        <NewGame />
+      ) : gameStatus === 'in-progress' ? (
+        <p>in progress</p>
+      ) : gameStatus === 'finished' ? (
+        <p>finished</p>
+      ) : (
+        <p>error</p>
+      )}
     </section>
   )
 }

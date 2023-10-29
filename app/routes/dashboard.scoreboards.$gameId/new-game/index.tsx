@@ -68,4 +68,4 @@ function NewGame() {
   )
 }
 
-export default NewGame
+export { NewGame }
