@@ -1,37 +1,40 @@
 import { faker } from '@faker-js/faker'
-import { test } from 'playwright/commands'
+import { beforeEach, describe, expect, test } from 'playwright/commands'
 
-test.beforeEach(async ({ page }) => {
+beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test.describe('desktop', () => {
-  test('a user can login and logout', async ({ page }) => {
+describe('desktop', () => {
+  test('a user can login and logout', async ({ page, baseURL }) => {
     await page.getByTestId(/input-email/i).fill('sandbox@stytch.com')
     await page.getByTestId(/button-sign-in/i).click()
 
     await page.getByTestId(/input-code-0/i).pressSequentially('000000')
     await page.getByTestId(/button-submit-otp/i).click()
 
-    await test.expect(page.getByTestId(/dashboard-content/i)).toBeVisible()
+    await expect(page.getByTestId(/dashboard-content/i)).toBeVisible()
     await page.getByTestId(/link-logout/i).click()
+
+    await page.waitForURL(`${baseURL}/login`)
   })
 })
-
-test.describe('mobile', () => {
-  test('a user can login and logout', async ({ page, within }) => {
+describe('mobile', () => {
+  test('a user can login and logout', async ({ page, within, baseURL }) => {
     await page.getByTestId(/input-email/i).fill('sandbox@stytch.com')
     await page.getByTestId(/button-sign-in/i).click()
 
     await page.getByTestId(/input-code-0/i).pressSequentially('000000')
     await page.getByTestId(/button-submit-otp/i).click()
 
-    await test.expect(page.getByTestId(/dashboard-content/i)).toBeVisible()
+    await expect(page.getByTestId(/dashboard-content/i)).toBeVisible()
 
     await page.getByTestId(/button-sidebar-mobile/i).click()
 
     const sidebar = within(page.getByTestId(/navbar-mobile/i))
     await sidebar.getByTestId(/link-logout/i).click()
+
+    await page.waitForURL(`${baseURL}/login`)
   })
 })
 
@@ -41,8 +44,8 @@ test('a user resend a code', async ({ page }) => {
 
   await page.getByTestId(/input-code-0/i).pressSequentially(faker.string.numeric(6))
   await page.getByTestId(/button-submit-otp/i).click()
-  await test.expect(page.getByTestId(/error-message-code/i)).toHaveText(/your code was not valid/i)
+  await expect(page.getByTestId(/error-message-code/i)).toHaveText(/your code was not valid/i)
 
   await page.getByTestId(/button-resend-otp/i).click()
-  await test.expect(page.getByTestId(/resend-code-timestamp/i)).toHaveText(/sent:/i)
+  await expect(page.getByTestId(/resend-code-timestamp/i)).toHaveText(/sent:/i)
 })

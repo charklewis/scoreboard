@@ -1,4 +1,5 @@
 import path from 'path'
+import { configDefaults } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
 export default {
@@ -8,6 +9,7 @@ export default {
     environment: 'jsdom',
     setupFiles: ['./vitest-setup.ts'],
     restoreMocks: true,
+    exclude: [...configDefaults.exclude, 'playwright/**'],
   },
   resolve: {
     alias: {
