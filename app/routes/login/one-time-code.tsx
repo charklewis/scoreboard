@@ -34,7 +34,9 @@ function OneTimeCode() {
               loadingText="Sending..."
             />
             {!isLoading && sent ? (
-              <p className="text-center text-xs text-neutral-600">Sent: {new Date(sent).toLocaleString()}</p>
+              <p className="text-center text-xs text-neutral-600" data-testid="resend-code-timestamp">
+                Sent: {new Date(sent).toLocaleString()}
+              </p>
             ) : null}
           </div>
         </Form>

@@ -41,7 +41,7 @@ function Dashboard() {
           <div className="block h-6 border-r border-black/10" />
           <AddNewScoreboard />
         </header>
-        <main>
+        <main data-testid="dashboard-content">
           <Outlet />
         </main>
       </div>

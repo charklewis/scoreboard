@@ -15,7 +15,7 @@ const navigation = [
 function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
   return (
     <Transition.Root show={show} as={Fragment}>
-      <Dialog as="div" data-testid="navbar-mobile" className="relative z-50 xl:hidden" onClose={() => onClose()}>
+      <Dialog as="div" className="relative z-50 xl:hidden" onClose={() => onClose()}>
         <Transition.Child
           as={Fragment}
           enter="transition-opacity ease-linear duration-300"
@@ -38,7 +38,7 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <Dialog.Panel as="aside" className="relative mr-16 flex w-full max-w-xs flex-1">
+            <Dialog.Panel as="aside" className="relative mr-16 flex w-full max-w-xs flex-1" data-testid="navbar-mobile">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"

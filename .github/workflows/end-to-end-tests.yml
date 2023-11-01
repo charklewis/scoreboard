@@ -13,10 +13,15 @@ jobs:
       - uses: oven-sh/setup-bun@v1
       - name: Install Packages
         run: bun install
-      - name: Install Cypress
-        run: bun cypress install && bun cypress verify
-      - name: Cypress tests
-        run: bun cy:run -- --record --tag "preview" --config baseUrl=$BASE_URL
+      - name: Install Playwright Browsers
+        run: bun playwright install --with-deps
+      - name: Run Playwright tests
+        run: bun pw:run --config baseUrl=$BASE_URL
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
