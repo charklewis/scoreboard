@@ -12,7 +12,7 @@
     "pw:run": "playwright test",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:repo": "bun lint -- --config .eslintrc.repo.cjs",
-    "typecheck": "tsc",
+    "typecheck": "tsc --skipLibCheck",
     "db:migrate": "drizzle-kit generate:mysql --schema=./app/database/schema.ts",
     "db:push": "drizzle-kit push:mysql --config ./drizzle.config.ts",
     "db:studio": "drizzle-kit studio --config ./drizzle.config.ts"

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { test, vi, type Mock, expect } from 'vitest'
+import { test, vi, type Mock, expect, beforeEach } from 'vitest'
 import { TextOnlyLink } from '~/components/button/link-text'
 
 vi.mock('@remix-run/react', async () => {

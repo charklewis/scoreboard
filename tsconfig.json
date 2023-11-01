@@ -17,7 +17,7 @@
     "paths": {
       "~/*": ["./app/*"]
     },
-    "types": ["web", "bun-types", "@testing-library/cypress"],
+    "types": ["web", "bun-types"],
     "noEmit": true
   }
 }
