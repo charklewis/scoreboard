@@ -1,4 +1,4 @@
-name: Cypress Tests
+name: Playwright Tests
 
 on:
   deployment_status:
@@ -16,7 +16,7 @@ jobs:
       - name: Install Playwright Browsers
         run: bun playwright install --with-deps
       - name: Run Playwright tests
-        run: bun pw:run --config baseUrl=$BASE_URL
+        run: bun run pw:run
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
       - uses: actions/upload-artifact@v3
