@@ -8,8 +8,6 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 const TOKEN_PATH = path.join(process.cwd(), 'token.json')
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json')
 
-//todo: in github action write these to a file from secret value
-
 async function loadSavedCredentialsIfExist() {
   try {
     const content = await fs.readFile(TOKEN_PATH)
