@@ -1,16 +1,14 @@
 import { clsx } from 'clsx'
-import { type ComponentProps } from 'react'
-import { Input as ReactAriaInput } from 'react-aria-components'
 import { useForm, useInputGroup } from '.'
 
-type Props = Pick<ComponentProps<typeof ReactAriaInput>, 'placeholder' | 'type'>
+type Props = Partial<Pick<HTMLInputElement, 'placeholder' | 'type'>>
 
 function Input(props: Props) {
   const { isLoading } = useForm()
   const { name, defaultValue, error } = useInputGroup()
 
   return (
-    <ReactAriaInput
+    <input
       className={clsx(
         'block w-full rounded-md border-0 px-1.5 py-1.5',
         'text-neutral-900 shadow-sm placeholder:text-neutral-400 sm:text-sm sm:leading-6',

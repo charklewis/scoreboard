@@ -1,0 +1,21 @@
+import { faker } from '@faker-js/faker'
+import { beforeEach, describe, test } from 'playwright/fixtures'
+import { Page } from 'playwright/page'
+
+beforeEach(async ({ page, login }) => {
+  await page.goto('/')
+  await login()
+  await page.waitForURL(/scoreboards/i)
+})
+
+describe('desktop', () => {
+  test('start a scrabble game', async ({ page }) => {
+    const pages = new Page(page)
+    await pages.scrabble.createNewGame()
+    const firstPlayer = faker.person.fullName()
+    const secondPlayer = faker.person.fullName()
+    await pages.scrabble.createNewPlayers([firstPlayer, secondPlayer])
+    await pages.scrabble.addPlayers([firstPlayer, secondPlayer])
+    await pages.scrabble.startGame()
+  })
+})

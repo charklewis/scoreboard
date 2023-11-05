@@ -1,6 +1,5 @@
 import { useNavigation } from '@remix-run/react'
 import { clsx } from 'clsx'
-import { Button } from 'react-aria-components'
 import { useForm } from '~/components/form'
 
 function Spinner({ id }: { id: string }) {
@@ -49,16 +48,16 @@ function LoadingTextButton({
   )
 
   return (
-    <Button
+    <button
       id={`button-${id}`}
       type={type}
-      isDisabled={isLoading}
+      disabled={isLoading}
       className={variant === 'primary' ? primary : secondary}
       data-testid={`button-${id}`}
     >
       {isWaiting ? <Spinner id={id} /> : null}
       {isWaiting ? loadingText : text}
-    </Button>
+    </button>
   )
 }
 

@@ -7,7 +7,11 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
-  use: { baseURL: process.env.BASE_URL || 'http://localhost:3000', trace: 'on-first-retry' },
+  use: {
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    trace: 'on-first-retry',
+    video: process.env.RECORD_TEST_VIDEO ? 'on' : 'off',
+  },
   projects: [
     { name: 'chromium', grepInvert: /mobile/, use: { ...devices['Desktop Chrome'] } },
     { name: 'safari', grepInvert: /desktop/, use: { ...devices['iPhone 14'] } },

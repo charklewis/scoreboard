@@ -12,6 +12,8 @@ type PlayerType = {
 function Tooltip({ state, children }: { children: ReactNode; state: TooltipTriggerState }) {
   const { tooltipProps } = useTooltip({}, state)
 
+  console.log({ tooltipProps })
+
   return (
     <span
       className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 rounded-md bg-white p-2 text-xs text-neutral-800 shadow-lg ring-1 ring-black ring-opacity-5"

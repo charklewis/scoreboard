@@ -10,6 +10,7 @@ function AddNewScoreboard() {
       <div>
         <Menu.Button
           id="button-add-new-scoreboard"
+          data-testid="button-add-new-scoreboard"
           className="flex items-center rounded-md p-2.5 text-neutral-900 hover:bg-neutral-500/5"
         >
           <span className="sr-only">Open options for adding new a scoreboard</span>

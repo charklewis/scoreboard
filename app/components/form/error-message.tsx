@@ -1,4 +1,3 @@
-import { Text } from 'react-aria-components'
 import { useInputGroup } from '.'
 
 function ErrorMessage() {
@@ -8,9 +7,9 @@ function ErrorMessage() {
   }
 
   return (
-    <Text slot="errorMessage" className="mt-2 text-sm text-red-600" data-testid={`error-message-${name}`}>
+    <p className="mt-2 text-sm text-red-600" data-testid={`error-message-${name}`}>
       {error}
-    </Text>
+    </p>
   )
 }
 

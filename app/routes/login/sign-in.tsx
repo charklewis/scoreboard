@@ -5,6 +5,7 @@ import { Form, InputGroup, TextField } from '~/components/form'
 
 function SignIn() {
   const { errors } = useActionData<{ errors?: { email: string; generic?: string } }>() || {}
+
   return (
     <>
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">
