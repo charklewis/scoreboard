@@ -11,6 +11,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
+      - name: Get Email Credentials
+        env:
+          TEST_EMAIL_CREDENTIALS: ${{ secrets.TEST_EMAIL_CREDENTIALS }}
+          TEST_EMAIL_TOKEN: ${{ secrets.TEST_EMAIL_TOKEN }}
+        run: |
+          touch credentials.json
+          echo $TEST_EMAIL_CREDENTIALS >> credentials.json
+          touch token.json
+          echo $TEST_EMAIL_TOKEN >> token.json
       - name: Install Packages
         run: bun install
       - name: Install Playwright Browsers
