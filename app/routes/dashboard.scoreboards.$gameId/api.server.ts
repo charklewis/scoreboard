@@ -1,7 +1,7 @@
 import { eq, sql } from 'drizzle-orm'
 import { db } from '~/database/db'
-import { color, emoji } from '~/database/static'
 import { player, user, game, round, roundPlayer } from '~/database/schema'
+import { color, emoji } from '~/database/static'
 import { decode, encode } from '~/services/public-ids.server'
 
 type GameStatus = 'new' | 'in-progress' | 'finished' | 'error'

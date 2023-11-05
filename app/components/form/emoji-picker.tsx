@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { faker } from '@faker-js/faker'
 import { RadioGroup } from '@headlessui/react'
 import { clsx } from 'clsx'
-import { useForm, useInputGroup } from '.'
-import { faker } from '@faker-js/faker'
+import { useEffect, useState } from 'react'
 import { emoji } from '~/database/static'
+import { useForm, useInputGroup } from '.'
 
 const emojies = Object.entries(emoji).map(([name, value]) => ({ name, value }))
 

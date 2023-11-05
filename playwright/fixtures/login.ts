@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { type TestFixture, type PlaywrightTestArgs } from '@playwright/test'
-import { getOneTimeCodeEmail } from 'playwright/support'
 import promiseRetry from 'promise-retry'
+import { getOneTimeCodeEmail } from 'playwright/support'
 
 type Fixture = {
   login: () => Promise<string>

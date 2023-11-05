@@ -1,12 +1,12 @@
 import { type LoaderFunctionArgs, json, type ActionFunctionArgs, redirect } from '@remix-run/node'
 import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
+import { clsx } from 'clsx'
 import { Fragment } from 'react'
+import { namedAction } from 'remix-utils/named-action'
 import { identity } from '~/services/identity.server'
+import { fetchScoreboards, insertGame } from './api.server'
 import { Link } from './link'
 import { Player } from './player'
-import { fetchScoreboards, insertGame } from './api.server'
-import { namedAction } from 'remix-utils/named-action'
-import { clsx } from 'clsx'
 
 async function action({ request }: ActionFunctionArgs) {
   const user = await identity.isAuthenticated(request.clone())

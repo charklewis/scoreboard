@@ -58,7 +58,7 @@ async function getMessages(auth: any, email: string) {
     return []
   }
 
-  let promises = []
+  const promises = []
 
   for (const message of response.data.messages) {
     const id = message.id
@@ -77,7 +77,7 @@ async function getMessages(auth: any, email: string) {
 }
 
 function getMessageContent(payload: any) {
-  let content = { html: '', text: '' }
+  const content = { html: '', text: '' }
   if (payload.body.size) {
     switch (payload.mimeType) {
       case 'text/html':
@@ -91,7 +91,7 @@ function getMessageContent(payload: any) {
   } else {
     let parts = [...payload.parts]
     while (parts.length) {
-      let part = parts.shift()
+      const part = parts.shift()
       if (part.parts) {
         parts = parts.concat(part.parts)
       }

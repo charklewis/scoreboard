@@ -1,9 +1,9 @@
-import { useActionData, useNavigation } from '@remix-run/react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useState, Fragment, useEffect } from 'react'
+import { useActionData, useNavigation } from '@remix-run/react'
 import { clsx } from 'clsx'
-import { Form, TextField, InputGroup, ErrorMessage, ColorPicker, EmojiPicker } from '~/components/form'
+import { useState, Fragment, useEffect } from 'react'
 import { LoadingSolidButton } from '~/components/button'
+import { Form, TextField, InputGroup, ErrorMessage, ColorPicker, EmojiPicker } from '~/components/form'
 import { color, emoji } from '~/database/static'
 
 function CreateNewPlayer() {

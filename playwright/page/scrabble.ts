@@ -24,14 +24,14 @@ class Scrabble {
   async addPlayers(players: string[]) {
     for (const player of players) {
       await this.page.getByTestId(/input-search-for-player/i).fill(player)
-      const options = await this.page.getByTestId(/container-search-for-player-options/i)
+      const options = this.page.getByTestId(/container-search-for-player-options/i)
       await options.getByText(player).click()
     }
   }
 
   async startGame() {
     await this.page.getByTestId(/button-start-game/i).click()
-    await this.page.getByText(/in progress/i)
+    this.page.getByText(/in progress/i)
   }
 }
 

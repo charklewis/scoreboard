@@ -1,10 +1,10 @@
 import { type ActionFunctionArgs, json, type LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { NewGame } from './new-game'
-import { identity } from '~/services/identity.server'
-import { fetchScoreboardAndPlayers, insertPlayer, startGame, type GameStatus } from './api.server'
 import { namedAction } from 'remix-utils/named-action'
 import { array, string } from 'zod'
+import { identity } from '~/services/identity.server'
+import { fetchScoreboardAndPlayers, insertPlayer, startGame, type GameStatus } from './api.server'
+import { NewGame } from './new-game'
 
 async function action({ request, params }: ActionFunctionArgs) {
   const user = await identity.isAuthenticated(request.clone())

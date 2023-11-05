@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { Combobox } from '@headlessui/react'
-import { clsx } from 'clsx'
+import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { useLoaderData, useNavigation } from '@remix-run/react'
+import { clsx } from 'clsx'
+import { useState } from 'react'
 import { type Player } from '../api.server'
 
 function SearchForPlayer({
@@ -51,8 +51,7 @@ function SearchForPlayer({
           </Combobox.Button>
         )}
 
-        {filteredPlayers.length > 0 && (
-          <Combobox.Options
+        {filteredPlayers.length > 0 ? <Combobox.Options
             className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
             data-testid="container-search-for-player-options"
           >
@@ -71,8 +70,7 @@ function SearchForPlayer({
                 <div className="ml-3 truncate">{player.name}</div>
               </Combobox.Option>
             ))}
-          </Combobox.Options>
-        )}
+          </Combobox.Options> : null}
       </div>
     </Combobox>
   )

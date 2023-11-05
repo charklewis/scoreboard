@@ -1,14 +1,14 @@
-import { useState } from 'react'
 import { DndContext, closestCenter, type DragEndEvent } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable'
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { SearchForPlayer } from './search-for-player'
+import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable'
+import { useActionData } from '@remix-run/react'
+import { useState } from 'react'
+import { LoadingSolidButton } from '~/components/button'
+import { Form } from '~/components/form'
 import { type Player as PlayerType } from '../api.server'
 import { CreateNewPlayer } from './new-player'
 import { Player } from './player'
-import { Form } from '~/components/form'
-import { LoadingSolidButton } from '~/components/button'
-import { useActionData } from '@remix-run/react'
+import { SearchForPlayer } from './search-for-player'
 
 function NewGame() {
   const { error } = useActionData<{ error: string }>() || {}
