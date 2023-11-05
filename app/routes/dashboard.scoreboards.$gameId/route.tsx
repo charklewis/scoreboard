@@ -60,11 +60,11 @@ async function loader({ request, params }: LoaderFunctionArgs) {
 function Game() {
   const { gameStatus } = useLoaderData<{ gameStatus: GameStatus }>()
   return (
-    <section className="w-[calc(100%-18rem)] p-6">
+    <section>
       {gameStatus === 'new' ? (
         <NewGame />
       ) : gameStatus === 'in-progress' ? (
-        <p>in progress</p>
+        <p className="pt-9">in progress</p>
       ) : gameStatus === 'finished' ? (
         <p>finished</p>
       ) : (

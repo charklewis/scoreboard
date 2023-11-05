@@ -10,7 +10,19 @@ beforeEach(async ({ page, login }) => {
 
 describe('desktop', () => {
   test('start a scrabble game', async ({ page }) => {
-    const pages = new Page(page)
+    const pages = new Page(page, 'desktop')
+    await pages.scrabble.createNewGame()
+    const firstPlayer = faker.person.fullName()
+    const secondPlayer = faker.person.fullName()
+    await pages.scrabble.createNewPlayers([firstPlayer, secondPlayer])
+    await pages.scrabble.addPlayers([firstPlayer, secondPlayer])
+    await pages.scrabble.startGame()
+  })
+})
+
+describe('mobile', () => {
+  test('start a scrabble game', async ({ page }) => {
+    const pages = new Page(page, 'mobile')
     await pages.scrabble.createNewGame()
     const firstPlayer = faker.person.fullName()
     const secondPlayer = faker.person.fullName()
