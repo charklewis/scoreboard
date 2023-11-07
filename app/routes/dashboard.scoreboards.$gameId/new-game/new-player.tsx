@@ -36,13 +36,13 @@ function CreateNewPlayer() {
         type="button"
         disabled={isDisabled}
         onClick={openModal}
+        data-testid="button-create-new-player"
         className={clsx(
           'block w-max whitespace-nowrap rounded-md bg-green-600 px-3 py-1.5 shadow-sm hover:bg-green-500',
           'text-sm font-semibold leading-6 text-white',
           'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600',
           'disabled:hover:bg-green-600'
         )}
-        data-testid="button-create-new-player"
       >
         Create New Player
       </button>
@@ -71,7 +71,10 @@ function CreateNewPlayer() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel
+                  className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                  data-testid="modal-new-player"
+                >
                   <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-neutral-900">
                     Create New Player
                   </Dialog.Title>

@@ -59,6 +59,7 @@ async function loader({ request, params }: LoaderFunctionArgs) {
 
 function Game() {
   const { gameStatus } = useLoaderData<{ gameStatus: GameStatus }>()
+
   return (
     <section>
       {gameStatus === 'new' ? (

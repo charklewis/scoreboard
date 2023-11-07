@@ -19,7 +19,7 @@ function ColorPicker({ onChange }: { onChange?: (value: string) => void }) {
 
   return (
     <>
-      <input type="hidden" value={selectedColor} id={name} name={name} data-testid={`input-${name}`} />
+      <input type="hidden" value={selectedColor} id={name} name={name} data-testid={`input-hidden-${name}`} />
       <RadioGroup value={selectedColor} onChange={setSelectedColor} disabled={isLoading}>
         <RadioGroup.Label className="block text-sm font-medium leading-6 text-gray-900">
           Background Colour
@@ -29,6 +29,7 @@ function ColorPicker({ onChange }: { onChange?: (value: string) => void }) {
             <RadioGroup.Option
               key={color.name}
               value={color.name}
+              data-testid={`input-${name}-${color.name}`}
               className={({ active, checked }) =>
                 clsx(
                   color.selectedColor,

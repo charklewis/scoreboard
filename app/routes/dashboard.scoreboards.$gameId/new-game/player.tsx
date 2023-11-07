@@ -40,7 +40,6 @@ function Player({
       <div className="flex items-center space-x-2">
         <button
           {...listeners}
-          {...arguments}
           className={clsx(
             'rounded-md p-1 text-neutral-400',
             isDisabled ? 'cursor-default' : 'cursor-move hover:bg-neutral-100 hover:text-neutral-600'
@@ -59,6 +58,7 @@ function Player({
         <button
           onClick={() => removePlayer(player.id)}
           disabled={isDisabled}
+          data-testid={`button-remove-player-${player.id}`}
           className={clsx(
             'rounded-md p-1 text-red-600 opacity-0 group-hover:opacity-100',
             isDisabled ? 'cursor-default' : 'hover:bg-red-50'

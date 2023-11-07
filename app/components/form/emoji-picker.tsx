@@ -19,7 +19,7 @@ function EmojiPicker({ onChange }: { onChange?: (value: string) => void }) {
 
   return (
     <>
-      <input type="hidden" value={selectedEmoji} id={name} name={name} data-testid={`input-${name}`} />
+      <input type="hidden" value={selectedEmoji} id={name} name={name} data-testid={`input-hidden-${name}`} />
       <RadioGroup value={selectedEmoji} onChange={setSelectedEmoji} disabled={isLoading}>
         <RadioGroup.Label className="block text-sm font-medium leading-6 text-gray-900">Emoji</RadioGroup.Label>
         <div className="mt-4 flex flex-wrap items-center">
@@ -27,6 +27,7 @@ function EmojiPicker({ onChange }: { onChange?: (value: string) => void }) {
             <RadioGroup.Option
               key={emoji.name}
               value={emoji.name}
+              data-testid={`input-${name}-${emoji.name}`}
               className={({ active, checked }) =>
                 clsx(
                   active || checked ? 'border-neutral-900' : 'border-white',
