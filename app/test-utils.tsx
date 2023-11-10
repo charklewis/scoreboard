@@ -5,10 +5,10 @@ import { type ReactNode } from 'react'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 
-function renderWithRouter(element: ReactNode, path: string) {
+function renderWithRouter(element: ReactNode, path: string, loader = vi.fn().mockReturnValue({})) {
   const user = userEvent.setup()
   const action = vi.fn().mockReturnValue(null)
-  const routes = [{ path, element, action }]
+  const routes = [{ path, element, action, loader }]
   const route = createMemoryRouter(routes, { initialEntries: [path] })
   const view = render(<RouterProvider router={route} />)
   return { ...view, user, action }

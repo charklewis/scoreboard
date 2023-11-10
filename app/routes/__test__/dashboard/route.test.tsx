@@ -12,8 +12,8 @@ describe('loader', () => {
 describe('component', () => {
   test('renders a mobile view of the sidebar', async () => {
     const { user } = renderWithRouter(<Dashboard />, path)
-
-    await user.click(screen.getByTestId(/button-sidebar-mobile/i))
+    const button = await screen.findByTestId(/button-sidebar-mobile/i)
+    await user.click(button)
     within(screen.getByTestId(/navbar-mobile/i)).getByText(/scoreboards/i)
 
     await user.click(screen.getByTestId(/button-sidebar-mobile-close/i))
@@ -22,8 +22,8 @@ describe('component', () => {
 
   test('renders a desktop view of the sidebar', async () => {
     const { user } = renderWithRouter(<Dashboard />, path)
-
-    within(screen.getByTestId(/navbar-desktop/i)).getByText(/scoreboards/i)
+    const container = await screen.findByTestId(/navbar-desktop/i)
+    within(container).getByText(/scoreboards/i)
 
     await user.click(screen.getByTestId(/button-sidebar-desktop/i))
     expect(screen.getByTestId(/navbar-desktop/i)).not.toHaveClass('xl:fixed')
