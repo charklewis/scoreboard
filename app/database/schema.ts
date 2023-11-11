@@ -12,7 +12,7 @@ import {
 } from 'drizzle-orm/mysql-core'
 
 const user = mysqlTable('users', {
-  userId: serial('user_id').primaryKey(),
+  userId: serial('id').primaryKey(),
   stytchId: varchar('stytch_id', { length: 200 }).unique().notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 })

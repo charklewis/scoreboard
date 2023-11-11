@@ -29,6 +29,20 @@
       "when": 1697864598338,
       "tag": "0003_unique_bulldozer",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1699688533040,
+      "tag": "0004_chief_titanium_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1699688658957,
+      "tag": "0005_minor_hawkeye",
+      "breakpoints": true
     }
   ]
 }

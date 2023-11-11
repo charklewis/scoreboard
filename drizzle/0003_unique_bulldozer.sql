@@ -31,8 +31,5 @@ CREATE TABLE `round_player` (
 	CONSTRAINT `round_player_player_id_round_id` PRIMARY KEY(`player_id`,`round_id`)
 );
 --> statement-breakpoint
-ALTER TABLE `users` RENAME COLUMN `id` TO `user_id`;--> statement-breakpoint
-ALTER TABLE `users` DROP PRIMARY KEY;--> statement-breakpoint
 ALTER TABLE `users` MODIFY COLUMN `stytch_id` varchar(200) NOT NULL;--> statement-breakpoint
-ALTER TABLE `users` ADD PRIMARY KEY(`user_id`);--> statement-breakpoint
 ALTER TABLE `users` ADD CONSTRAINT `users_stytch_id_unique` UNIQUE(`stytch_id`);
