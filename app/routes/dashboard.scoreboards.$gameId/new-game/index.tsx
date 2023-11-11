@@ -49,7 +49,7 @@ function NewGame() {
 
       <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter} modifiers={[restrictToVerticalAxis]}>
         <SortableContext items={players} strategy={verticalListSortingStrategy}>
-          <ul className="mt-6 divide-y divide-neutral-100">
+          <ul className="mt-6 divide-y divide-neutral-100" data-testid="container-selected-players">
             {players.map((player, index) => (
               <Player key={player.id} player={player} index={index} removePlayer={removePlayer} />
             ))}
