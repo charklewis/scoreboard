@@ -1,4 +1,4 @@
-name: Cypress Tests
+name: Playwright Tests
 
 on:
   deployment_status:
@@ -11,12 +11,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
+      - name: Get Email Credentials
+        env:
+          TEST_EMAIL_CREDENTIALS: ${{ secrets.TEST_EMAIL_CREDENTIALS }}
+          TEST_EMAIL_TOKEN: ${{ secrets.TEST_EMAIL_TOKEN }}
+        run: |
+          touch credentials.json
+          echo $TEST_EMAIL_CREDENTIALS >> credentials.json
+          touch token.json
+          echo $TEST_EMAIL_TOKEN >> token.json
       - name: Install Packages
         run: bun install
-      - name: Install Cypress
-        run: bun cypress install && bun cypress verify
-      - name: Cypress tests
-        run: bun cy:run -- --record --tag "preview" --config baseUrl=$BASE_URL
+      - name: Install Playwright Browsers
+        run: bun playwright install --with-deps
+      - name: Run Playwright tests
+        run: bun run pw:run
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

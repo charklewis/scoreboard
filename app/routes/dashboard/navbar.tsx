@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { TrophyIcon, CogIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import classNames from 'classnames'
+import { clsx } from 'clsx'
 import { Fragment } from 'react'
 import { TextOnlyLink } from '~/components/button'
 import { Button } from './button'
@@ -15,7 +15,7 @@ const navigation = [
 function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
   return (
     <Transition.Root show={show} as={Fragment}>
-      <Dialog as="div" data-testid="navbar-mobile" className="relative z-50 xl:hidden" onClose={() => onClose()}>
+      <Dialog as="div" className="relative z-50 xl:hidden" onClose={() => onClose()}>
         <Transition.Child
           as={Fragment}
           enter="transition-opacity ease-linear duration-300"
@@ -38,7 +38,7 @@ function Mobile({ show, onClose }: { show: boolean; onClose: Function }) {
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <Dialog.Panel as="aside" className="relative mr-16 flex w-full max-w-xs flex-1">
+            <Dialog.Panel as="aside" className="relative mr-16 flex w-full max-w-xs flex-1" data-testid="navbar-mobile">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -101,7 +101,7 @@ function Desktop({ show }: { show: boolean }) {
   return (
     <aside
       data-testid="navbar-desktop"
-      className={classNames('hidden', show ? 'xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-64 xl:flex-col ' : '')}
+      className={clsx('hidden', show ? 'xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-64 xl:flex-col ' : '')}
     >
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-900/5 bg-neutral-700/5 px-6">
         <div className="flex h-16 shrink-0 items-center">

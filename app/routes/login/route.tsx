@@ -2,7 +2,6 @@ import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 import { namedAction } from 'remix-utils/named-action'
 import { string } from 'zod'
-
 import { identity, loginWithOtp } from '~/services/identity.server'
 import { OneTimeCode } from './one-time-code'
 import { SignIn } from './sign-in'

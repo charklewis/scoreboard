@@ -1,8 +1,8 @@
 import { Menu, Transition } from '@headlessui/react'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
-import classNames from 'classnames'
 import { Fragment } from 'react'
 import { Form } from '~/components/form'
+import { AddNewScoreboardButton } from './add-new-button'
 
 function AddNewScoreboard() {
   return (
@@ -10,6 +10,7 @@ function AddNewScoreboard() {
       <div>
         <Menu.Button
           id="button-add-new-scoreboard"
+          data-testid="button-add-new-scoreboard"
           className="flex items-center rounded-md p-2.5 text-neutral-900 hover:bg-neutral-500/5"
         >
           <span className="sr-only">Open options for adding new a scoreboard</span>
@@ -29,16 +30,9 @@ function AddNewScoreboard() {
         <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <Menu.Item>
-              {({ active }) => (
-                <Form id="add-new-scoreboard" action="?/scrabble">
-                  <p
-                    className={classNames(
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm'
-                    )}
-                  >
-                    Scoreboard
-                  </p>
+              {({ close }) => (
+                <Form id="add-new-scoreboard" action="/dashboard/scoreboards?/scrabble">
+                  <AddNewScoreboardButton id="scrabble" text="Scrabble" closeMenu={close} />
                 </Form>
               )}
             </Menu.Item>

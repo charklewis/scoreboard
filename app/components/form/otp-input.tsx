@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import { clsx } from 'clsx'
 import { useState } from 'react'
 import OTPInput from 'react-otp-input'
 import { useInputGroup } from '.'
@@ -26,7 +26,7 @@ function OtpInput() {
         renderInput={(props, index) => (
           <input
             {...props}
-            className={classNames(
+            className={clsx(
               'block w-1/6 rounded-md border-0 py-4 pl-4',
               'text-4xl text-neutral-900 shadow-sm placeholder:text-neutral-400 sm:leading-6',
               'ring-1 ring-inset focus:ring-2 focus:ring-inset',

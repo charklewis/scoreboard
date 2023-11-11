@@ -1,6 +1,5 @@
 import { useNavigation } from '@remix-run/react'
-import classNames from 'classnames'
-import { Button } from 'react-aria-components'
+import { clsx } from 'clsx'
 import { useForm } from '~/components/form'
 
 function Spinner({ id }: { id: string }) {
@@ -40,25 +39,25 @@ function LoadingTextButton({
   const { formAction } = useNavigation()
   const isWaiting = isLoading && action && formAction && formAction.includes(action)
 
-  const primary = classNames('flex w-full justify-center rounded-md px-3 py-1.5 hover:text-green-800')
+  const primary = clsx('flex w-full justify-center rounded-md px-3 py-1.5 hover:text-green-800')
 
-  const secondary = classNames(
+  const secondary = clsx(
     'flex w-full justify-center rounded-md px-3 py-1.5 hover:text-neutral-800',
     'text-sm font-semibold',
     'disabled:opacity-50 disabled:hover:text-black'
   )
 
   return (
-    <Button
+    <button
       id={`button-${id}`}
       type={type}
-      isDisabled={isLoading}
+      disabled={isLoading}
       className={variant === 'primary' ? primary : secondary}
       data-testid={`button-${id}`}
     >
       {isWaiting ? <Spinner id={id} /> : null}
       {isWaiting ? loadingText : text}
-    </Button>
+    </button>
   )
 }
 

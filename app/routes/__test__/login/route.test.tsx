@@ -170,7 +170,7 @@ describe('component', () => {
 
   test('a user can login using an email', async () => {
     renderWithRouter(<Login />, path)
-    screen.getByText(/sign in to your account/i)
+    await screen.findByText(/sign in to your account/i)
     screen.getByLabelText(/email/i)
   })
 
@@ -179,6 +179,6 @@ describe('component', () => {
     const email = faker.internet.email()
     MockUseActionData.mockReturnValue({ methodId, email })
     renderWithRouter(<Login />, path)
-    screen.getByText(/enter your otp code/i)
+    await screen.findByText(/enter your otp code/i)
   })
 })

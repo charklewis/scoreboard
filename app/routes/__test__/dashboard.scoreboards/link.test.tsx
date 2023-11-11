@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { test, vi, type Mock, expect } from 'vitest'
+import { test, vi, type Mock, expect, beforeEach } from 'vitest'
 import { Link } from '~/routes/dashboard.scoreboards/link'
 
 vi.mock('@remix-run/react', async () => {
@@ -23,7 +23,7 @@ test('renders a link', async () => {
 
   render(
     <MemoryRouter>
-      <Link id={id} href={href}>
+      <Link id={id} href={href} isSelected={false}>
         {text}
       </Link>
     </MemoryRouter>
@@ -41,7 +41,7 @@ test('the button is disabled while the form is loading', () => {
   const text = faker.lorem.sentence()
   render(
     <MemoryRouter>
-      <Link id={id} href={faker.internet.url()}>
+      <Link id={id} href={faker.internet.url()} isSelected={false}>
         {text}
       </Link>
     </MemoryRouter>

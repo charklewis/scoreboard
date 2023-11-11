@@ -8,7 +8,7 @@ const path = '/dashboard'
 test('the mobile view renders the navbar', async () => {
   const onClose = vi.fn()
   const { user } = renderWithRouter(<Mobile show={true} onClose={onClose} />, path)
-  screen.getByText(/scoreboards/i)
+  await screen.findByText(/scoreboards/i)
   screen.getByText(/settings/i)
   screen.getByText(/logout/i)
 
@@ -22,15 +22,15 @@ test('the mobile view can be hidden', () => {
   expect(container).toBeEmptyDOMElement()
 })
 
-test('the desktop view renders the navbar', () => {
+test('the desktop view renders the navbar', async () => {
   renderWithRouter(<Desktop show={true} />, path)
-  screen.getByText(/scoreboards/i)
+  await screen.findByText(/scoreboards/i)
   screen.getByText(/settings/i)
   screen.getByText(/logout/i)
 })
 
-test('the desktop view can be hidden', () => {
+test('the desktop view can be hidden', async () => {
   renderWithRouter(<Desktop show={false} />, path)
-  const navbar = screen.queryByTestId(/navbar-desktop/i)
+  const navbar = await screen.findByTestId(/navbar-desktop/i)
   expect(navbar).not.toHaveClass('xl:fixed')
 })

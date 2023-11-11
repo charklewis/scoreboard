@@ -3,7 +3,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigation } from '@remix-run/react'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { test, vi, type Mock, expect } from 'vitest'
+import { test, vi, type Mock, expect, beforeEach } from 'vitest'
 import { LinkWithIcon } from '~/routes/dashboard/link'
 
 vi.mock('@remix-run/react', async () => {

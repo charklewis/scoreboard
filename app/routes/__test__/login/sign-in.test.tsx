@@ -20,25 +20,25 @@ beforeEach(() => {
 test('a user can login using an email', async () => {
   const email = faker.internet.email()
   const { action, user } = renderWithRouter(<SignIn />, path)
-  screen.getByText(/sign in to your account/i)
+  await screen.findByText(/sign in to your account/i)
   screen.getByTestId(/button-sign-in/i)
   await user.type(screen.getByLabelText(/email/i), email)
   await user.click(screen.getByText(/sign in/i, { selector: 'button' }))
   expect(action).toHaveBeenCalled()
 })
 
-test('a user can see errors related to the email input', () => {
+test('a user can see errors related to the email input', async () => {
   const error = faker.lorem.words(5)
   MockUseActionData.mockReturnValue({ errors: { email: error } })
   renderWithRouter(<SignIn />, path)
-  screen.getByLabelText(/email/i)
+  await screen.findByLabelText(/email/i)
   screen.getByText(error)
 })
 
-test('a user can see generic errors', () => {
+test('a user can see generic errors', async () => {
   const error = faker.lorem.words(5)
   MockUseActionData.mockReturnValue({ errors: { generic: error } })
   renderWithRouter(<SignIn />, path)
-  screen.getByLabelText(/email/i)
+  await screen.findByLabelText(/email/i)
   screen.getByText(error)
 })
