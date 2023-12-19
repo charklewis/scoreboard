@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { render, screen } from '@testing-library/react'
-import { type Mock, beforeEach, vi } from 'vitest'
+import { type Mock, beforeEach, vi, test, expect } from 'vitest'
 import { Player } from '~/routes/dashboard.scoreboards.$gameId/new-game/player'
 import { type Player as PlayerType } from '~/routes/dashboard.scoreboards.$gameId/api.server'
 import { createPlayer } from '~/test-utils'
