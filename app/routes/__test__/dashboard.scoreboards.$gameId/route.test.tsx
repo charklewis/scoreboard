@@ -4,11 +4,11 @@ import { render, screen } from '@testing-library/react'
 import { test, describe } from 'vitest'
 import Scoreboards from '~/routes/dashboard.scoreboards.$gameId/route'
 
-test('action', () => {
+describe('action', () => {
   test.todo('the action createNewPlayer will insert a new player')
 })
 
-test('loader', () => {
+describe('loader', () => {
   test.todo('if there are players it will return them along with the game status')
   test.todo('it will return an empty array for players and a status of error if the user is not authenticated')
 })

@@ -2,15 +2,15 @@ import { json } from '@remix-run/node'
 import { createRemixStub } from '@remix-run/testing'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { test } from 'vitest'
+import { test, describe } from 'vitest'
 import Scoreboards from '~/routes/dashboard.scoreboards/route'
 import { createScoreboardList } from '~/test-utils'
 
-test('action', () => {
+describe('action', () => {
   test.todo('the action scrabble will create a new game')
 })
 
-test('loader', () => {
+describe('loader', () => {
   test.todo('if there are scoreboards it will return them')
   test.todo('if there are no scoreboards it will return an empty array')
   test.todo('it will return an empty array if the user is not authenticated')
