@@ -52,8 +52,6 @@ async function getMessages(auth: any, email: string) {
     q: `to:${email}`,
   })
 
-  console.log({ response })
-
   if (!response.data.messages) {
     return []
   }
@@ -106,9 +104,7 @@ function getMessageContent(payload: any) {
 }
 
 async function getOneTimeCodeEmail(email: string) {
-  console.log({ email })
   const messages = await authorize().then((auth) => getMessages(auth, email))
-  console.log({ messages })
   const codes = messages.map((message) => {
     const { text } = getMessageContent(message.payload)
     return text.match(/\b\d{6}\b/)?.[0]
