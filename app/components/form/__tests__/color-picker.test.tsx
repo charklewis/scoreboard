@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi, type Mock } from 'vitest'
-import { useInputGroup } from '~/components/form/input-group'
 import { ColorPicker } from '~/components/form/color-picker'
+import { useInputGroup } from '~/components/form/input-group'
 import { color } from '~/database/static'
 
 vi.mock('~/components/form/input-group', () => ({ useInputGroup: vi.fn() }))

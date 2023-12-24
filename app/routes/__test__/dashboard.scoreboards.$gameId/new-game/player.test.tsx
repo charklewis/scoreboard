@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker'
-import { render, screen } from '@testing-library/react'
-import { type Mock, beforeEach, vi, test, expect } from 'vitest'
-import { Player } from '~/routes/dashboard.scoreboards.$gameId/new-game/player'
-import { type Player as PlayerType } from '~/routes/dashboard.scoreboards.$gameId/api.server'
-import { createPlayer } from '~/test-utils'
 import { useNavigation } from '@remix-run/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { type Mock, beforeEach, vi, test, expect } from 'vitest'
+import { type Player as PlayerType } from '~/routes/dashboard.scoreboards.$gameId/api.server'
+import { Player } from '~/routes/dashboard.scoreboards.$gameId/new-game/player'
+import { createPlayer } from '~/test-utils'
 
 vi.mock('@remix-run/react', async () => {
   const actual: Object = await vi.importActual('@remix-run/react')
