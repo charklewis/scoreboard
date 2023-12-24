@@ -52,6 +52,7 @@ async function getMessages(auth: any, email: string) {
     q: `to:${email}`,
   })
 
+  console.log('hi')
   if (!response.data.messages) {
     return []
   }
