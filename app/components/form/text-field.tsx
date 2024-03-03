@@ -3,11 +3,11 @@ import { Label, Input, useInputGroup, ErrorMessage } from '.'
 
 type Props = { label: ReactNode; input?: ComponentProps<typeof Input>; description?: string }
 
-function TextField(props: Props) {
+function DEPRECATED_TextField(props: Props) {
   const { name } = useInputGroup()
 
   return (
-    <div data-testid={`textfield-${name}`}>
+    <div data-testid={`DEPRECATED_TextField-${name}`}>
       <Label>{props.label}</Label>
       <div className="mt-2">
         <Input {...props.input} />
@@ -18,4 +18,4 @@ function TextField(props: Props) {
   )
 }
 
-export { TextField }
+export { DEPRECATED_TextField }

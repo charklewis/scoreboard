@@ -14,7 +14,7 @@ class Scrabble {
     await this.page.getByTestId(/button-new-scoreboard-scrabble/i).click()
     await this.page.waitForURL(/scoreboards\/[A-Za-z0-9]+/i)
     if (this.mode === 'mobile') {
-      const gameId = this.page.url().split('scoreboards/')[1]
+      const gameId = await this.page.url().split('scoreboards/')[1]
       await this.page.getByTestId(`link-${gameId}`).click()
     }
     await expect(this.page.getByText(/you can add up to 4 players/i)).toBeVisible()

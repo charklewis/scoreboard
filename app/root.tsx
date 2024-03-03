@@ -1,6 +1,16 @@
 import { type LoaderFunctionArgs, type LinksFunction, type MetaFunction, json } from '@remix-run/node'
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react'
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+  useNavigate,
+} from '@remix-run/react'
 import { Analytics } from '@vercel/analytics/react'
+import { NextUIProvider } from '@nextui-org/react'
 import { environment } from '~/services/environment.server'
 import { identity } from '~/services/identity.server'
 import stylesheet from '~/tailwind.css'
@@ -22,7 +32,9 @@ async function loader({ request }: LoaderFunctionArgs) {
 }
 
 function App() {
+  const navigate = useNavigate()
   const { ENV } = useLoaderData<typeof loader>()
+
   return (
     <html lang="en" className="h-full bg-white">
       <head>
@@ -33,7 +45,9 @@ function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Outlet />
+        <NextUIProvider className="h-full" navigate={navigate}>
+          <Outlet />
+        </NextUIProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

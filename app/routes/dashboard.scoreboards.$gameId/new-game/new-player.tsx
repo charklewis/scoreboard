@@ -3,7 +3,7 @@ import { useActionData, useNavigation } from '@remix-run/react'
 import { clsx } from 'clsx'
 import { useState, Fragment, useEffect } from 'react'
 import { LoadingSolidButton } from '~/components/button'
-import { Form, TextField, InputGroup, ErrorMessage, ColorPicker, EmojiPicker } from '~/components/form'
+import { Form, DEPRECATED_TextField, InputGroup, ErrorMessage, ColorPicker, EmojiPicker } from '~/components/form'
 import { color, emoji } from '~/database/static'
 
 function CreateNewPlayer() {
@@ -97,7 +97,7 @@ function CreateNewPlayer() {
                       ) : null}
 
                       <InputGroup name="name">
-                        <TextField label="Name" input={{ type: 'text' }} />
+                        <DEPRECATED_TextField label="Name" input={{ type: 'text' }} />
                         <ErrorMessage />
                       </InputGroup>
 

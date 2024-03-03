@@ -41,7 +41,9 @@ function NewGame() {
         <div className="mt-4 flex items-center gap-4">
           <SearchForPlayer
             playerLimitReached={players.length >= 4}
-            addPlayer={(player: PlayerType) => setPlayers((value) => [...value, player])}
+            addPlayer={(player: PlayerType) => {
+              setPlayers((value) => [...value, player])
+            }}
           />
           <CreateNewPlayer />
         </div>
