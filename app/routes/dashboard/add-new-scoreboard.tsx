@@ -9,7 +9,9 @@ function AddNewScoreboard() {
   return (
     <Dropdown isDisabled={isDisabled}>
       <DropdownTrigger>
-        <NextUiButton color="primary">New Game</NextUiButton>
+        <NextUiButton color="primary" variant="bordered">
+          New Game
+        </NextUiButton>
       </DropdownTrigger>
       <DropdownMenu color="primary" variant="flat" aria-label="New Game">
         <DropdownItem

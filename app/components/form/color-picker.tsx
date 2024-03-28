@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react'
 import { color } from '~/database/static'
 import { useForm, useInputGroup } from '.'
 
-const colors = Object.entries(color).map(([name, value]) => ({ name, ...value }))
+type Color = keyof typeof color
 
-function ColorPicker({ onChange }: { onChange?: (value: string) => void }) {
+const colors = Object.entries(color).map(([name, value]) => ({ name: name as Color, ...value }))
+
+function ColorPicker({ onChange }: { onChange?: (value: Color) => void }) {
   const { isLoading } = useForm()
   const { name } = useInputGroup()
   const [selectedColor, setSelectedColor] = useState(() => faker.helpers.arrayElement(colors).name)

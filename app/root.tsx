@@ -9,6 +9,7 @@ import {
   useLoaderData,
   useNavigate,
 } from '@remix-run/react'
+import { ThemeProvider } from 'next-themes'
 import { Analytics } from '@vercel/analytics/react'
 import { NextUIProvider } from '@nextui-org/react'
 import { environment } from '~/services/environment.server'
@@ -35,8 +36,10 @@ function App() {
   const navigate = useNavigate()
   const { ENV } = useLoaderData<typeof loader>()
 
+  // only applying suppressHydrationWarning due to ThemeProvider changing HTML class name on hydration
+  // look at updating to something like https://www.youtube.com/watch?v=UND-kib_iw4
   return (
-    <html lang="en" className="h-full bg-white">
+    <html lang="en" className="h-full bg-background text-foreground" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,7 +49,9 @@ function App() {
       </head>
       <body className="h-full">
         <NextUIProvider className="h-full" navigate={navigate}>
-          <Outlet />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Outlet />
+          </ThemeProvider>
         </NextUIProvider>
         <ScrollRestoration />
         <Scripts />

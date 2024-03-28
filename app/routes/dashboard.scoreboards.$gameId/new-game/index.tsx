@@ -35,12 +35,13 @@ function NewGame() {
     <div className="mx-auto max-w-screen-sm">
       <div>
         <div className="text-center">
-          <h1 className="mt-2 text-base font-semibold leading-6 text-gray-900">Add Players</h1>
-          <p className="mt-1 text-sm text-gray-500">You can add up to 4 players</p>
+          <h1 className="mt-2 text-base font-semibold leading-6">Add Players</h1>
+          <p className="mt-1 text-sm">You can add up to 4 players</p>
         </div>
         <div className="mt-4 flex items-center gap-4">
           <SearchForPlayer
             playerLimitReached={players.length >= 4}
+            selectedPlayers={players.map((player) => player.id)}
             addPlayer={(player: PlayerType) => {
               setPlayers((value) => [...value, player])
             }}

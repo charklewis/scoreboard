@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react'
 import { emoji } from '~/database/static'
 import { useForm, useInputGroup } from '.'
 
-const emojies = Object.entries(emoji).map(([name, value]) => ({ name, value }))
+type Emoji = keyof typeof emoji
 
-function EmojiPicker({ onChange }: { onChange?: (value: string) => void }) {
+const emojies = Object.entries(emoji).map(([name, value]) => ({ name: name as Emoji, value }))
+
+function EmojiPicker({ onChange }: { onChange?: (value: Emoji) => void }) {
   const { isLoading } = useForm()
   const { name } = useInputGroup()
   const [selectedEmoji, setSelectedEmoji] = useState(() => faker.helpers.arrayElement(emojies).name)
@@ -22,7 +24,7 @@ function EmojiPicker({ onChange }: { onChange?: (value: string) => void }) {
       <input type="hidden" value={selectedEmoji} id={name} name={name} data-testid={`input-hidden-${name}`} />
       <RadioGroup value={selectedEmoji} onChange={setSelectedEmoji} disabled={isLoading}>
         <RadioGroup.Label className="block text-sm font-medium leading-6 text-gray-900">Emoji</RadioGroup.Label>
-        <div className="mt-4 flex flex-wrap items-center">
+        <div className="mt-4 flex flex-wrap items-center justify-between">
           {emojies.map((emoji) => (
             <RadioGroup.Option
               key={emoji.name}
@@ -30,8 +32,8 @@ function EmojiPicker({ onChange }: { onChange?: (value: string) => void }) {
               data-testid={`input-${name}-${emoji.name}`}
               className={({ active, checked }) =>
                 clsx(
-                  active || checked ? 'border-neutral-900' : 'border-white',
-                  'relative m-1 flex cursor-pointer items-center justify-center rounded-full border-2 p-0.5 focus:outline-none'
+                  active || checked ? 'rounded-md bg-blue-700 bg-opacity-25' : '',
+                  'relative m-1 flex cursor-pointer items-center justify-center rounded-full border-white p-0.5 focus:outline-none'
                 )
               }
             >
