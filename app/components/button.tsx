@@ -24,4 +24,4 @@ function Button(
   )
 }
 
-export { Button as NewButton }
+export { Button }

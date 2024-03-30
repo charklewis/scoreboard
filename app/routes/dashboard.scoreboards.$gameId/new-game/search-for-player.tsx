@@ -1,8 +1,6 @@
 import { useLoaderData, useNavigation } from '@remix-run/react'
 import { type Player } from '../api.server'
 import { Autocomplete, AutocompleteItem, Avatar } from '@nextui-org/react'
-import clsx from 'clsx'
-import { color, emoji } from '~/database/static'
 
 function SearchForPlayer({
   playerLimitReached,
@@ -30,12 +28,12 @@ function SearchForPlayer({
 
   return (
     <Autocomplete
-      label="Search for a player to add to the game"
+      placeholder="Search for a player to add to the game"
       onSelectionChange={(key) => selectPlayer(String(key))}
       isDisabled={isDisabled}
       variant="bordered"
       listboxProps={{ variant: 'flat' }}
-      size="sm"
+      selectorButtonProps={{ variant: 'light' }}
     >
       {filteredPlayers.map((player) => (
         <AutocompleteItem key={player.id} value={player.id} textValue={player.name}>
@@ -43,7 +41,7 @@ function SearchForPlayer({
             <Avatar
               showFallback
               size="sm"
-              className={clsx(player.background)}
+              className={player.background}
               fallback={<div className="text-2xl">{player.emoji}</div>}
             />
             {player.name}

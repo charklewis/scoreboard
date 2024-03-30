@@ -66,7 +66,7 @@ async function startGame(stytchId: string, { gameId, players }: { gameId: string
     if (!roundId) {
       await tx.rollback()
     } else {
-      const roundPlayers = players.map((player) => ({ roundId, playerId: decode(player) }))
+      const roundPlayers = players.map((player) => ({ roundId, playerId: Number(decode(player)) }))
       await tx.insert(roundPlayer).values(roundPlayers)
     }
   })

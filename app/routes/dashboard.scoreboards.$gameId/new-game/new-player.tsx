@@ -1,9 +1,16 @@
 import { useActionData, useNavigation } from '@remix-run/react'
-import { clsx } from 'clsx'
-import { Modal, ModalContent, ModalHeader, ModalBody, useDisclosure, Avatar } from '@nextui-org/react'
+import { Modal, ModalContent, ModalHeader, ModalBody, useDisclosure, Avatar, Divider, cn } from '@nextui-org/react'
 import { useState, useEffect } from 'react'
-import { NewButton } from '~/components/_button'
-import { Form, InputGroup, ErrorMessage, ColorPicker, EmojiPicker, NewInput, Button } from '~/components/form'
+import { Button } from '~/components/button'
+import {
+  Form,
+  InputGroup,
+  ErrorMessage,
+  ColorPicker,
+  EmojiPicker,
+  Input,
+  Button as FormButton,
+} from '~/components/form'
 import { color, emoji } from '~/database/static'
 
 type Color = keyof typeof color
@@ -26,7 +33,7 @@ function CreateNewPlayer() {
 
   return (
     <>
-      <NewButton
+      <Button
         id="create-new=player"
         text="Create New Player"
         color="primary"
@@ -34,24 +41,26 @@ function CreateNewPlayer() {
         className="w-48"
         isDisabled={isDisabled}
       />
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="outside" hideCloseButton={true}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" hideCloseButton={true}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">Create New Player</ModalHeader>
           <ModalBody>
             {selectedColor && selectedEmoji ? (
-              <Avatar
-                showFallback
-                size="lg"
-                className={clsx(color[selectedColor].bgColor, 'mx-auto')}
-                fallback={<div className=" text-4xl">{emoji[selectedEmoji]}</div>}
-              />
+              <div>
+                <Avatar
+                  showFallback
+                  size="lg"
+                  className={cn(color[selectedColor].bgColor, 'mx-auto')}
+                  fallback={<div className=" text-4xl">{emoji[selectedEmoji]}</div>}
+                />
+              </div>
             ) : null}
             <Form id="create-new-player" action="?/createNewPlayer" className="space-y-6">
               <InputGroup name="name">
-                <NewInput label="Name" />
+                <Input label="Name" autoFocus />
               </InputGroup>
 
-              <Button
+              <FormButton
                 id="submit-create-new-player"
                 type="submit"
                 text="Add Player"
@@ -65,6 +74,8 @@ function CreateNewPlayer() {
                   {action.error}
                 </p>
               ) : null}
+
+              <Divider className="my-4" />
 
               <InputGroup name="color">
                 <ColorPicker onChange={(value: Color) => (selectedColor !== value ? setColor(value) : null)} />

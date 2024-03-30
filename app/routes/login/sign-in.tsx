@@ -1,6 +1,6 @@
 import { useActionData } from '@remix-run/react'
 
-import { Form, InputGroup, NewInput, Button } from '~/components/form'
+import { Form, InputGroup, Input, Button } from '~/components/form'
 
 function SignIn() {
   const { errors } = useActionData<{ errors?: { email: string; generic?: string } }>() || {}
@@ -11,7 +11,7 @@ function SignIn() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <Form id="login" action="?/sendOtp" errors={errors} className="space-y-6">
           <InputGroup name="email">
-            <NewInput label="Email" />
+            <Input label="Email" />
           </InputGroup>
           {errors?.generic ? (
             <p className="mt-2 text-sm text-red-600" data-testid="error-message-generic">

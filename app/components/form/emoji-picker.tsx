@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { RadioGroup } from '@headlessui/react'
-import { clsx } from 'clsx'
+import { cn } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { emoji } from '~/database/static'
 import { useForm, useInputGroup } from '.'
@@ -23,7 +23,7 @@ function EmojiPicker({ onChange }: { onChange?: (value: Emoji) => void }) {
     <>
       <input type="hidden" value={selectedEmoji} id={name} name={name} data-testid={`input-hidden-${name}`} />
       <RadioGroup value={selectedEmoji} onChange={setSelectedEmoji} disabled={isLoading}>
-        <RadioGroup.Label className="block text-sm font-medium leading-6 text-gray-900">Emoji</RadioGroup.Label>
+        <RadioGroup.Label className="block text-sm font-medium leading-6">Emoji</RadioGroup.Label>
         <div className="mt-4 flex flex-wrap items-center justify-between">
           {emojies.map((emoji) => (
             <RadioGroup.Option
@@ -31,7 +31,7 @@ function EmojiPicker({ onChange }: { onChange?: (value: Emoji) => void }) {
               value={emoji.name}
               data-testid={`input-${name}-${emoji.name}`}
               className={({ active, checked }) =>
-                clsx(
+                cn(
                   active || checked ? 'rounded-md bg-blue-700 bg-opacity-25' : '',
                   'relative m-1 flex cursor-pointer items-center justify-center rounded-full border-white p-0.5 focus:outline-none'
                 )

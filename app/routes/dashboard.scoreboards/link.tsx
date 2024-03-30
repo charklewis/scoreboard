@@ -1,5 +1,5 @@
 import { Link as RemixLink, useNavigation } from '@remix-run/react'
-import { clsx } from 'clsx'
+import { cn } from '@nextui-org/react'
 import { type ReactNode } from 'react'
 
 function Link({
@@ -21,10 +21,10 @@ function Link({
     <RemixLink
       id={`link-${id}`}
       to={href}
-      className={clsx(
+      className={cn(
         'my-1.5 block w-full rounded-md px-4 ',
         isDisabled ? 'pointer-events-none' : '',
-        isSelected ? 'lg:bg-neutral-200' : 'lg:hover:bg-neutral-100'
+        isSelected ? 'dark:bg-neutral-900 lg:bg-neutral-200' : 'dark:hover:bg-neutral-800  lg:hover:bg-neutral-100'
       )}
       onClick={(event) => (isDisabled ? event.preventDefault() : null)}
       data-testid={`link-${id}`}

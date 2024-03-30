@@ -1,4 +1,3 @@
-import { clsx } from 'clsx'
 import { useState } from 'react'
 import {
   Navbar as NextUiNavbar,
@@ -14,7 +13,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from '@nextui-org/react'
-import { LinkWithIcon } from './link'
 import { Link } from '~/components/link'
 import { AddNewScoreboard } from './add-new-scoreboard'
 
