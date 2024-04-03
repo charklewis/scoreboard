@@ -1,4 +1,4 @@
-import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction, json } from '@remix-run/node'
+import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -11,9 +11,9 @@ import {
 } from '@remix-run/react'
 import { NextUIProvider } from '@nextui-org/react'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/remix'
 import { ThemeProvider } from 'next-themes'
 
-import { environment } from '~/services/environment.server'
 import { identity } from '~/services/identity.server'
 import stylesheet from '~/tailwind.css'
 
@@ -30,7 +30,6 @@ async function loader({ request }: LoaderFunctionArgs) {
       failureRedirect: '/login',
     })
   }
-  return json({ ENV: { VERCEL_ANALYTICS_ID: environment.VERCEL_ANALYTICS_ID } })
 }
 
 function App() {
@@ -58,6 +57,7 @@ function App() {
         <Scripts />
         <LiveReload />
         <Analytics />
+        <SpeedInsights />
         <script dangerouslySetInnerHTML={{ __html: `window.ENV = ${JSON.stringify(ENV)}` }} />
       </body>
     </html>

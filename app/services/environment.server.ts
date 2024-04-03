@@ -5,7 +5,6 @@ declare global {
       COOKIE_SECRET: string
       STYTCH_PROJECT_ID: string
       STYTCH_SECRET: string
-      VERCEL_ANALYTICS_ID: string
       ID_HASH_SALT: string
     }
   }
@@ -25,7 +24,6 @@ const environment = {
   COOKIE_SECRET: getVariable('COOKIE_SECRET'),
   STYTCH_PROJECT_ID: getVariable('STYTCH_PROJECT_ID'),
   STYTCH_SECRET: getVariable('STYTCH_SECRET'),
-  VERCEL_ANALYTICS_ID: getVariable('VERCEL_ANALYTICS_ID'),
   ID_HASH_SALT: getVariable('ID_HASH_SALT'),
 }
 
