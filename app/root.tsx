@@ -12,6 +12,7 @@ import {
 import { NextUIProvider } from '@nextui-org/react'
 import { Analytics } from '@vercel/analytics/react'
 import { ThemeProvider } from 'next-themes'
+
 import { environment } from '~/services/environment.server'
 import { identity } from '~/services/identity.server'
 import stylesheet from '~/tailwind.css'

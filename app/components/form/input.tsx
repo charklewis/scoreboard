@@ -1,4 +1,5 @@
 import { type InputProps, Input as NextUiInput } from '@nextui-org/react'
+
 import { useForm, useInputGroup } from '.'
 
 function Input(props: Omit<InputProps, 'name' | 'id' | 'data-testid' | 'defaultValue' | 'error' | 'variant'>) {

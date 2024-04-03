@@ -2,6 +2,7 @@ import { type Mock, expect, test, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
 import { EmojiPicker } from '~/components/form/emoji-picker'
 import { useInputGroup } from '~/components/form/input-group'
 import { emoji } from '~/database/static'

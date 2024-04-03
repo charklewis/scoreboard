@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react'
+
 import { type Player as PlayerType } from '../api.server'
 
 const columns = [
@@ -43,7 +44,7 @@ function Players({
   const rows = players.map((player, index) => ({ ...player, index }))
   const renderCell = (player: (typeof rows)[0], columnKey: string) => {
     const getDisabledKeys = () => {
-      let keys = []
+      const keys = []
       if (player.index === 0) {
         keys.push('move-up')
       }

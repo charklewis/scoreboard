@@ -17,12 +17,7 @@ module.exports = {
     },
   },
   rules: {
-    'jsx-a11y/anchor-has-content': [
-      1,
-      {
-        ignoreComponents: ['Link'],
-      },
-    ],
+    'jsx-a11y/anchor-has-content': [2, { ignoreComponents: ['Link'] }],
     'import/order': [
       1,
       {

@@ -2,7 +2,9 @@ import { type ActionFunctionArgs, type LoaderFunctionArgs, json } from '@remix-r
 import { useLoaderData } from '@remix-run/react'
 import { namedAction } from 'remix-utils/named-action'
 import { array, string } from 'zod'
+
 import { identity } from '~/services/identity.server'
+
 import { type GameStatus, fetchScoreboardAndPlayers, insertPlayer, startGame } from './api.server'
 import { NewGame } from './new-game'
 

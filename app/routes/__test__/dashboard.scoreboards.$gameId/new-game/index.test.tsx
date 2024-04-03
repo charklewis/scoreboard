@@ -1,6 +1,7 @@
 import { expect, test, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { act, screen } from '@testing-library/react'
+
 import { NewGame } from '~/routes/dashboard.scoreboards.$gameId/new-game'
 import { createPlayer, renderWithRouter } from '~/test-utils'
 

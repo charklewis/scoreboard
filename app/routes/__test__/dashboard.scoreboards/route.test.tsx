@@ -1,6 +1,7 @@
 import { json } from '@remix-run/node'
 import { describe, test, vi } from 'vitest'
 import { screen } from '@testing-library/react'
+
 import Scoreboards from '~/routes/dashboard.scoreboards/route'
 import { createScoreboardList, renderWithRouter } from '~/test-utils'
 

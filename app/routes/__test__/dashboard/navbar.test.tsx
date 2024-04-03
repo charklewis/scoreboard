@@ -1,5 +1,6 @@
 import { expect, test, vi } from 'vitest'
 import { act, screen } from '@testing-library/react'
+
 import { Navbar } from '~/routes/dashboard/navbar'
 import { renderWithRouter } from '~/test-utils'
 

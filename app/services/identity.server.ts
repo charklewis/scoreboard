@@ -2,8 +2,10 @@ import { type SessionStorage } from '@remix-run/node'
 import { type AuthenticateOptions, Authenticator, Strategy } from 'remix-auth'
 import * as stytch from 'stytch'
 import { string } from 'zod'
+
 import { createUser } from '~/database/user'
 import { sessionStorage } from '~/services/session.server'
+
 import { environment } from './environment.server'
 
 type User = { stytchId: string }

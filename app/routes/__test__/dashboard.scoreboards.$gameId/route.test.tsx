@@ -2,6 +2,7 @@ import { json } from '@remix-run/node'
 import { describe, test, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { screen } from '@testing-library/react'
+
 import Scoreboards from '~/routes/dashboard.scoreboards.$gameId/route'
 import { renderWithRouter } from '~/test-utils'
 

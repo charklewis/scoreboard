@@ -11,5 +11,6 @@ module.exports = {
     'prefer-let/prefer-let': OFF,
     'prefer-const': WARN,
     'react/jsx-no-leaked-render': [WARN, { validStrategies: ['ternary'] }],
+    'jsx-a11y/anchor-has-content': [WARN, { ignoreComponents: ['Link'] }],
   },
 }

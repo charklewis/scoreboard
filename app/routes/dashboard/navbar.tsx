@@ -13,7 +13,9 @@ import {
   NavbarMenuToggle,
   Navbar as NextUiNavbar,
 } from '@nextui-org/react'
+
 import { Link } from '~/components/link'
+
 import { AddNewScoreboard } from './add-new-scoreboard'
 
 function Navbar() {

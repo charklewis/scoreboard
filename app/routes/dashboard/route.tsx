@@ -1,5 +1,6 @@
 import { type LoaderFunctionArgs, redirect } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
+
 import { Navbar } from './navbar'
 
 function loader({ request }: LoaderFunctionArgs) {

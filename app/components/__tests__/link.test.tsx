@@ -3,6 +3,7 @@ import { expect, test } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { render as renderRTL, screen } from '@testing-library/react'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
+
 import { Link } from '../link'
 
 const render = ({ ...props }: ComponentProps<typeof Link>) => {
