@@ -39,7 +39,7 @@ test('the button is disabled if isDisabled is true', () => {
   const text = faker.lorem.word()
   render({ id, text, isDisabled: true })
   const input = screen.getByTestId(`button-${id}`)
-  expect(input).toHaveAttribute('disabled', '')
+  expect(input).toBeDisabled()
 })
 
 test('the button is the navigation state is not idle', () => {
@@ -48,5 +48,5 @@ test('the button is the navigation state is not idle', () => {
   useNavigationMock.mockReturnValue({ state: 'loading' })
   render({ id, text })
   const input = screen.getByTestId(`button-${id}`)
-  expect(input).toHaveAttribute('disabled', '')
+  expect(input).toBeDisabled()
 })

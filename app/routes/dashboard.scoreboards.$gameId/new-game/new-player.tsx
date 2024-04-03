@@ -29,7 +29,7 @@ function CreateNewPlayer() {
     if (action?.success) {
       onClose()
     }
-  }, [action])
+  }, [action, onClose])
 
   return (
     <>

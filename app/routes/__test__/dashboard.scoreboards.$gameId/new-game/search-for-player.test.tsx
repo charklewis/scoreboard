@@ -37,7 +37,7 @@ test('the input will be disabled there are no players', async () => {
   const routes = [{ path, element, loader }]
   renderWithRouter(routes)
   const input = await screen.findByTestId(/input-search-for-player/i)
-  expect(input).toHaveProperty('disabled', true)
+  expect(input).toBeDisabled()
 })
 
 test('the input will be disabled the player limit is reached ', async () => {
@@ -47,7 +47,7 @@ test('the input will be disabled the player limit is reached ', async () => {
   const routes = [{ path, element, loader }]
   renderWithRouter(routes)
   const input = await screen.findByTestId(/input-search-for-player/i)
-  expect(input).toHaveProperty('disabled', true)
+  expect(input).toBeDisabled()
 })
 
 test('the input will be disabled if navigation state is not idle', async () => {
@@ -57,7 +57,7 @@ test('the input will be disabled if navigation state is not idle', async () => {
   const routes = [{ path, element, loader }]
   renderWithRouter(routes)
   const input = await screen.findByTestId(/input-search-for-player/i)
-  expect(input).toHaveProperty('disabled', true)
+  expect(input).toBeDisabled()
 })
 
 test('selected players do not show up as options', async () => {

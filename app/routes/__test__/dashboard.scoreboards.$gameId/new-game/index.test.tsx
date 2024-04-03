@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { NextUIProvider } from '@nextui-org/react'
-import { act, screen, within } from '@testing-library/react'
+import { act, screen } from '@testing-library/react'
 import { vi, test, expect } from 'vitest'
 import { NewGame } from '~/routes/dashboard.scoreboards.$gameId/new-game'
 import { createPlayer, renderWithRouter } from '~/test-utils'

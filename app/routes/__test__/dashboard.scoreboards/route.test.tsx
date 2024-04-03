@@ -1,7 +1,5 @@
 import { json } from '@remix-run/node'
-import { createRemixStub } from '@remix-run/testing'
-import { render, screen, within } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { screen } from '@testing-library/react'
 import { test, describe, vi } from 'vitest'
 import Scoreboards from '~/routes/dashboard.scoreboards/route'
 import { createScoreboardList, renderWithRouter } from '~/test-utils'

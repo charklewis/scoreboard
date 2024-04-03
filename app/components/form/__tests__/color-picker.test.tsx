@@ -20,7 +20,7 @@ test('renders color options to select a color', async () => {
   render(<ColorPicker />)
   await act(() => user.click(screen.getByText(color.name)))
   expect(screen.getByTestId(`input-hidden-${name}`)).toHaveValue(color.name)
-  expect(screen.getByTestId(`input-${name}-${color.name}`)).toHaveAttribute('aria-checked', 'true')
+  expect(screen.getByTestId(`input-${name}-${color.name}`)).toBeChecked()
 })
 
 test('can pass an onChange function', async () => {

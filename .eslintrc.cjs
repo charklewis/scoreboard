@@ -16,4 +16,12 @@ module.exports = {
       version: 28,
     },
   },
+  rules: {
+    'jsx-a11y/anchor-has-content': [
+      1,
+      {
+        ignoreComponents: ['Link'],
+      },
+    ],
+  },
 }
