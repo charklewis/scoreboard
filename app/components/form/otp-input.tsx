@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import { Input, type InputProps } from '@nextui-org/react'
 import OTPInput from 'react-otp-input'
 import { useInputGroup } from '.'
-import { Input, type InputProps } from '@nextui-org/react'
 
 function OtpInput() {
   const { name, error } = useInputGroup()

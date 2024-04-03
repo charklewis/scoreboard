@@ -1,11 +1,11 @@
-import { test, expect, vi, beforeEach, type Mock } from 'vitest'
 import { useNavigation } from '@remix-run/react'
-import { faker } from '@faker-js/faker'
-import userEvent from '@testing-library/user-event'
-import { act, render as renderRTL, screen } from '@testing-library/react'
 import { type ComponentProps } from 'react'
-import { Button } from '../button'
+import { type Mock, beforeEach, expect, test, vi } from 'vitest'
+import { faker } from '@faker-js/faker'
+import { act, render as renderRTL, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
+import { Button } from '../button'
 
 vi.mock('@remix-run/react', async () => {
   const actual: Object = await vi.importActual('@remix-run/react')

@@ -1,7 +1,7 @@
-import { faker } from '@faker-js/faker'
 import { json } from '@remix-run/node'
+import { describe, test, vi } from 'vitest'
+import { faker } from '@faker-js/faker'
 import { screen } from '@testing-library/react'
-import { test, describe, vi } from 'vitest'
 import Scoreboards from '~/routes/dashboard.scoreboards.$gameId/route'
 import { renderWithRouter } from '~/test-utils'
 

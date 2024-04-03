@@ -1,5 +1,5 @@
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button as NextUiButton } from '@nextui-org/react'
 import { useFetcher } from '@remix-run/react'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Button as NextUiButton } from '@nextui-org/react'
 
 function AddNewScoreboard() {
   const scrabble = useFetcher()

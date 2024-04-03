@@ -1,7 +1,7 @@
-import { faker } from '@faker-js/faker'
 import { useNavigation } from '@remix-run/react'
+import { type Mock, beforeEach, expect, test, vi } from 'vitest'
+import { faker } from '@faker-js/faker'
 import { act, screen } from '@testing-library/react'
-import { test, vi, type Mock, expect, beforeEach } from 'vitest'
 import { SearchForPlayer } from '~/routes/dashboard.scoreboards.$gameId/new-game/search-for-player'
 import { createPlayer, renderWithRouter } from '~/test-utils'
 

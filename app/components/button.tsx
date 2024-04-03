@@ -1,6 +1,6 @@
 import { useNavigation } from '@remix-run/react'
-import { type ButtonProps, Button as NextUiButton } from '@nextui-org/react'
 import { type ReactNode } from 'react'
+import { type ButtonProps, Button as NextUiButton } from '@nextui-org/react'
 
 function Button(
   props: Omit<ButtonProps, 'data-testid' | 'disableRipple' | 'children'> & { id: string; text: string | ReactNode }

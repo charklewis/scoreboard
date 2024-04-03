@@ -1,9 +1,9 @@
+import { type ReactNode } from 'react'
+import { type Mock, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { type ReactNode } from 'react'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
-import { type Mock, vi } from 'vitest'
 
 type Route = {
   path: string

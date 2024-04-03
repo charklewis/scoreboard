@@ -23,5 +23,22 @@ module.exports = {
         ignoreComponents: ['Link'],
       },
     ],
+    'import/order': [
+      1,
+      {
+        alphabetize: { caseInsensitive: true, order: 'asc' },
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling'],
+        pathGroups: [
+          { pattern: '@remix-*/**', group: 'external', position: 'before' },
+          { pattern: 'react', group: 'external', position: 'before' },
+          { pattern: '{react-*/**,react/*}', group: 'external', position: 'before' },
+          { pattern: '{nextui/**,@nextui/**}', group: 'external', position: 'before' },
+          { pattern: '@heroicons/**', group: 'external', position: 'before' },
+          { pattern: 'vitest', group: 'external', position: 'before' },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
+      },
+    ],
+    'sort-imports': ['warn', { ignoreDeclarationSort: true }],
   },
 }

@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, type LinksFunction, type MetaFunction, json } from '@remix-run/node'
+import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction, json } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -9,9 +9,9 @@ import {
   useLoaderData,
   useNavigate,
 } from '@remix-run/react'
-import { ThemeProvider } from 'next-themes'
-import { Analytics } from '@vercel/analytics/react'
 import { NextUIProvider } from '@nextui-org/react'
+import { Analytics } from '@vercel/analytics/react'
+import { ThemeProvider } from 'next-themes'
 import { environment } from '~/services/environment.server'
 import { identity } from '~/services/identity.server'
 import stylesheet from '~/tailwind.css'

@@ -1,5 +1,5 @@
+import { type Mock, describe, expect, test, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
-import { describe, test, expect, vi, type Mock } from 'vitest'
 import { loader } from '~/routes/logout'
 import { identity } from '~/services/identity.server'
 

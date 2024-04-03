@@ -1,5 +1,5 @@
+import { describe, test } from 'vitest'
 import { screen } from '@testing-library/react'
-import { test, describe } from 'vitest'
 import Dashboard from '~/routes/dashboard/route'
 import { renderWithRouter } from '~/test-utils'
 

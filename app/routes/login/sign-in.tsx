@@ -1,6 +1,6 @@
 import { useActionData } from '@remix-run/react'
 
-import { Form, InputGroup, Input, Button } from '~/components/form'
+import { Button, Form, Input, InputGroup } from '~/components/form'
 
 function SignIn() {
   const { errors } = useActionData<{ errors?: { email: string; generic?: string } }>() || {}

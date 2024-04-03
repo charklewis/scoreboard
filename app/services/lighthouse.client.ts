@@ -1,4 +1,4 @@
-import { onCLS, onFCP, onFID, onLCP, onTTFB, type Metric } from 'web-vitals'
+import { type Metric, onCLS, onFCP, onFID, onLCP, onTTFB } from 'web-vitals'
 
 declare global {
   interface Window {

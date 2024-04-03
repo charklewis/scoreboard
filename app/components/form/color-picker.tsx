@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react'
 import { faker } from '@faker-js/faker'
 import { RadioGroup } from '@headlessui/react'
 import { cn } from '@nextui-org/react'
-import { useEffect, useState } from 'react'
 import { color } from '~/database/static'
 import { useForm, useInputGroup } from '.'
 

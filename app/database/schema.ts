@@ -1,13 +1,13 @@
-import { relations, type InferSelectModel } from 'drizzle-orm'
+import { type InferSelectModel, relations } from 'drizzle-orm'
 import {
-  serial,
-  mysqlTable,
-  text,
-  timestamp,
+  boolean,
   datetime,
   int,
-  boolean,
+  mysqlTable,
   primaryKey,
+  serial,
+  text,
+  timestamp,
   varchar,
 } from 'drizzle-orm/mysql-core'
 

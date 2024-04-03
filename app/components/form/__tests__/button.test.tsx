@@ -1,12 +1,12 @@
-import { faker } from '@faker-js/faker'
 import { useNavigation } from '@remix-run/react'
+import { type ComponentProps } from 'react'
+import { type Mock, beforeEach, expect, test, vi } from 'vitest'
+import { faker } from '@faker-js/faker'
 import { act, render as renderRTL, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, test, vi, beforeEach, type Mock } from 'vitest'
-import { useForm } from '~/components/form/form'
-import { Button } from '~/components/form/button'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
-import { type ComponentProps } from 'react'
+import { Button } from '~/components/form/button'
+import { useForm } from '~/components/form/form'
 
 vi.mock('~/components/form/form', () => ({ useForm: vi.fn().mockReturnValue({ isLoading: false }) }))
 vi.mock('@remix-run/react', async () => {

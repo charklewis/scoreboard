@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { Button, Form } from '~/components/form'
 import { type Player as PlayerType } from '../api.server'
 import { CreateNewPlayer } from './new-player'
-import { SearchForPlayer } from './search-for-player'
 import { Players } from './players'
+import { SearchForPlayer } from './search-for-player'
 
 function NewGame() {
   const { error } = useActionData<{ error: string }>() || {}

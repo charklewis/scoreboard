@@ -1,15 +1,15 @@
 import { useActionData, useNavigation } from '@remix-run/react'
-import { Modal, ModalContent, ModalHeader, ModalBody, useDisclosure, Avatar, Divider, cn } from '@nextui-org/react'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Avatar, Divider, Modal, ModalBody, ModalContent, ModalHeader, cn, useDisclosure } from '@nextui-org/react'
 import { Button } from '~/components/button'
 import {
-  Form,
-  InputGroup,
-  ErrorMessage,
   ColorPicker,
   EmojiPicker,
-  Input,
+  ErrorMessage,
+  Form,
   Button as FormButton,
+  Input,
+  InputGroup,
 } from '~/components/form'
 import { color, emoji } from '~/database/static'
 

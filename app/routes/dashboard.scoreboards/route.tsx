@@ -1,12 +1,12 @@
-import { type LoaderFunctionArgs, json, type ActionFunctionArgs, redirect } from '@remix-run/node'
+import { type ActionFunctionArgs, type LoaderFunctionArgs, json, redirect } from '@remix-run/node'
 import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
-import { cn, Button } from '@nextui-org/react'
 import { Fragment, useState } from 'react'
+import { ChevronLeftIcon } from '@heroicons/react/20/solid'
+import { Button, cn } from '@nextui-org/react'
 import { namedAction } from 'remix-utils/named-action'
 import { identity } from '~/services/identity.server'
 import { fetchScoreboards, insertGame } from './api.server'
 import { Link } from './link'
-import { ChevronLeftIcon } from '@heroicons/react/20/solid'
 
 async function action({ request }: ActionFunctionArgs) {
   const user = await identity.isAuthenticated(request.clone())

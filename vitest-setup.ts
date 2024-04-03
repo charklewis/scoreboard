@@ -1,6 +1,6 @@
+import { beforeEach, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import '@testing-library/jest-dom/vitest'
-import { beforeEach, vi } from 'vitest'
 
 //require for @headlessui/react Transition & Dialog
 global.ResizeObserver = require('resize-observer-polyfill')

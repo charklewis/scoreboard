@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import {
-  Navbar as NextUiNavbar,
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   NavbarBrand,
-  NavbarMenuToggle,
-  NavbarMenuItem,
-  NavbarMenu,
   NavbarContent,
   NavbarItem,
-  Dropdown,
-  DropdownTrigger,
-  Avatar,
-  DropdownMenu,
-  DropdownItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+  Navbar as NextUiNavbar,
 } from '@nextui-org/react'
 import { Link } from '~/components/link'
 import { AddNewScoreboard } from './add-new-scoreboard'

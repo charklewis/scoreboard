@@ -1,20 +1,20 @@
-import { type Player as PlayerType } from '../api.server'
-import {
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableHeader,
-  TableColumn,
-  Avatar,
-  Dropdown,
-  DropdownTrigger,
-  Button,
-  DropdownMenu,
-  DropdownItem,
-} from '@nextui-org/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import { ArrowDownIcon, ArrowUpIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from '@nextui-org/react'
+import { type Player as PlayerType } from '../api.server'
 
 const columns = [
   { key: 'player', label: 'Player' },

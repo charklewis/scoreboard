@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigation } from '@remix-run/react'
-import { type Player } from '../api.server'
 import { Autocomplete, AutocompleteItem, Avatar } from '@nextui-org/react'
+import { type Player } from '../api.server'
 
 function SearchForPlayer({
   playerLimitReached,

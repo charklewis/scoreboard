@@ -1,10 +1,10 @@
-import { faker } from '@faker-js/faker'
 import { redirect } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
+import { type Mock, beforeEach, describe, expect, test, vi } from 'vitest'
+import { faker } from '@faker-js/faker'
 import { screen } from '@testing-library/react'
-import { describe, test, expect, vi, type Mock, beforeEach } from 'vitest'
 import Login, { action } from '~/routes/login/route'
-import { loginWithOtp, identity } from '~/services/identity.server'
+import { identity, loginWithOtp } from '~/services/identity.server'
 import { renderWithRouter } from '~/test-utils'
 
 vi.mock('~/services/identity.server', () => ({ identity: { authenticate: vi.fn() }, loginWithOtp: vi.fn() }))

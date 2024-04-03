@@ -1,7 +1,7 @@
+import { type Mock, beforeEach, expect, test, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, test, vi, beforeEach, type Mock } from 'vitest'
 import { useForm } from '~/components/form/form'
 import { Input } from '~/components/form/input'
 import { useInputGroup } from '~/components/form/input-group'

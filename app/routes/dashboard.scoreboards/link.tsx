@@ -1,6 +1,6 @@
 import { Link as RemixLink, useNavigation } from '@remix-run/react'
-import { cn } from '@nextui-org/react'
 import { type ReactNode } from 'react'
+import { cn } from '@nextui-org/react'
 
 function Link({
   id,
