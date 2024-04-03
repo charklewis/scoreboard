@@ -10,7 +10,7 @@ function Input(props: Omit<InputProps, 'name' | 'id' | 'data-testid' | 'defaultV
       id={name}
       name={name}
       data-testid={`input-${name}`}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue || ''}
       isReadOnly={isLoading || props.isReadOnly}
       isInvalid={Boolean(error)}
       errorMessage={error}

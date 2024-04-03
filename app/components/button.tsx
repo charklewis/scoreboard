@@ -5,8 +5,8 @@ import { type ReactNode } from 'react'
 function Button(
   props: Omit<ButtonProps, 'data-testid' | 'disableRipple' | 'children'> & { id: string; text: string | ReactNode }
 ) {
-  const navigation = useNavigation()
-  const isDisabled = navigation.state !== 'idle' || props.isDisabled
+  const { state } = useNavigation()
+  const isDisabled = state !== 'idle' || props.isDisabled
 
   return (
     <NextUiButton

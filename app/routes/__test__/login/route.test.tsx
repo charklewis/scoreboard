@@ -169,7 +169,8 @@ describe('component', () => {
   })
 
   test('a user can login using an email', async () => {
-    renderWithRouter(<Login />, path)
+    const routes = [{ path, element: <Login /> }]
+    renderWithRouter(routes)
     await screen.findByText(/sign in to your account/i)
     screen.getByLabelText(/email/i)
   })
@@ -178,7 +179,8 @@ describe('component', () => {
     const methodId = faker.string.uuid()
     const email = faker.internet.email()
     MockUseActionData.mockReturnValue({ methodId, email })
-    renderWithRouter(<Login />, path)
+    const routes = [{ path, element: <Login /> }]
+    renderWithRouter(routes)
     await screen.findByText(/enter your otp code/i)
   })
 })

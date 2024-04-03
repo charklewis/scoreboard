@@ -1,8 +1,11 @@
+import { faker } from '@faker-js/faker'
 import { json } from '@remix-run/node'
-import { createRemixStub } from '@remix-run/testing'
-import { render, screen } from '@testing-library/react'
-import { test, describe } from 'vitest'
+import { screen } from '@testing-library/react'
+import { test, describe, vi } from 'vitest'
 import Scoreboards from '~/routes/dashboard.scoreboards.$gameId/route'
+import { renderWithRouter } from '~/test-utils'
+
+const path = `/dashboard/scoreboards/${faker.string.uuid()}`
 
 describe('action', () => {
   test.todo('the action createNewPlayer will insert a new player')
@@ -15,35 +18,31 @@ describe('loader', () => {
 
 describe('component', () => {
   test('user can create a new game', async () => {
-    const Component = createRemixStub([
-      { path: '/', Component: Scoreboards, loader: () => json({ gameStatus: 'new', players: [] }) },
-    ])
-    render(<Component />)
+    const loader = vi.fn().mockReturnValue(json({ gameStatus: 'new', players: [] }))
+    const routes = [{ path, element: <Scoreboards />, loader }]
+    renderWithRouter(routes)
     await screen.findByText(/add players/i)
     screen.getByText(/you can add up to 4 players/i)
   })
 
   test('user can play a game', async () => {
-    const Component = createRemixStub([
-      { path: '/', Component: Scoreboards, loader: () => json({ gameStatus: 'in-progress', players: [] }) },
-    ])
-    render(<Component />)
+    const loader = vi.fn().mockReturnValue(json({ gameStatus: 'in-progress', players: [] }))
+    const routes = [{ path, element: <Scoreboards />, loader }]
+    renderWithRouter(routes)
     await screen.findByText(/in progress/i)
   })
 
   test('user view a finished game', async () => {
-    const Component = createRemixStub([
-      { path: '/', Component: Scoreboards, loader: () => json({ gameStatus: 'finished', players: [] }) },
-    ])
-    render(<Component />)
+    const loader = vi.fn().mockReturnValue(json({ gameStatus: 'finished', players: [] }))
+    const routes = [{ path, element: <Scoreboards />, loader }]
+    renderWithRouter(routes)
     await screen.findByText(/finished/i)
   })
 
   test('user view a finished game', async () => {
-    const Component = createRemixStub([
-      { path: '/', Component: Scoreboards, loader: () => json({ gameStatus: 'error', players: [] }) },
-    ])
-    render(<Component />)
+    const loader = vi.fn().mockReturnValue(json({ gameStatus: 'error', players: [] }))
+    const routes = [{ path, element: <Scoreboards />, loader }]
+    renderWithRouter(routes)
     await screen.findByText(/error/i)
   })
 })

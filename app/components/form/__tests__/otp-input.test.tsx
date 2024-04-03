@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi, type Mock } from 'vitest'
 import { useInputGroup } from '~/components/form/input-group'
@@ -16,7 +16,7 @@ test('renders an input to enter a code', async () => {
   const user = userEvent.setup()
   render(<OtpInput />)
   const input = screen.getByTestId(`input-${name}-0`)
-  await user.type(input, code)
+  await act(() => user.type(input, code))
   ;[0, 1, 2, 3, 4, 5].forEach((index) => {
     expect(screen.getByTestId(`input-${name}-${index}`)).toHaveValue(code[index])
   })
@@ -29,7 +29,7 @@ test('renders a hidden input that has the value', async () => {
   const user = userEvent.setup()
   render(<OtpInput />)
   const input = screen.getByTestId(`input-${name}-0`)
-  await user.type(input, code)
+  await act(() => user.type(input, code))
   expect(screen.getByTestId(`input-hidden-${name}`)).toHaveValue(code)
 })
 
@@ -40,7 +40,7 @@ test('user can paste a code', async () => {
   const user = userEvent.setup()
   render(<OtpInput />)
   const input = screen.getByTestId(`input-${name}-0`)
-  await user.click(input)
-  await user.paste(code)
+  await act(() => user.click(input))
+  await act(() => user.paste(code))
   expect(screen.getByTestId(`input-hidden-${name}`)).toHaveValue(code)
 })

@@ -34,7 +34,7 @@ function CreateNewPlayer() {
   return (
     <>
       <Button
-        id="create-new=player"
+        id="create-new-player"
         text="Create New Player"
         color="primary"
         onPress={onOpen}
@@ -44,6 +44,7 @@ function CreateNewPlayer() {
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" hideCloseButton={true}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">Create New Player</ModalHeader>
+
           <ModalBody>
             {selectedColor && selectedEmoji ? (
               <div>

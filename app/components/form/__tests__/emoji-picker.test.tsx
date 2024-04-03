@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi, type Mock } from 'vitest'
 import { EmojiPicker } from '~/components/form/emoji-picker'
@@ -18,7 +18,7 @@ test('renders emoji options to select an emoji', async () => {
   UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<EmojiPicker />)
-  await user.click(screen.getByText(emoji.name))
+  await act(() => user.click(screen.getByText(emoji.name)))
   expect(screen.getByTestId(`input-hidden-${name}`)).toHaveValue(emoji.name)
 })
 
@@ -29,7 +29,7 @@ test('can pass an onChange function', async () => {
   UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<EmojiPicker onChange={onChange} />)
-  await user.click(screen.getByText(emoji.name))
+  await act(() => user.click(screen.getByText(emoji.name)))
   expect(onChange).toHaveBeenCalledWith(emoji.name)
 })
 

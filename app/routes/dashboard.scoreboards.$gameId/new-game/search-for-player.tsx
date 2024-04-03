@@ -34,15 +34,18 @@ function SearchForPlayer({
       variant="bordered"
       listboxProps={{ variant: 'flat' }}
       selectorButtonProps={{ variant: 'light' }}
+      data-testid="input-search-for-player"
+      aria-label="Search for a player to add to the game"
     >
       {filteredPlayers.map((player) => (
         <AutocompleteItem key={player.id} value={player.id} textValue={player.name}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" data-testid={`search-for-player-${player.id}`}>
             <Avatar
               showFallback
               size="sm"
               className={player.background}
               fallback={<div className="text-2xl">{player.emoji}</div>}
+              aria-label={player.name}
             />
             {player.name}
           </div>

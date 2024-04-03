@@ -9,7 +9,7 @@ function AddNewScoreboard() {
   return (
     <Dropdown isDisabled={isDisabled}>
       <DropdownTrigger>
-        <NextUiButton color="primary" variant="bordered">
+        <NextUiButton data-testid="button-navbar-new-game" color="primary" variant="flat">
           New Game
         </NextUiButton>
       </DropdownTrigger>

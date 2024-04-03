@@ -71,15 +71,19 @@ function Players({
         return (
           <Dropdown>
             <DropdownTrigger>
-              <Button isIconOnly size="sm" variant="light">
+              <Button isIconOnly size="sm" variant="light" data-testid={`button-player-options-${player.id}`}>
                 <EllipsisVerticalIcon className="h-5 w-5" />
               </Button>
             </DropdownTrigger>
-            <DropdownMenu variant="light" disabledKeys={getDisabledKeys()}>
+            <DropdownMenu
+              variant="light"
+              disabledKeys={getDisabledKeys()}
+              onAction={(action) => console.log({ action })}
+            >
               <DropdownItem
                 key="move-up"
                 onClick={() => movePlayer(player.id, 'up')}
-                data-testid={`button-move-up-player-${player.index}`}
+                data-testid={`button-move-up-player-${player.id}`}
                 startContent={<ArrowUpIcon className="h-3 w-3" />}
               >
                 Move Up
@@ -87,18 +91,17 @@ function Players({
               <DropdownItem
                 key="move-down"
                 onClick={() => movePlayer(player.id, 'down')}
-                data-testid={`button-move-down-player-${player.index}`}
+                data-testid={`button-move-down-player-${player.id}`}
                 startContent={<ArrowDownIcon className="h-3 w-3" />}
                 showDivider
               >
                 Move Down
               </DropdownItem>
-
               <DropdownItem
                 color="danger"
                 key="remove"
                 onClick={() => removePlayer(player.id)}
-                data-testid={`button-remove-player-${player.index}`}
+                data-testid={`button-remove-player-${player.id}`}
                 startContent={<XMarkIcon className="h-4 w-4" />}
               >
                 Remove Player

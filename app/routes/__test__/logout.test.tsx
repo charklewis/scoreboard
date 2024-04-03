@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { describe, test, expect, vi, type Mock } from 'vitest'
 import { loader } from '~/routes/logout'
 import { identity } from '~/services/identity.server'
@@ -7,11 +8,9 @@ vi.mock('~/services/identity.server', () => ({ identity: { logout: vi.fn() } }))
 const LogoutMock = identity.logout as Mock
 
 function createRequest(route: string) {
-  return {
-    request: new Request(`http://test${route}`),
-    params: {},
-    context: {},
-  }
+  const url = faker.internet.url()
+  const request = new Request(`${url}${route}`)
+  return { request, params: {}, context: {} }
 }
 
 describe('loader', () => {

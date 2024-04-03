@@ -14,7 +14,6 @@ function Link({
   children: ReactNode
 }) {
   const navigation = useNavigation()
-
   const isDisabled = navigation.state !== 'idle'
 
   return (
