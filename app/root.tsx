@@ -1,19 +1,10 @@
-import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction, json } from '@remix-run/node'
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-  useNavigate,
-} from '@remix-run/react'
+import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useNavigate } from '@remix-run/react'
 import { NextUIProvider } from '@nextui-org/react'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/remix'
 import { ThemeProvider } from 'next-themes'
 
-import { environment } from '~/services/environment.server'
 import { identity } from '~/services/identity.server'
 import stylesheet from '~/tailwind.css'
 
@@ -30,12 +21,11 @@ async function loader({ request }: LoaderFunctionArgs) {
       failureRedirect: '/login',
     })
   }
-  return json({ ENV: { VERCEL_ANALYTICS_ID: environment.VERCEL_ANALYTICS_ID } })
+  return null
 }
 
 function App() {
   const navigate = useNavigate()
-  const { ENV } = useLoaderData<typeof loader>()
 
   // only applying suppressHydrationWarning due to ThemeProvider changing HTML class name on hydration
   // look at updating to something like https://www.youtube.com/watch?v=UND-kib_iw4
@@ -58,7 +48,7 @@ function App() {
         <Scripts />
         <LiveReload />
         <Analytics />
-        <script dangerouslySetInnerHTML={{ __html: `window.ENV = ${JSON.stringify(ENV)}` }} />
+        <SpeedInsights />
       </body>
     </html>
   )
