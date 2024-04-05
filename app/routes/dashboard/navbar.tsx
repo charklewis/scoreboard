@@ -70,8 +70,10 @@ function Navbar() {
             <DropdownItem textValue="email" key="profile" className="h-14 gap-2 opacity-100" isReadOnly showDivider>
               <p className="font-semibold">zoey@example.com</p>
             </DropdownItem>
-            <DropdownItem key="settings">Settings</DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem key="settings" data-testid="link-settings">
+              Settings
+            </DropdownItem>
+            <DropdownItem key="logout" color="danger" data-testid="link-logout" href="/logout">
               Log Out
             </DropdownItem>
           </DropdownMenu>
