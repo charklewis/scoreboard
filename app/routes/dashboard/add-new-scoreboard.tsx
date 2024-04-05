@@ -17,6 +17,7 @@ function AddNewScoreboard() {
         <DropdownItem
           key="scrabble"
           onClick={() => scrabble.submit({}, { action: '/dashboard/scoreboards?/scrabble', method: 'POST' })}
+          data-testid="button-navbar-new-game-scrabble"
         >
           Scrabble
         </DropdownItem>
