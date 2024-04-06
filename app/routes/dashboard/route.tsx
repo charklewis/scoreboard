@@ -14,7 +14,6 @@ function loader({ request }: LoaderFunctionArgs) {
 function Dashboard() {
   return (
     <div>
-      <p>TESTING</p>
       <Navbar />
       <main data-testid="dashboard-content">
         <Outlet />
