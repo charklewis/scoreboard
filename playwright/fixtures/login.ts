@@ -17,14 +17,17 @@ const login: TestFixture<Fixture['login'], PlaywrightTestArgs> = async ({ page }
     await page.getByTestId(/input-email/i).fill(email)
     await page.getByTestId(/button-sign-in/i).click()
 
-    const code = await promiseRetry(async (retry) => {
-      return getOneTimeCodeEmail(email)
-        .then((code) => {
-          if (code) return code
-          throw new Error('no code')
-        })
-        .catch(retry)
-    })
+    const code = await promiseRetry(
+      async (retry) => {
+        return getOneTimeCodeEmail(email)
+          .then((code) => {
+            if (code) return code
+            throw new Error('no code')
+          })
+          .catch(retry)
+      },
+      { retries: 20 }
+    )
 
     await page.getByTestId(/input-code-0/i).pressSequentially(code)
     await page.getByTestId(/button-submit-otp/i).click()
