@@ -1,7 +1,8 @@
+import { type Mock, expect, test, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, test, vi, type Mock } from 'vitest'
+
 import { ColorPicker } from '~/components/form/color-picker'
 import { useInputGroup } from '~/components/form/input-group'
 import { color } from '~/database/static'
@@ -18,8 +19,9 @@ test('renders color options to select a color', async () => {
   UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<ColorPicker />)
-  await user.click(screen.getByText(color.name))
+  await act(() => user.click(screen.getByText(color.name)))
   expect(screen.getByTestId(`input-hidden-${name}`)).toHaveValue(color.name)
+  expect(screen.getByTestId(`input-${name}-${color.name}`)).toBeChecked()
 })
 
 test('can pass an onChange function', async () => {
@@ -29,7 +31,7 @@ test('can pass an onChange function', async () => {
   UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<ColorPicker onChange={onChange} />)
-  await user.click(screen.getByText(color.name))
+  await act(() => user.click(screen.getByText(color.name)))
   expect(onChange).toHaveBeenCalledWith(color.name)
 })
 

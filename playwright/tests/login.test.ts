@@ -6,27 +6,19 @@ beforeEach(async ({ page }) => {
 })
 
 describe('desktop', () => {
-  test('a user can login and logout', async ({ page, sandboxLogin, baseURL }) => {
+  test('a user can login and logout', async ({ page, sandboxLogin, baseURL, logout }) => {
     await sandboxLogin()
-
     await expect(page.getByTestId(/dashboard-content/i)).toBeVisible()
-    await page.getByTestId(/link-logout/i).click()
-
+    await logout()
     await page.waitForURL(`${baseURL}/login`)
   })
 })
 
 describe('mobile', () => {
-  test('a user can login and logout', async ({ page, sandboxLogin, within, baseURL }) => {
+  test('a user can login and logout', async ({ page, sandboxLogin, logout, baseURL }) => {
     await sandboxLogin()
-
     await expect(page.getByTestId(/dashboard-content/i)).toBeVisible()
-
-    await page.getByTestId(/button-sidebar-mobile/i).click()
-
-    const sidebar = within(page.getByTestId(/navbar-mobile/i))
-    await sidebar.getByTestId(/link-logout/i).click()
-
+    await logout()
     await page.waitForURL(`${baseURL}/login`)
   })
 })

@@ -1,13 +1,14 @@
-import { ChevronLeftIcon } from '@heroicons/react/20/solid'
-import { type LoaderFunctionArgs, json, type ActionFunctionArgs, redirect } from '@remix-run/node'
+import { type ActionFunctionArgs, type LoaderFunctionArgs, json, redirect } from '@remix-run/node'
 import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
-import { clsx } from 'clsx'
 import { Fragment, useState } from 'react'
+import { ChevronLeftIcon } from '@heroicons/react/20/solid'
+import { Button, cn } from '@nextui-org/react'
 import { namedAction } from 'remix-utils/named-action'
+
 import { identity } from '~/services/identity.server'
+
 import { fetchScoreboards, insertGame } from './api.server'
 import { Link } from './link'
-import { Player } from './player'
 
 async function action({ request }: ActionFunctionArgs) {
   const user = await identity.isAuthenticated(request.clone())
@@ -46,8 +47,8 @@ function Scoreboards() {
   return (
     <div className="flex">
       <ul
-        className={clsx(
-          'h-[calc(100vh-64px)] w-full overflow-y-scroll border-black/10 px-2 lg:w-72 lg:border-r',
+        className={cn(
+          'h-[calc(100vh-64px)] w-full overflow-y-scroll border-black/10 px-2 dark:border-white/10 lg:w-72 lg:border-r',
           showOutlet ? 'hidden lg:block' : 'block'
         )}
       >
@@ -62,11 +63,11 @@ function Scoreboards() {
               <Fragment key={scoreboard.id}>
                 <Link isSelected={isSelected} id={scoreboard.id} href={scoreboard.id}>
                   <li
-                    className={clsx('flex flex-wrap items-center justify-between gap-x-6 py-2')}
+                    className={cn('flex flex-wrap items-center justify-between gap-x-6 py-2')}
                     onClick={() => setShowOutlet(true)}
                   >
                     <div>
-                      <p className="text-sm font-semibold capitalize leading-6 text-neutral-900">{scoreboard.title}</p>
+                      <p className="text-sm font-semibold capitalize leading-6">{scoreboard.title}</p>
                       <div className="flex items-center gap-x-2 text-xs leading-5 text-neutral-500">
                         <time dateTime={scoreboard.createdAt}>{new Date(scoreboard.createdAt).toDateString()}</time>
                       </div>
@@ -74,28 +75,30 @@ function Scoreboards() {
                     <dl className="mt-1 flex w-full flex-none justify-between gap-x-8">
                       <div className="flex -space-x-0.5">
                         <dt className="sr-only">Players</dt>
-                        {scoreboard.players.map((player: any) => (
+                        {/* {scoreboard.players.map((player: any) => (
                           <Player key={player.id} player={player} />
-                        ))}
+                        ))} */}
+                        {/* return an avatar group here with tool tip */}
                       </div>
                     </dl>
                   </li>
                 </Link>
-                <div className="border-t border-black/5" />
               </Fragment>
             )
           })
         )}
       </ul>
-      <div className={clsx('w-full p-6 lg:block lg:w-[calc(100%-18rem)]', showOutlet ? 'relative block' : 'hidden')}>
-        <button
-          className="absolute left-5 top-[2.125rem] flex items-center text-sm font-medium text-green-600 lg:hidden"
+      <div className={cn('w-full p-6 lg:block lg:w-[calc(100%-18rem)]', showOutlet ? 'relative block' : 'hidden')}>
+        <Button
           onClick={() => setShowOutlet(false)}
           data-testid="button-scoreboards-back"
+          className="absolute left-3 top-4 lg:hidden"
+          variant="light"
+          size="sm"
+          isIconOnly
         >
           <ChevronLeftIcon className="h-5 w-5" />
-          Back
-        </button>
+        </Button>
         <Outlet />
       </div>
     </div>

@@ -1,7 +1,6 @@
 import { useActionData, useNavigation } from '@remix-run/react'
 
-import { LoadingSolidButton, LoadingTextButton } from '~/components/button'
-import { ErrorMessage, Form, InputGroup, OtpInput } from '~/components/form'
+import { Button, ErrorMessage, Form, InputGroup, OtpInput } from '~/components/form'
 
 function OneTimeCode() {
   const { errors, methodId, email, sent } =
@@ -10,7 +9,7 @@ function OneTimeCode() {
   const isLoading = navigation.state !== 'idle'
   return (
     <>
-      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">Verification</h2>
+      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Verification</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <Form id="otp" action="?/verifyOtp" className="space-y-6" errors={errors}>
           <input type="hidden" name="methodId" value={methodId} />
@@ -20,21 +19,29 @@ function OneTimeCode() {
             <OtpInput />
             <ErrorMessage />
           </InputGroup>
-          <LoadingSolidButton id="submit-otp" type="submit" text="Verify" loadingText="Verifying..." />
+          <Button
+            id="submit-otp"
+            type="submit"
+            text="Verify"
+            loadingText="Verify..."
+            color="primary"
+            className="w-full"
+          />
         </Form>
-        <div className="w-full border-t border-neutral-200" />
-        <Form id="otp-resend" action="?/resendOtp" className="space-y-6">
+
+        <Form id="otp-resend" action="?/resendOtp" className="space-y-3">
           <input type="hidden" name="email" value={email} />
           <div>
-            <LoadingTextButton
+            <Button
               id="resend-otp"
-              variant="secondary"
               type="submit"
+              variant="light"
               text="Resend new code"
               loadingText="Sending..."
+              className="w-full"
             />
             {!isLoading && sent ? (
-              <p className="text-center text-xs text-neutral-600" data-testid="resend-code-timestamp">
+              <p className="mt-4 text-center text-xs text-neutral-600" data-testid="resend-code-timestamp">
                 Sent: {new Date(sent).toLocaleString()}
               </p>
             ) : null}

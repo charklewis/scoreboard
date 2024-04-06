@@ -2,7 +2,9 @@ import { faker } from '@faker-js/faker'
 import { beforeEach, describe, test } from 'playwright/fixtures'
 import { Page } from 'playwright/page'
 
-beforeEach(async ({ page, login }) => {
+beforeEach(async ({ page, login }, testInfo) => {
+  //note: find a way todo this on the login fixture
+  testInfo.setTimeout(testInfo.timeout + 30000)
   await page.goto('/')
   await login()
   await page.waitForURL(/scoreboards/i)

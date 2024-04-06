@@ -1,7 +1,8 @@
+import { type Mock, beforeEach, expect, test, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, test, vi, beforeEach, type Mock } from 'vitest'
+
 import { useForm } from '~/components/form/form'
 import { Input } from '~/components/form/input'
 import { useInputGroup } from '~/components/form/input-group'
@@ -22,7 +23,7 @@ test('renders an input', async () => {
   UseInputGroupMock.mockReturnValue({ name })
   const user = userEvent.setup()
   render(<Input />)
-  await user.type(screen.getByTestId(`input-${name}`), value)
+  await act(() => user.type(screen.getByTestId(`input-${name}`), value))
   expect(screen.getByTestId(`input-${name}`)).toHaveValue(value)
 })
 
@@ -42,7 +43,7 @@ test('renders an input different types', async () => {
   render(<Input type="email" />)
   const input = screen.getByTestId(`input-${name}`)
   expect(input).toHaveAttribute('type', 'email')
-  await user.type(input, email)
+  await act(() => user.type(input, email))
 })
 
 test('renders an input with default text', () => {

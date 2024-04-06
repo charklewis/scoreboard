@@ -1,8 +1,10 @@
-import { json, type ActionFunctionArgs } from '@remix-run/node'
+import { type ActionFunctionArgs, json } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
 import { namedAction } from 'remix-utils/named-action'
 import { string } from 'zod'
+
 import { identity, loginWithOtp } from '~/services/identity.server'
+
 import { OneTimeCode } from './one-time-code'
 import { SignIn } from './sign-in'
 
@@ -59,9 +61,9 @@ function Login() {
   const { methodId } = useActionData<{ methodId?: string }>() || {}
 
   return (
-    <main className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <section className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">{methodId ? <OneTimeCode /> : <SignIn />}</div>
-    </main>
+    </section>
   )
 }
 

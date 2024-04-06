@@ -1,138 +1,97 @@
-import { Dialog, Transition } from '@headlessui/react'
 import { useActionData, useNavigation } from '@remix-run/react'
-import { clsx } from 'clsx'
-import { useState, Fragment, useEffect } from 'react'
-import { LoadingSolidButton } from '~/components/button'
-import { Form, TextField, InputGroup, ErrorMessage, ColorPicker, EmojiPicker } from '~/components/form'
+import { useEffect, useState } from 'react'
+import { Avatar, Divider, Modal, ModalBody, ModalContent, ModalHeader, cn, useDisclosure } from '@nextui-org/react'
+
+import { Button } from '~/components/button'
+import {
+  ColorPicker,
+  EmojiPicker,
+  ErrorMessage,
+  Form,
+  Button as FormButton,
+  Input,
+  InputGroup,
+} from '~/components/form'
 import { color, emoji } from '~/database/static'
+
+type Color = keyof typeof color
+type Emoji = keyof typeof emoji
 
 function CreateNewPlayer() {
   const action = useActionData<{ success: boolean; error: string }>()
-  const [isOpen, setIsOpen] = useState(false)
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+  const [selectedColor, setColor] = useState<Color>()
+  const [selectedEmoji, setEmoji] = useState<Emoji>()
+
   const navigation = useNavigation()
   const isDisabled = navigation.state !== 'idle'
 
-  const [selectedColor, setColor] = useState<keyof typeof color>()
-  const [selectedEmoji, setEmoji] = useState<keyof typeof emoji>()
-
   useEffect(() => {
     if (action?.success) {
-      closeModal()
+      onClose()
     }
-  }, [action])
-
-  const closeModal = () => {
-    setIsOpen(false)
-  }
-
-  const openModal = () => {
-    setIsOpen(true)
-  }
+  }, [action, onClose])
 
   return (
     <>
-      <button
-        id="button-create-new-player"
-        type="button"
-        disabled={isDisabled}
-        onClick={openModal}
-        data-testid="button-create-new-player"
-        className={clsx(
-          'block w-max whitespace-nowrap rounded-md bg-green-600 px-3 py-1.5 shadow-sm hover:bg-green-500',
-          'text-sm font-semibold leading-6 text-white',
-          'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600',
-          'disabled:hover:bg-green-600'
-        )}
-      >
-        Create New Player
-      </button>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={closeModal}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+      <Button
+        id="create-new-player"
+        text="Create New Player"
+        color="primary"
+        onPress={onOpen}
+        className="w-48"
+        isDisabled={isDisabled}
+      />
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" hideCloseButton={true}>
+        <ModalContent>
+          <ModalHeader className="flex flex-col gap-1">Create New Player</ModalHeader>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel
-                  className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
-                  data-testid="modal-new-player"
-                >
-                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-neutral-900">
-                    Create New Player
-                  </Dialog.Title>
+          <ModalBody>
+            {selectedColor && selectedEmoji ? (
+              <div>
+                <Avatar
+                  showFallback
+                  size="lg"
+                  className={cn(color[selectedColor].bgColor, 'mx-auto')}
+                  fallback={<div className=" text-4xl">{emoji[selectedEmoji]}</div>}
+                />
+              </div>
+            ) : null}
+            <Form id="create-new-player" action="?/createNewPlayer" className="space-y-6">
+              <InputGroup name="name">
+                <Input label="Name" autoFocus />
+              </InputGroup>
 
-                  <p className="mt-2 text-sm text-neutral-500">This player will be available for all games.</p>
+              <FormButton
+                id="submit-create-new-player"
+                type="submit"
+                text="Add Player"
+                loadingText="Creating..."
+                color="primary"
+                className="w-full"
+              />
 
-                  <div className="mt-4">
-                    <Form id="create-new-player" action="?/createNewPlayer" className="space-y-6">
-                      {selectedColor && selectedEmoji ? (
-                        <div className="relative -mb-4">
-                          <div
-                            className={clsx(
-                              color[selectedColor].bgColor,
-                              'mx-auto flex h-40 w-40 items-center justify-center rounded-full'
-                            )}
-                          >
-                            <div className=" text-8xl">{emoji[selectedEmoji]}</div>
-                          </div>
-                        </div>
-                      ) : null}
+              {action?.error ? (
+                <p className="mt-2 text-sm text-red-600" data-testid="error-message-create-new-player">
+                  {action.error}
+                </p>
+              ) : null}
 
-                      <InputGroup name="name">
-                        <TextField label="Name" input={{ type: 'text' }} />
-                        <ErrorMessage />
-                      </InputGroup>
+              <Divider className="my-4" />
 
-                      <LoadingSolidButton
-                        id="submit-create-new-player"
-                        type="submit"
-                        text="Add Player"
-                        loadingText="Creating..."
-                      />
+              <InputGroup name="color">
+                <ColorPicker onChange={(value: Color) => (selectedColor !== value ? setColor(value) : null)} />
+                <ErrorMessage />
+              </InputGroup>
 
-                      {action?.error ? (
-                        <p className="mt-2 text-sm text-red-600" data-testid="error-message-create-new-player">
-                          {action.error}
-                        </p>
-                      ) : null}
-
-                      <div className="h-1 border-t border-black/10" />
-
-                      <InputGroup name="color">
-                        <ColorPicker onChange={(value: any) => (color !== value ? setColor(value) : null)} />
-                        <ErrorMessage />
-                      </InputGroup>
-
-                      <InputGroup name="emoji">
-                        <EmojiPicker onChange={(value: any) => (emoji !== value ? setEmoji(value) : null)} />
-                        <ErrorMessage />
-                      </InputGroup>
-                    </Form>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
+              <InputGroup name="emoji">
+                <EmojiPicker onChange={(value: Emoji) => (selectedEmoji !== value ? setEmoji(value) : null)} />
+                <ErrorMessage />
+              </InputGroup>
+            </Form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   )
 }

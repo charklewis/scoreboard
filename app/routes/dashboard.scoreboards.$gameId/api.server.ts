@@ -1,6 +1,7 @@
 import { eq, sql } from 'drizzle-orm'
+
 import { db } from '~/database/db'
-import { player, user, game, round, roundPlayer } from '~/database/schema'
+import { game, player, round, roundPlayer, user } from '~/database/schema'
 import { color, emoji } from '~/database/static'
 import { decode, encode } from '~/services/public-ids.server'
 
@@ -66,7 +67,7 @@ async function startGame(stytchId: string, { gameId, players }: { gameId: string
     if (!roundId) {
       await tx.rollback()
     } else {
-      const roundPlayers = players.map((player) => ({ roundId, playerId: decode(player) }))
+      const roundPlayers = players.map((player) => ({ roundId, playerId: Number(decode(player)) }))
       await tx.insert(roundPlayer).values(roundPlayers)
     }
   })

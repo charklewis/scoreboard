@@ -1,13 +1,17 @@
+import { useEffect, useState } from 'react'
 import { faker } from '@faker-js/faker'
 import { RadioGroup } from '@headlessui/react'
-import { clsx } from 'clsx'
-import { useEffect, useState } from 'react'
+import { cn } from '@nextui-org/react'
+
 import { color } from '~/database/static'
+
 import { useForm, useInputGroup } from '.'
 
-const colors = Object.entries(color).map(([name, value]) => ({ name, ...value }))
+type Color = keyof typeof color
 
-function ColorPicker({ onChange }: { onChange?: (value: string) => void }) {
+const colors = Object.entries(color).map(([name, value]) => ({ name: name as Color, ...value }))
+
+function ColorPicker({ onChange }: { onChange?: (value: Color) => void }) {
   const { isLoading } = useForm()
   const { name } = useInputGroup()
   const [selectedColor, setSelectedColor] = useState(() => faker.helpers.arrayElement(colors).name)
@@ -21,9 +25,7 @@ function ColorPicker({ onChange }: { onChange?: (value: string) => void }) {
     <>
       <input type="hidden" value={selectedColor} id={name} name={name} data-testid={`input-hidden-${name}`} />
       <RadioGroup value={selectedColor} onChange={setSelectedColor} disabled={isLoading}>
-        <RadioGroup.Label className="block text-sm font-medium leading-6 text-gray-900">
-          Background Colour
-        </RadioGroup.Label>
+        <RadioGroup.Label className="block text-sm font-medium leading-6">Background Colour</RadioGroup.Label>
         <div className="mt-4 flex flex-wrap items-center">
           {colors.map((color) => (
             <RadioGroup.Option
@@ -31,7 +33,7 @@ function ColorPicker({ onChange }: { onChange?: (value: string) => void }) {
               value={color.name}
               data-testid={`input-${name}-${color.name}`}
               className={({ active, checked }) =>
-                clsx(
+                cn(
                   color.selectedColor,
                   active && checked ? 'ring ring-offset-1' : '',
                   !active && checked ? 'ring-2' : '',
@@ -44,7 +46,7 @@ function ColorPicker({ onChange }: { onChange?: (value: string) => void }) {
               </RadioGroup.Label>
               <span
                 aria-hidden="true"
-                className={clsx(color.bgColor, 'h-8 w-8 rounded-full border border-black border-opacity-10')}
+                className={cn(color.bgColor, 'h-8 w-8 rounded-full border border-black border-opacity-10')}
               />
             </RadioGroup.Option>
           ))}

@@ -1,17 +1,28 @@
+import { type ReactNode } from 'react'
+import { type Mock, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { type ReactNode } from 'react'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
-import { vi } from 'vitest'
 
-function renderWithRouter(element: ReactNode, path: string, loader = vi.fn().mockReturnValue({})) {
+type Route = {
+  path: string
+  element?: ReactNode
+  action?: Mock<any, any>
+  loader?: Mock<any, any>
+}
+
+function renderWithRouter(routeList: Route[]) {
   const user = userEvent.setup()
-  const action = vi.fn().mockReturnValue(null)
-  const routes = [{ path, element, action, loader }]
-  const route = createMemoryRouter(routes, { initialEntries: [path] })
+  const routes = routeList.map(({ path, element, action, loader }) => ({
+    path,
+    element: element ?? null,
+    action: action ?? vi.fn().mockReturnValue(null),
+    loader: loader ?? vi.fn().mockReturnValue(null),
+  }))
+  const route = createMemoryRouter(routes, { initialEntries: [routes[0].path || '/'] })
   const view = render(<RouterProvider router={route} />)
-  return { ...view, user, action }
+  return { ...view, user, routes }
 }
 
 const createPlayer = () => ({

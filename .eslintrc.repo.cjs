@@ -10,14 +10,7 @@ module.exports = {
   rules: {
     'prefer-let/prefer-let': OFF,
     'prefer-const': WARN,
-    'import/order': [
-      WARN,
-      {
-        alphabetize: { caseInsensitive: true, order: 'asc' },
-        groups: ['builtin', 'external', 'internal', 'parent', 'sibling'],
-      },
-    ],
-
     'react/jsx-no-leaked-render': [WARN, { validStrategies: ['ternary'] }],
+    'jsx-a11y/anchor-has-content': [WARN, { ignoreComponents: ['Link'] }],
   },
 }

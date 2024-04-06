@@ -1,4 +1,5 @@
 import { desc, eq, sql } from 'drizzle-orm'
+
 import { db } from '~/database/db'
 import { game, user } from '~/database/schema'
 import { encode } from '~/services/public-ids.server'

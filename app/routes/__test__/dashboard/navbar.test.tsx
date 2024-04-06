@@ -1,36 +1,42 @@
-import { screen } from '@testing-library/react'
-import { test, vi, expect } from 'vitest'
-import { Desktop, Mobile } from '~/routes/dashboard/navbar'
+import { expect, test, vi } from 'vitest'
+import { act, screen } from '@testing-library/react'
+
+import { Navbar } from '~/routes/dashboard/navbar'
 import { renderWithRouter } from '~/test-utils'
 
 const path = '/dashboard'
 
-test('the mobile view renders the navbar', async () => {
-  const onClose = vi.fn()
-  const { user } = renderWithRouter(<Mobile show={true} onClose={onClose} />, path)
+test('renders a navbar', async () => {
+  renderWithRouter([{ path, element: <Navbar /> }])
   await screen.findByText(/scoreboards/i)
-  screen.getByText(/settings/i)
-  screen.getByText(/logout/i)
-
-  const closeButton = screen.getByTestId(/button-sidebar-mobile-close/i)
-  await user.click(closeButton)
-  expect(onClose).toHaveBeenCalled()
+  screen.getByTestId(/image-navbar-logo/i)
+  screen.getByTestId(/button-navbar-new-game/i)
 })
 
-test('the mobile view can be hidden', () => {
-  const { container } = renderWithRouter(<Mobile show={false} onClose={vi.fn()} />, path)
-  expect(container).toBeEmptyDOMElement()
-})
-
-test('the desktop view renders the navbar', async () => {
-  renderWithRouter(<Desktop show={true} />, path)
+test('start a new game', async () => {
+  const action = vi.fn().mockReturnValue(null)
+  const { user } = renderWithRouter([
+    { path, element: <Navbar /> },
+    { path: '/dashboard/scoreboards', action },
+  ])
   await screen.findByText(/scoreboards/i)
-  screen.getByText(/settings/i)
-  screen.getByText(/logout/i)
+  await act(() => user.click(screen.getByText(/new game/i)))
+  await act(() => user.click(screen.getByText(/scrabble/i)))
+  expect(action).toHaveBeenCalled()
 })
 
-test('the desktop view can be hidden', async () => {
-  renderWithRouter(<Desktop show={false} />, path)
-  const navbar = await screen.findByTestId(/navbar-desktop/i)
-  expect(navbar).not.toHaveClass('xl:fixed')
+test('can open the user profile', async () => {
+  const { user } = renderWithRouter([{ path, element: <Navbar /> }])
+  await screen.findByText(/scoreboards/i)
+  await act(() => user.click(screen.getByTestId('button-navbar-profile')))
+  await screen.findByText(/settings/i)
+  screen.getByText(/log out/i)
+})
+
+test('can open and close the mobile menu', async () => {
+  const { user } = renderWithRouter([{ path, element: <Navbar /> }])
+  await screen.findByText(/scoreboards/i)
+  await act(() => user.click(screen.getByLabelText(/open menu/i)))
+  await screen.findByTestId(/link-mobile-scoreboard/i)
+  await act(() => user.click(screen.getByLabelText(/close menu/i)))
 })

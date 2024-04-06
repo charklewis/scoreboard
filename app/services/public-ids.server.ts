@@ -1,4 +1,5 @@
 import Hashids from 'hashids'
+
 import { environment } from './environment.server'
 
 const hashids = new Hashids(environment.ID_HASH_SALT, 12)

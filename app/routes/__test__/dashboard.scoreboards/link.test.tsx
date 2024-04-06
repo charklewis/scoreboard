@@ -1,8 +1,9 @@
-import { faker } from '@faker-js/faker'
 import { useNavigation } from '@remix-run/react'
+import { type Mock, beforeEach, expect, test, vi } from 'vitest'
+import { faker } from '@faker-js/faker'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { test, vi, type Mock, expect, beforeEach } from 'vitest'
+
 import { Link } from '~/routes/dashboard.scoreboards/link'
 
 vi.mock('@remix-run/react', async () => {
