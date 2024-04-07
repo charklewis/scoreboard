@@ -36,7 +36,7 @@ const createScoreboard = () => ({
   id: faker.string.uuid(),
   title: faker.lorem.word(),
   createdAt: faker.date.past({ years: 5 }),
-  players: Array(faker.number.int({ min: 2, max: 6 }))
+  players: Array(faker.number.int({ min: 2, max: 5 }))
     .fill(0)
     .map(() => createPlayer()),
 })

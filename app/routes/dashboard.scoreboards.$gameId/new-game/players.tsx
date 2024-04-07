@@ -76,11 +76,7 @@ function Players({
                 <EllipsisVerticalIcon className="h-5 w-5" />
               </Button>
             </DropdownTrigger>
-            <DropdownMenu
-              variant="light"
-              disabledKeys={getDisabledKeys()}
-              onAction={(action) => console.log({ action })}
-            >
+            <DropdownMenu variant="light" disabledKeys={getDisabledKeys()}>
               <DropdownItem
                 key="move-up"
                 onClick={() => movePlayer(player.id, 'up')}

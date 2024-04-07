@@ -1,59 +1,274 @@
 {
-  "version": "5",
-  "dialect": "mysql",
-  "id": "02a3f53c-a6a4-447c-8fe0-1e260852475b",
+  "id": "9fdfb751-4d08-41c1-851e-4bac67bb31f3",
   "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "5",
+  "dialect": "pg",
   "tables": {
-    "users": {
-      "name": "users",
+    "game": {
+      "name": "game",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "score_keeper": {
+          "name": "score_keeper",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date_created": {
+          "name": "date_created",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": true
+          "default": "now()"
         },
-        "full_name": {
-          "name": "full_name",
+        "date_finished": {
+          "name": "date_finished",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "game_type": {
+          "name": "game_type",
           "type": "text",
           "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "game_score_keeper_user_id_fk": {
+          "name": "game_score_keeper_user_id_fk",
+          "tableFrom": "game",
+          "tableTo": "user",
+          "columnsFrom": [
+            "score_keeper"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "player": {
+      "name": "player",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "player_name": {
+          "name": "player_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "emoji": {
+          "name": "emoji",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "background_color": {
+          "name": "background_color",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "player_created_by_user_id_fk": {
+          "name": "player_created_by_user_id_fk",
+          "tableFrom": "player",
+          "tableTo": "user",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "round": {
+      "name": "round",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "game_id": {
+          "name": "game_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "round_number": {
+          "name": "round_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "round_completed": {
+          "name": "round_completed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "round_game_id_game_id_fk": {
+          "name": "round_game_id_game_id_fk",
+          "tableFrom": "round",
+          "tableTo": "game",
+          "columnsFrom": [
+            "game_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "round_player": {
+      "name": "round_player",
+      "schema": "",
+      "columns": {
+        "roundId": {
+          "name": "roundId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "player_id": {
+          "name": "player_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "round_player_roundId_round_id_fk": {
+          "name": "round_player_roundId_round_id_fk",
+          "tableFrom": "round_player",
+          "tableTo": "round",
+          "columnsFrom": [
+            "roundId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "round_player_player_id_player_id_fk": {
+          "name": "round_player_player_id_player_id_fk",
+          "tableFrom": "round_player",
+          "tableTo": "player",
+          "columnsFrom": [
+            "player_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "round_player_roundId_player_id_pk": {
+          "name": "round_player_roundId_player_id_pk",
+          "columns": [
+            "roundId",
+            "player_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "user": {
+      "name": "user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
         },
         "stytch_id": {
           "name": "stytch_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(now())"
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "users_id": {
-          "name": "users_id",
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_stytch_id_unique": {
+          "name": "user_stytch_id_unique",
+          "nullsNotDistinct": false,
           "columns": [
-            "id"
+            "stytch_id"
           ]
         }
-      },
-      "uniqueConstraints": {}
+      }
     }
   },
+  "enums": {},
   "schemas": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
+    "tables": {}
   }
 }

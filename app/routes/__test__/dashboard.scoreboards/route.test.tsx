@@ -1,11 +1,12 @@
 import { json } from '@remix-run/node'
 import { describe, test, vi } from 'vitest'
-import { screen } from '@testing-library/react'
+import { act, screen, within } from '@testing-library/react'
 
 import Scoreboards from '~/routes/dashboard.scoreboards/route'
 import { createScoreboardList, renderWithRouter } from '~/test-utils'
 
 vi.mock('~/routes/dashboard.scoreboards/api.server', () => ({ fetchScoreboards: vi.fn(), insertGame: vi.fn() }))
+vi.mock('~/services/identity.server', () => ({ isAuthenticated: vi.fn() }))
 
 describe('action', () => {
   test.todo('the action scrabble will create a new game')
@@ -21,20 +22,19 @@ describe('component', () => {
   test('renders players in a list', async () => {
     const list = createScoreboardList()
     const routes = [{ path: '/', element: <Scoreboards />, loader: vi.fn().mockReturnValue(json(list)) }]
-    renderWithRouter(routes)
+    const { user } = renderWithRouter(routes)
 
     for (const scoreboard of list) {
-      await screen.findByText(scoreboard.title)
-      screen.getByText(scoreboard.createdAt.toDateString())
-      screen.getByTestId(`link-${scoreboard.id}`)
-      //note: commented out until change to new DB
-      // for (const player of scoreboard.players) {
-      //   screen.getByTestId(`player-${player.id}`)
-      //   const element = screen.getByTestId(`player-${player.id}`)
-      //   await user.hover(within(element).getByText(player.emoji))
-      //   // bug: this isn't working
-      //   // await within(element).findByText(player.name)
-      // }
+      await screen.findByTestId(`link-${scoreboard.id}`)
+      const component = screen.getByTestId(`link-${scoreboard.id}`)
+      within(component).getByText(scoreboard.title)
+      within(component).getByText(scoreboard.createdAt.toDateString())
+      for (const player of scoreboard.players) {
+        const element = within(component).getByTestId(`player-${player.id}`)
+        await act(() => user.hover(within(element).getByText(player.emoji)))
+        // // bug: this isn't working
+        // await screen.findByText(player.name)
+      }
     }
   })
 
