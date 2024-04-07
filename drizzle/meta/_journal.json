@@ -1,47 +1,12 @@
 {
   "version": "5",
-  "dialect": "mysql",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1696057623896,
-      "tag": "0000_careless_doorman",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1696123356856,
-      "tag": "0001_giant_gargoyle",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1696134667230,
-      "tag": "0002_overjoyed_stranger",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1697864598338,
-      "tag": "0003_unique_bulldozer",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1699688533040,
-      "tag": "0004_chief_titanium_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1699688658957,
-      "tag": "0005_minor_hawkeye",
+      "when": 1712457186944,
+      "tag": "0000_last_taskmaster",
       "breakpoints": true
     }
   ]

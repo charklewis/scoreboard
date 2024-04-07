@@ -1,36 +1,28 @@
-import { desc, eq, sql } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 
 import { db } from '~/database/db'
 import { game, user } from '~/database/schema'
+import { color, emoji, getRandomColor, getRandomEmoji } from '~/database/static'
 import { encode } from '~/services/public-ids.server'
 
 async function fetchScoreboards(stytchId: string) {
   try {
     const scoreKeeper = await db.query.user.findFirst({
       where: eq(user.stytchId, stytchId),
-      columns: { userId: true },
+      columns: { id: true },
     })
-    const userId = scoreKeeper?.userId
+    const userId = scoreKeeper?.id
     if (!userId) return []
     const games = await db.query.game.findMany({
-      columns: { gameId: true, gameType: true, dateCreated: true },
+      columns: { id: true, gameType: true, dateCreated: true },
       orderBy: [desc(game.dateCreated)],
       with: {
         rounds: {
           columns: {},
           with: {
-            roundPlayers: {
+            players: {
               columns: {},
-              with: {
-                player: {
-                  columns: {
-                    playerId: true,
-                    playerName: true,
-                    backgroundColor: true,
-                    emoji: true,
-                  },
-                },
-              },
+              with: { player: { columns: { id: true, playerName: true, backgroundColor: true, emoji: true } } },
             },
           },
         },
@@ -39,16 +31,16 @@ async function fetchScoreboards(stytchId: string) {
     })
 
     return games.map((game) => ({
-      id: encode(game.gameId),
+      id: encode(game.id),
       title: game.gameType,
       createdAt: game.dateCreated,
       players: game.rounds
         .map((round) =>
-          round.roundPlayers.map((roundPlayer) => ({
-            id: encode(roundPlayer.player.playerId),
-            name: roundPlayer.player.playerName,
-            background: roundPlayer.player.backgroundColor,
-            emoji: roundPlayer.player.emoji,
+          round.players.map(({ player }) => ({
+            id: encode(player.id),
+            name: player.playerName,
+            background: color[(player.backgroundColor || getRandomColor()) as keyof typeof color].bgColor,
+            emoji: emoji[(player.emoji || getRandomEmoji()) as keyof typeof emoji],
           }))
         )
         .flat(),
@@ -62,13 +54,15 @@ async function insertGame(type: 'scrabble', stytchId: string) {
   try {
     const scoreKeeper = await db.query.user.findFirst({
       where: eq(user.stytchId, stytchId),
-      columns: { userId: true },
+      columns: { id: true },
     })
-    const userId = scoreKeeper?.userId
+    const userId = scoreKeeper?.id
     if (!userId) return
-    await db.insert(game).values({ scoreKeeper: userId, dateCreated: new Date(), gameType: type })
-    const query = await db.execute(sql`SELECT LAST_INSERT_ID() AS gameId`)
-    const gameId = (query.rows?.[0] as { gameId: string }).gameId
+    const returning = await db
+      .insert(game)
+      .values({ scoreKeeper: userId, dateCreated: new Date(), gameType: type })
+      .returning()
+    const gameId = returning?.[0]?.id
     if (gameId) {
       return encode(Number(gameId))
     }

@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker'
+
 const color = {
   'very-light-neutral': { bgColor: 'bg-neutral-200', selectedColor: 'ring-neutral-200' },
   'light-neutral': { bgColor: 'bg-neutral-300', selectedColor: 'ring-neutral-300' },
@@ -118,7 +120,6 @@ const emoji = {
   'smiling-face-with-horns': '😈',
   'angry-face-with-horns': '👿',
   skull: '💀',
-
   'pile-of-poo': '💩',
   'clown-face': '🤡',
   ogre: '👹',
@@ -210,4 +211,12 @@ const emoji = {
   spider: '🕷️',
 }
 
-export { color, emoji }
+const getRandomColor = () => {
+  return faker.helpers.arrayElement(Object.keys(color)) as keyof typeof color
+}
+
+const getRandomEmoji = () => {
+  return faker.helpers.arrayElement(Object.keys(emoji)) as keyof typeof emoji
+}
+
+export { color, emoji, getRandomColor, getRandomEmoji }
