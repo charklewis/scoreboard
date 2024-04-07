@@ -8,6 +8,13 @@ import { renderWithRouter } from '~/test-utils'
 
 const path = `/dashboard/scoreboards/${faker.string.uuid()}`
 
+vi.mock('~/services/identity.server', () => ({ isAuthenticated: vi.fn() }))
+vi.mock('~/routes/dashboard.scoreboards.$gameId/api.server', () => ({
+  fetchScoreboardAndPlayers: vi.fn(),
+  insertPlayer: vi.fn(),
+  startGame: vi.fn(),
+}))
+
 describe('action', () => {
   test.todo('the action createNewPlayer will insert a new player')
 })
