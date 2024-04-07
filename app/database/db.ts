@@ -1,15 +1,11 @@
-import { connect } from '@planetscale/database'
-//note this is needed for vercel, otherwise all queries error with
-//First parameter has member 'readable' that is not a ReadableStream
-import fetch from 'cross-fetch'
-import { drizzle } from 'drizzle-orm/planetscale-serverless'
+import { neon } from '@neondatabase/serverless'
+import { drizzle } from 'drizzle-orm/neon-http'
 
 import { environment } from '~/services/environment.server'
 
 import * as schema from './schema'
 
-const connection = connect({ url: environment.DATABASE_URL, fetch })
-
-const db = drizzle(connection, { schema })
+const sql = neon(environment.DATABASE_URL)
+const db = drizzle(sql, { schema })
 
 export { db }

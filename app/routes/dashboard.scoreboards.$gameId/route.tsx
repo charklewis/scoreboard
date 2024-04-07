@@ -38,7 +38,7 @@ async function action({ request, params }: ActionFunctionArgs) {
             .parse(JSON.parse(formData.get('players') as string))
           await startGame(user.stytchId, { gameId, players })
           return json({ success: true })
-        } catch {
+        } catch (error) {
           return json({
             error: 'An error occured while starting the game. If the error persists please try again later.',
           })
@@ -67,7 +67,7 @@ function Game() {
       {gameStatus === 'new' ? (
         <NewGame />
       ) : gameStatus === 'in-progress' ? (
-        <p className="pt-9">in progress</p>
+        <p className="pt-9 lg:pt-0">in progress</p>
       ) : gameStatus === 'finished' ? (
         <p>finished</p>
       ) : (

@@ -9,8 +9,8 @@ async function createUser(stytchId: string) {
     return true
   }
 
-  const newUser = await db.insert(schema).values({ stytchId })
-  if (newUser.rowsAffected === 1) {
+  const newUser = await db.insert(schema).values({ stytchId }).returning()
+  if (newUser.length === 1) {
     return true
   }
   return false

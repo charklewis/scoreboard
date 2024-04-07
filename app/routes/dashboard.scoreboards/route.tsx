@@ -9,6 +9,7 @@ import { identity } from '~/services/identity.server'
 
 import { fetchScoreboards, insertGame } from './api.server'
 import { Link } from './link'
+import { Players } from './players'
 
 async function action({ request }: ActionFunctionArgs) {
   const user = await identity.isAuthenticated(request.clone())
@@ -57,7 +58,7 @@ function Scoreboards() {
             No Scoreboards
           </li>
         ) : (
-          scoreboards.map((scoreboard: any) => {
+          scoreboards.map((scoreboard) => {
             const isSelected = location.pathname.includes(scoreboard.id)
             return (
               <Fragment key={scoreboard.id}>
@@ -67,18 +68,15 @@ function Scoreboards() {
                     onClick={() => setShowOutlet(true)}
                   >
                     <div>
-                      <p className="text-sm font-semibold capitalize leading-6">{scoreboard.title}</p>
-                      <div className="flex items-center gap-x-2 text-xs leading-5 text-neutral-500">
+                      <p className="font-semibold capitalize leading-6">{scoreboard.title}</p>
+                      <div className="flex items-center gap-x-2 text-sm leading-5 text-neutral-500">
                         <time dateTime={scoreboard.createdAt}>{new Date(scoreboard.createdAt).toDateString()}</time>
                       </div>
                     </div>
-                    <dl className="mt-1 flex w-full flex-none justify-between gap-x-8">
+                    <dl className="mt-1.5 flex w-full flex-none justify-between gap-x-8">
                       <div className="flex -space-x-0.5">
                         <dt className="sr-only">Players</dt>
-                        {/* {scoreboard.players.map((player: any) => (
-                          <Player key={player.id} player={player} />
-                        ))} */}
-                        {/* return an avatar group here with tool tip */}
+                        <Players players={scoreboard.players} />
                       </div>
                     </dl>
                   </li>
