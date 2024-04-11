@@ -211,12 +211,20 @@ const emoji = {
   spider: '🕷️',
 }
 
-const getRandomColor = () => {
+function getRandomColor() {
   return faker.helpers.arrayElement(Object.keys(color)) as keyof typeof color
 }
 
-const getRandomEmoji = () => {
+function getRandomEmoji() {
   return faker.helpers.arrayElement(Object.keys(emoji)) as keyof typeof emoji
 }
 
-export { color, emoji, getRandomColor, getRandomEmoji }
+function getColor(value: string | null) {
+  return color[(value || getRandomColor()) as keyof typeof color]
+}
+
+function getEmoji(value: string | null) {
+  return emoji[(value || getRandomEmoji()) as keyof typeof emoji]
+}
+
+export { color, emoji, getColor, getEmoji }

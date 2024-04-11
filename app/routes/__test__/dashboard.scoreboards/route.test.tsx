@@ -19,9 +19,51 @@ describe('loader', () => {
 })
 
 describe('component', () => {
-  test('renders players in a list', async () => {
+  test('renders an empty list', async () => {
+    const routes = [{ path: '/', element: <Scoreboards /> }]
+    renderWithRouter(routes)
+    await screen.findByText(/no scoreboards/i)
+  })
+
+  test('renders new, in progress and finished scoreboard lists', async () => {
+    const justStarted = createScoreboardList()
+    const inProgress = createScoreboardList()
+    const finished = createScoreboardList()
+
+    const routes = [
+      {
+        path: '/',
+        element: <Scoreboards />,
+        loader: vi.fn().mockReturnValue(json({ inProgress, justStarted, finished })),
+      },
+    ]
+
+    renderWithRouter(routes)
+
+    for (const scoreboard of justStarted) {
+      await screen.findByText(/^new$/i)
+      const list = screen.getByTestId(/list-scoreboards-new/i)
+      within(list).getByTestId(`link-${scoreboard.id}`)
+    }
+
+    for (const scoreboard of inProgress) {
+      await screen.findByText(/^in progress$/i)
+      const list = screen.getByTestId(/list-scoreboards-in-progress/i)
+      within(list).getByTestId(`link-${scoreboard.id}`)
+    }
+
+    for (const scoreboard of finished) {
+      await screen.findByText(/^completed$/i)
+      const list = screen.getByTestId(/list-scoreboards-completed/i)
+      within(list).getByTestId(`link-${scoreboard.id}`)
+    }
+  })
+
+  test('renders a summary of the game for each scoreboard', async () => {
     const list = createScoreboardList()
-    const routes = [{ path: '/', element: <Scoreboards />, loader: vi.fn().mockReturnValue(json(list)) }]
+    const routes = [
+      { path: '/', element: <Scoreboards />, loader: vi.fn().mockReturnValue(json({ inProgress: list })) },
+    ]
     const { user } = renderWithRouter(routes)
 
     for (const scoreboard of list) {
@@ -36,11 +78,5 @@ describe('component', () => {
         // await screen.findByText(player.name)
       }
     }
-  })
-
-  test('renders an empty list', async () => {
-    const routes = [{ path: '/', element: <Scoreboards /> }]
-    renderWithRouter(routes)
-    await screen.findByText(/no scoreboards/i)
   })
 })

@@ -45,7 +45,7 @@ class Scrabble {
 
   async startGame() {
     await this.page.getByTestId(/button-start-game/i).click()
-    await this.page.getByText(/in progress/i)
+    await this.page.getByText(/next round/i)
   }
 }
 

@@ -1,11 +1,12 @@
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 import { db } from '~/database/db'
 import { game, player, round, roundPlayer, user } from '~/database/schema'
-import { color, emoji } from '~/database/static'
+import { type color, type emoji, getColor, getEmoji } from '~/database/static'
 import { decode, encode } from '~/services/public-ids.server'
 
 type GameStatus = 'new' | 'in-progress' | 'finished' | 'error'
+type GameType = 'scrabble'
 
 async function fetchScoreboardAndPlayers(stytchId: string, gameId: string) {
   try {
@@ -23,20 +24,55 @@ async function fetchScoreboardAndPlayers(stytchId: string, gameId: string) {
 
     const gameDetails = await db.query.game.findFirst({
       where: eq(game.id, decode(gameId)),
-      columns: { dateFinished: true },
-      with: { rounds: { columns: { id: true }, limit: 1 } },
+      columns: { dateFinished: true, gameType: true },
+      with: {
+        rounds: {
+          columns: { roundNumber: true, roundCompleted: true, id: true },
+          with: {
+            players: {
+              columns: { score: true },
+              with: { player: { columns: { id: true, emoji: true, backgroundColor: true, playerName: true } } },
+            },
+          },
+        },
+      },
     })
 
     const gameStatus = gameDetails?.dateFinished ? 'finished' : gameDetails?.rounds.length ? 'in-progress' : 'new'
+
+    const totalScores = gameDetails?.rounds.reduce(
+      (acc, round) => {
+        round.players.forEach(({ player, score }) => {
+          acc[player.id] = (acc[player.id] || 0) + score
+        })
+        return acc
+      },
+      {} as Record<string, number>
+    )
 
     return {
       players: players.map((player) => ({
         id: encode(player.id),
         name: player.playerName,
-        background: color[player.backgroundColor as keyof typeof color].bgColor,
-        emoji: emoji[player.emoji as keyof typeof emoji],
+        background: getColor(player.backgroundColor).bgColor,
+        emoji: getEmoji(player.emoji),
       })),
       gameStatus: gameStatus as GameStatus,
+      gameType: gameDetails?.gameType as GameType,
+      rounds:
+        gameDetails?.rounds.map((round) => ({
+          id: encode(round.id),
+          roundNumber: round.roundNumber,
+          roundCompleted: round.roundCompleted || false,
+          players: round.players.map(({ player, score }) => ({
+            id: encode(player.id),
+            name: player.playerName,
+            background: getColor(player.backgroundColor).bgColor,
+            emoji: getEmoji(player.emoji),
+            score,
+            totalScore: totalScores ? totalScores[player.id] : 0,
+          })),
+        })) || [],
     }
   } catch {
     return { players: [], gameStatus: 'error' as GameStatus }
@@ -60,8 +96,7 @@ async function startGame(stytchId: string, { gameId, players }: { gameId: string
   })
   const userId = scoreKeeper?.id
   if (!userId) return
-  //todo: convert this into transaction (note this requires pool or connection)
-  //https://community.neon.tech/t/how-do-i-handle-transactions/1067/2
+  //https://orm.drizzle.team/docs/get-started-postgresql#neon
   //<transaction>
   const insert = await db
     .insert(round)
@@ -77,6 +112,72 @@ async function startGame(stytchId: string, { gameId, players }: { gameId: string
   //</transaction>
 }
 
+async function saveRound(
+  players: {
+    roundId: string
+    playerId: string
+    score: number
+  }[]
+) {
+  for (const player of players) {
+    const roundId = Number(decode(player.roundId))
+    const playerId = Number(decode(player.playerId))
+    await db
+      .update(roundPlayer)
+      .set({ score: player.score })
+      .where(and(eq(roundPlayer.roundId, roundId), eq(roundPlayer.playerId, playerId)))
+  }
+}
+
+async function addRound(roundId: string) {
+  //https://orm.drizzle.team/docs/get-started-postgresql#neon
+  //<transaction>
+  const currentRound = await db.query.round.findFirst({
+    where: eq(round.id, Number(decode(roundId))),
+    columns: { id: true, roundNumber: true, gameId: true },
+    with: { players: { columns: { playerId: true } } },
+  })
+
+  if (!currentRound) {
+    throw new Error('Could not add round, please try again later')
+  }
+
+  await db.update(round).set({ roundCompleted: true }).where(eq(round.id, currentRound.id))
+
+  const roundNumber = currentRound.roundNumber + 1
+
+  const [nextRound] = await db
+    .insert(round)
+    .values({ gameId: currentRound.gameId, roundNumber, roundCompleted: false })
+    .returning({ id: round.id })
+
+  if (!nextRound) {
+    throw new Error('Could not add round, please try again later')
+  }
+
+  const players = currentRound.players.map(({ playerId }) => ({ roundId: nextRound.id, playerId, score: 0 }))
+
+  await db.insert(roundPlayer).values(players)
+  //</transaction>
+}
+
+async function finishGame(roundId: string) {
+  //https://orm.drizzle.team/docs/get-started-postgresql#neon
+  //<transaction>
+  const currentRound = await db.query.round.findFirst({
+    where: eq(round.id, Number(decode(roundId))),
+    columns: { id: true, gameId: true },
+  })
+
+  if (!currentRound) {
+    throw new Error('Could not save game, please try again later')
+  }
+
+  await db.update(round).set({ roundCompleted: true }).where(eq(round.id, currentRound.id))
+  await db.update(game).set({ dateFinished: new Date() }).where(eq(game.id, currentRound.gameId))
+  //</transaction>
+}
+
 type Player = {
   id: string
   name: string
@@ -84,4 +185,13 @@ type Player = {
   emoji: keyof typeof emoji
 }
 
-export { fetchScoreboardAndPlayers, insertPlayer, startGame, type Player, type GameStatus }
+export {
+  fetchScoreboardAndPlayers,
+  insertPlayer,
+  startGame,
+  saveRound,
+  addRound,
+  finishGame,
+  type Player,
+  type GameStatus,
+}
