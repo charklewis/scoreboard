@@ -22,7 +22,7 @@ type RoundType = {
 }
 
 function Round({ round }: { round: RoundType }) {
-  const save = useFetcher<{ error: string; success: true }>()
+  const save = useFetcher<{ error: string; success: boolean }>()
   const { systemTheme } = useTheme()
 
   const saveFormValues = useDebouncedCallback(
@@ -62,13 +62,17 @@ function Round({ round }: { round: RoundType }) {
     <Form id={`round-${round.roundNumber}`} defaultValues={defaultValues}>
       <ul className="flex gap-8">
         {round.players.map((player) => (
-          <Card className="max-w-[400px]" key={player.id}>
+          <Card className="max-w-[400px]" key={player.id} data-testid={`round-player-${player.id}`}>
             <CardHeader className="flex gap-3">
               <Avatar
                 showFallback
                 size="lg"
                 className={player.background}
-                fallback={<div className=" text-4xl">{player.emoji}</div>}
+                fallback={
+                  <div className=" text-4xl" data-testid={`player-${player.id}`}>
+                    {player.emoji}
+                  </div>
+                }
               />
               <div className="flex flex-col">
                 <p className="text-md">{player.name}</p>
