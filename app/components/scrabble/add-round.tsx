@@ -3,14 +3,12 @@ import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 
 import { Button } from '~/components/button'
 
-import { type RoundType } from './round'
-
 function AddRound({
   rounds,
   selectedRound,
   setSelectedRound,
 }: {
-  rounds: RoundType[]
+  rounds: string[]
   selectedRound: string
   setSelectedRound: Dispatch<SetStateAction<string>>
 }) {
@@ -29,7 +27,7 @@ function AddRound({
   }, [fetcher.data, fetcher.state, rounds.length, selectedRound, setSelectedRound, updateRound])
 
   const onClick = () => {
-    const roundId = rounds.at(-1)?.id
+    const roundId = rounds.at(-1)
     if (!roundId) return
     fetcher.submit({ roundId }, { action: '?/addRound', method: 'POST' })
     setUpdateRound(true)

@@ -29,12 +29,15 @@ function Scrabble({ rounds }: { rounds: RoundType[] }) {
       >
         {(round) => (
           <Tab key={String(round.roundNumber)} title={round.roundNumber}>
-            {/* <Divider className="my-4 mb-8" /> */}
             <Round round={round} />
           </Tab>
         )}
       </Tabs>
-      <AddRound rounds={rounds} selectedRound={selectedRound} setSelectedRound={setSelectedRound} />
+      <AddRound
+        rounds={rounds.map((round) => round.id)}
+        selectedRound={selectedRound}
+        setSelectedRound={setSelectedRound}
+      />
     </div>
   )
 }
