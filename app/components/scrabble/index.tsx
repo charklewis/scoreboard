@@ -16,7 +16,9 @@ function Scrabble({ rounds }: { rounds: RoundType[] }) {
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <h1 className="mb-2 text-lg font-semibold capitalize leading-6">Rounds</h1>
+        <h1 className="mb-2 text-lg font-semibold capitalize leading-6" data-testid="rounds-title">
+          Rounds
+        </h1>
         <EndGame roundId={rounds.find((round) => String(round.roundNumber) === selectedRound)?.id} />
       </div>
       <Tabs

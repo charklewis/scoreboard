@@ -50,7 +50,7 @@ function Scoreboards() {
 
   if (noScoreboards) {
     return (
-      <div className="flex h-full items-center justify-center text-sm font-semibold text-neutral-500">
+      <div className="flex h-[calc(100vh-65px)] items-center justify-center text-sm font-semibold text-neutral-500">
         No Scoreboards
       </div>
     )
@@ -60,7 +60,7 @@ function Scoreboards() {
     <div className="flex">
       <div
         className={cn(
-          'h-[calc(100vh-64px)] w-full overflow-y-scroll border-black/10 px-2 dark:border-white/10 lg:w-72 lg:border-r',
+          'h-[calc(100vh-65px)] w-full overflow-y-scroll border-black/10 px-2 dark:border-white/10 lg:w-72 lg:border-r',
           showOutlet ? 'hidden lg:block' : 'block'
         )}
       >
