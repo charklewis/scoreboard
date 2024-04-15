@@ -69,14 +69,16 @@ function Round({ round }: { round: RoundType }) {
                 size="lg"
                 className={player.background}
                 fallback={
-                  <div className=" text-4xl" data-testid={`player-${player.id}`}>
+                  <div className="text-4xl" data-testid={`player-${player.id}`}>
                     {player.emoji}
                   </div>
                 }
               />
               <div className="flex flex-col">
                 <p className="text-md">{player.name}</p>
-                <p className="text-small text-default-500">Score {player.totalScore}</p>
+                <p className="text-small text-default-500" data-testid={`player-${player.id}-total-score`}>
+                  Score {player.totalScore}
+                </p>
               </div>
             </CardHeader>
             <CardBody>

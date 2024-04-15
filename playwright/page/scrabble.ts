@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { type Page, expect } from '@playwright/test'
 
 class Scrabble {
@@ -45,7 +46,89 @@ class Scrabble {
 
   async startGame() {
     await this.page.getByTestId(/button-start-game/i).click()
-    await this.page.getByText(/next round/i)
+    expect(this.page.getByText(/next round/i)).toBeVisible()
+    expect(this.page.getByText(/finish game/i)).toBeVisible()
+  }
+
+  async getPlayerIds(players: string[]) {
+    let ids = []
+    for (const player of players) {
+      const text = this.page.getByText(player)
+      const parent = this.page.getByTestId(/round-player-/i).filter({ has: text })
+      const testId = await parent.getAttribute('data-testid')
+      if (testId) ids.push(testId.replace('round-player-', ''))
+    }
+    return ids
+  }
+
+  async playRounds(scores: Record<string, number>[]) {
+    for (let i = 0; i < scores.length; i++) {
+      expect(this.page.getByTestId(/list-rounds/).filter({ hasText: String(i + 1) })).toBeVisible()
+      await this.checkCumulativeScores(scores, i)
+      const round = [scores[i]]
+      await this.playRound(round, i + 1)
+      await this.waitForScoresToBeSaved()
+      await this.page.getByTestId(/button-add-round/i).click()
+    }
+  }
+
+  async playRound(players: Record<string, number>[], roundNumber: number) {
+    const component = this.page.getByTestId(`form-round-${roundNumber}`)
+    for (const player of players) {
+      for (const [key, value] of Object.entries(player)) {
+        await component.getByTestId(`input-${key}`).fill(String(value))
+      }
+    }
+  }
+
+  async checkCumulativeScores(scores: Record<string, number>[], currentRound: number) {
+    const cumulativeScores = this.getCumulativeScores(scores, currentRound)
+    for (const [player, score] of Object.entries(cumulativeScores)) {
+      await this.page
+        .getByTestId(`player-${player}-total-score`)
+        .innerText()
+        .then((text) => expect(text).toContain(String(score)))
+    }
+  }
+
+  async waitForScoresToBeSaved() {
+    await expect(this.page.getByText(/score saved/i)).toBeVisible()
+    await expect(this.page.getByText(/score saved/i)).toHaveCount(0)
+  }
+
+  async finishGame() {
+    await this.page.getByTestId(/button-end-game/i).click()
+    await this.page.getByText(/finished/i)
+  }
+
+  generateScores(players: string[], numberOfRounds: number) {
+    return Array.from({ length: numberOfRounds }, () =>
+      players.reduce(
+        (scores, player) => ({ ...scores, [player]: faker.number.int({ min: 0, max: 100 }) }),
+        {} as Record<string, number>
+      )
+    )
+  }
+
+  getCumulativeScores(scores: Record<string, number>[], currentRound: number) {
+    return scores
+      .slice(0, currentRound)
+      .reduce(
+        (scores, round) =>
+          Object.entries(round).reduce(
+            (scores, [player, score]) => ({ ...scores, [player]: (scores[player] || 0) + score }),
+            scores
+          ),
+        {} as Record<string, number>
+      )
+  }
+
+  generateNumberOfRounds() {
+    return faker.number.int({ min: 2, max: 10 })
+  }
+
+  generatePlayers() {
+    return Array.from({ length: faker.number.int({ min: 2, max: 4 }) }, () => faker.person.fullName())
   }
 }
 

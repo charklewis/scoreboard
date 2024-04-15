@@ -23,6 +23,7 @@ function Scrabble({ rounds }: { rounds: RoundType[] }) {
       </div>
       <Tabs
         aria-label="rounds"
+        data-testid="list-rounds"
         selectedKey={selectedRound}
         onSelectionChange={(value) => setSelectedRound(String(value))}
         items={rounds}
