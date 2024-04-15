@@ -37,7 +37,7 @@ describe('component', () => {
     const loader = vi.fn().mockReturnValue(json({ gameStatus: 'in-progress', players: [] }))
     const routes = [{ path, element: <Scoreboards />, loader }]
     renderWithRouter(routes)
-    await screen.findByText(/in progress/i)
+    await screen.findByText(/game type not supported/i)
   })
 
   test('user view a finished game', async () => {

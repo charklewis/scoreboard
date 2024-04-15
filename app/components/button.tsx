@@ -1,12 +1,13 @@
-import { useNavigation } from '@remix-run/react'
 import { type ReactNode } from 'react'
 import { type ButtonProps, Button as NextUiButton } from '@nextui-org/react'
+
+import { useInteractionInFlight } from '~/components/useInteractionInFlight'
 
 function Button(
   props: Omit<ButtonProps, 'data-testid' | 'disableRipple' | 'children'> & { id: string; text: string | ReactNode }
 ) {
-  const { state } = useNavigation()
-  const isDisabled = state !== 'idle' || props.isDisabled
+  const isLoading = useInteractionInFlight()
+  const isDisabled = isLoading || props.isDisabled
 
   return (
     <NextUiButton

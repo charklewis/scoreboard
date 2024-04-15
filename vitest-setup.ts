@@ -2,9 +2,6 @@ import { beforeEach, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import '@testing-library/jest-dom/vitest'
 
-//require for @headlessui/react Transition & Dialog
-global.ResizeObserver = require('resize-observer-polyfill')
-
 vi.mock('stytch', async () => {
   const Client = vi.fn()
   Client.prototype.otps = {

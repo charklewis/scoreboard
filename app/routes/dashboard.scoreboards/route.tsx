@@ -1,6 +1,6 @@
 import { type ActionFunctionArgs, type LoaderFunctionArgs, json, redirect } from '@remix-run/node'
-import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
-import { Fragment, useState } from 'react'
+import { Outlet, useLoaderData } from '@remix-run/react'
+import { useState } from 'react'
 import { ChevronLeftIcon } from '@heroicons/react/20/solid'
 import { Button, cn } from '@nextui-org/react'
 import { namedAction } from 'remix-utils/named-action'
@@ -8,8 +8,7 @@ import { namedAction } from 'remix-utils/named-action'
 import { identity } from '~/services/identity.server'
 
 import { fetchScoreboards, insertGame } from './api.server'
-import { Link } from './link'
-import { Players } from './players'
+import { Game } from './game'
 
 async function action({ request }: ActionFunctionArgs) {
   const user = await identity.isAuthenticated(request.clone())
@@ -35,57 +34,61 @@ async function loader({ request }: LoaderFunctionArgs) {
   const user = await identity.isAuthenticated(request)
   if (user) {
     const scoreboards = await fetchScoreboards(user.stytchId)
-    return json(scoreboards)
+    const inProgress = scoreboards.filter((scoreboard) => scoreboard.gameStatus === 'in-progress')
+    const justStarted = scoreboards.filter((scoreboard) => scoreboard.gameStatus === 'new')
+    const finished = scoreboards.filter((scoreboard) => scoreboard.gameStatus === 'finished')
+    const noScoreboards = scoreboards.length === 0
+    return json({ inProgress, justStarted, finished, noScoreboards })
   }
-  return json([])
+  return json({ inProgress: [], justStarted: [], finished: [], noScoreboards: true })
 }
 
 function Scoreboards() {
-  const scoreboards = useLoaderData<typeof loader>()
-  const location = useLocation()
+  const { inProgress, justStarted, finished, noScoreboards } = useLoaderData<typeof loader>() || { noScoreboards: true }
+
   const [showOutlet, setShowOutlet] = useState(false)
+
+  if (noScoreboards) {
+    return (
+      <div className="flex h-[calc(100vh-65px)] items-center justify-center text-sm font-semibold text-neutral-500">
+        No Scoreboards
+      </div>
+    )
+  }
 
   return (
     <div className="flex">
-      <ul
+      <div
         className={cn(
-          'h-[calc(100vh-64px)] w-full overflow-y-scroll border-black/10 px-2 dark:border-white/10 lg:w-72 lg:border-r',
+          'h-[calc(100vh-65px)] w-full overflow-y-scroll border-black/10 px-2 dark:border-white/10 lg:w-72 lg:border-r',
           showOutlet ? 'hidden lg:block' : 'block'
         )}
       >
-        {!scoreboards || scoreboards.length === 0 ? (
-          <li className="flex h-full items-center justify-center text-sm font-semibold text-neutral-500">
-            No Scoreboards
-          </li>
-        ) : (
-          scoreboards.map((scoreboard) => {
-            const isSelected = location.pathname.includes(scoreboard.id)
-            return (
-              <Fragment key={scoreboard.id}>
-                <Link isSelected={isSelected} id={scoreboard.id} href={scoreboard.id}>
-                  <li
-                    className={cn('flex flex-wrap items-center justify-between gap-x-6 py-2')}
-                    onClick={() => setShowOutlet(true)}
-                  >
-                    <div>
-                      <p className="font-semibold capitalize leading-6">{scoreboard.title}</p>
-                      <div className="flex items-center gap-x-2 text-sm leading-5 text-neutral-500">
-                        <time dateTime={scoreboard.createdAt}>{new Date(scoreboard.createdAt).toDateString()}</time>
-                      </div>
-                    </div>
-                    <dl className="mt-1.5 flex w-full flex-none justify-between gap-x-8">
-                      <div className="flex -space-x-0.5">
-                        <dt className="sr-only">Players</dt>
-                        <Players players={scoreboard.players} />
-                      </div>
-                    </dl>
-                  </li>
-                </Link>
-              </Fragment>
-            )
-          })
-        )}
-      </ul>
+        {justStarted?.length > 0 ? (
+          <ul data-testid="list-scoreboards-new">
+            <ScoreboardTitle name="New" />
+            {justStarted.map((game) => (
+              <Game key={game.id} scoreboard={game} showOutlet={() => setShowOutlet(true)} />
+            ))}
+          </ul>
+        ) : null}
+        {inProgress?.length > 0 ? (
+          <ul data-testid="list-scoreboards-in-progress">
+            <ScoreboardTitle name="In Progress" />
+            {inProgress.map((game) => (
+              <Game key={game.id} scoreboard={game} showOutlet={() => setShowOutlet(true)} />
+            ))}
+          </ul>
+        ) : null}
+        {finished?.length > 0 ? (
+          <ul data-testid="list-scoreboards-completed">
+            <ScoreboardTitle name="Completed" />
+            {finished.map((game) => (
+              <Game key={game.id} scoreboard={game} showOutlet={() => setShowOutlet(true)} />
+            ))}
+          </ul>
+        ) : null}
+      </div>
       <div className={cn('w-full p-6 lg:block lg:w-[calc(100%-18rem)]', showOutlet ? 'relative block' : 'hidden')}>
         <Button
           onClick={() => setShowOutlet(false)}
@@ -100,6 +103,16 @@ function Scoreboards() {
         <Outlet />
       </div>
     </div>
+  )
+}
+
+function ScoreboardTitle({ name }: { name: string }) {
+  return (
+    <li>
+      <p className="border-b border-black/10 py-2 text-xs font-semibold text-neutral-500 dark:border-white/10">
+        {name}
+      </p>
+    </li>
   )
 }
 

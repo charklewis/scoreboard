@@ -1,5 +1,6 @@
 import { type LinksFunction, type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useNavigate } from '@remix-run/react'
+import reactToastify from 'react-toastify/dist/ReactToastify.css'
 import { NextUIProvider } from '@nextui-org/react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/remix'
@@ -8,7 +9,10 @@ import { ThemeProvider } from 'next-themes'
 import { identity } from '~/services/identity.server'
 import stylesheet from '~/tailwind.css'
 
-const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }]
+const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesheet },
+  { rel: 'stylesheet', href: reactToastify },
+]
 
 const meta: MetaFunction = () => {
   return [{ title: 'Scoreboard' }]

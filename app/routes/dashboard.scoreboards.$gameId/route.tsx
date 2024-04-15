@@ -1,11 +1,12 @@
 import { type ActionFunctionArgs, type LoaderFunctionArgs, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { namedAction } from 'remix-utils/named-action'
-import { array, string } from 'zod'
+import { array, number, object, string } from 'zod'
 
+import { Scrabble } from '~/components/scrabble'
 import { identity } from '~/services/identity.server'
 
-import { type GameStatus, fetchScoreboardAndPlayers, insertPlayer, startGame } from './api.server'
+import { addRound, fetchScoreboardAndPlayers, finishGame, insertPlayer, saveRound, startGame } from './api.server'
 import { NewGame } from './new-game'
 
 async function action({ request, params }: ActionFunctionArgs) {
@@ -44,6 +45,44 @@ async function action({ request, params }: ActionFunctionArgs) {
           })
         }
       },
+      async saveRound() {
+        try {
+          const formData = await request.formData()
+          const players = array(object({ roundId: string(), playerId: string(), score: number() })).parse(
+            JSON.parse(formData.get('players') as string)
+          )
+          await saveRound(players)
+          return json({ success: true })
+        } catch (error) {
+          return json({
+            error: 'An error occured while saving the game. If the error persists please try again later.',
+          })
+        }
+      },
+      async addRound() {
+        try {
+          const formData = await request.formData()
+          const roundId = string().parse(formData.get('roundId'))
+          await addRound(roundId)
+          return json({ success: true })
+        } catch (error) {
+          return json({
+            error: 'An error occured while adding a new round. If the error persists please try again later.',
+          })
+        }
+      },
+      async finishGame() {
+        try {
+          const formData = await request.formData()
+          const roundId = string().parse(formData.get('roundId'))
+          await finishGame(roundId)
+          return json({ success: true })
+        } catch (error) {
+          return json({
+            error: 'An error occured while adding a new round. If the error persists please try again later.',
+          })
+        }
+      },
     })
   }
   return json({})
@@ -53,21 +92,23 @@ async function loader({ request, params }: LoaderFunctionArgs) {
   const { gameId } = params
   const user = await identity.isAuthenticated(request)
   if (user && gameId) {
-    const { players, gameStatus } = await fetchScoreboardAndPlayers(user.stytchId, gameId)
-    return json({ players, gameStatus })
+    const { players, gameStatus, gameType, rounds } = await fetchScoreboardAndPlayers(user.stytchId, gameId)
+    return json({ players, gameStatus, gameType, rounds })
   }
-  return json({ players: [], gameStatus: 'error' })
+  return json({ players: [], gameStatus: 'error', gameType: '', rounds: [] })
 }
 
 function Game() {
-  const { gameStatus } = useLoaderData<{ gameStatus: GameStatus }>()
+  const { gameStatus, gameType, rounds } = useLoaderData<typeof loader>()
 
   return (
     <section>
       {gameStatus === 'new' ? (
         <NewGame />
       ) : gameStatus === 'in-progress' ? (
-        <p className="pt-9 lg:pt-0">in progress</p>
+        <section className="pt-9 lg:pt-0">
+          {gameType === 'scrabble' ? <Scrabble rounds={(rounds || []) as any} /> : <p>Game type not supported</p>}
+        </section>
       ) : gameStatus === 'finished' ? (
         <p>finished</p>
       ) : (
