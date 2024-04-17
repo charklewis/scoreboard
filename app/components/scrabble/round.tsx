@@ -60,9 +60,9 @@ function Round({ round }: { round: RoundType }) {
 
   return (
     <Form id={`round-${round.roundNumber}`} defaultValues={defaultValues}>
-      <ul className="flex gap-8">
+      <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {round.players.map((player) => (
-          <Card className="max-w-[400px]" key={player.id} data-testid={`round-player-${player.id}`}>
+          <Card key={player.id} data-testid={`round-player-${player.id}`}>
             <CardHeader className="flex gap-3">
               <Avatar
                 showFallback

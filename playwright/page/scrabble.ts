@@ -15,7 +15,7 @@ class Scrabble {
     await this.page.getByTestId(/button-navbar-new-game-scrabble/i).click()
     await this.page.waitForURL(/scoreboards\/[A-Za-z0-9]+/i)
     if (this.mode === 'mobile') {
-      const gameId = await this.page.url().split('scoreboards/')[1]
+      const gameId = this.page.url().split('scoreboards/')[1]
       await this.page.getByTestId(`link-${gameId}`).click()
     }
     await expect(this.page.getByText(/you can add up to 4 players/i)).toBeVisible()
@@ -68,7 +68,10 @@ class Scrabble {
       const round = [scores[i]]
       await this.playRound(round, i + 1)
       await this.waitForScoresToBeSaved()
-      await this.page.getByTestId(/button-add-round/i).click()
+
+      if (i < scores.length - 1) {
+        await this.page.getByTestId(/button-add-round/i).click()
+      }
     }
   }
 
@@ -98,7 +101,7 @@ class Scrabble {
 
   async finishGame() {
     await this.page.getByTestId(/button-end-game/i).click()
-    await this.page.getByText(/finished/i)
+    await expect(this.page.getByText(/finished/i)).toBeVisible()
   }
 
   generateScores(players: string[], numberOfRounds: number) {
