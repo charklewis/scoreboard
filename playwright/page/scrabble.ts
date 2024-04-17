@@ -124,7 +124,7 @@ class Scrabble {
   }
 
   generateNumberOfRounds() {
-    return faker.number.int({ min: 2, max: 5 })
+    return faker.number.int({ min: 2, max: 3 })
   }
 
   generatePlayers() {
