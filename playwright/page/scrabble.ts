@@ -68,7 +68,10 @@ class Scrabble {
       const round = [scores[i]]
       await this.playRound(round, i + 1)
       await this.waitForScoresToBeSaved()
-      await this.page.getByTestId(/button-add-round/i).click()
+
+      if (i < scores.length - 1) {
+        await this.page.getByTestId(/button-add-round/i).click()
+      }
     }
   }
 
@@ -98,7 +101,7 @@ class Scrabble {
 
   async finishGame() {
     await this.page.getByTestId(/button-end-game/i).click()
-    expect(this.page.getByText(/finished/i)).toBeVisible()
+    await expect(this.page.getByText(/finished/i)).toBeVisible()
   }
 
   generateScores(players: string[], numberOfRounds: number) {

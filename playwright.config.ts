@@ -9,8 +9,8 @@ export default defineConfig({
   reporter: 'html',
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
-    trace: 'on-first-retry',
-    video: process.env.RECORD_TEST_VIDEO ? 'on' : 'off',
+    trace: 'retain-on-failure',
+    video: 'retain-on-failure',
   },
   projects: [
     { name: 'chromium', grepInvert: /mobile/, use: { ...devices['Desktop Chrome'] } },
