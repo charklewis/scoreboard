@@ -16,4 +16,5 @@ export default defineConfig({
     { name: 'chromium', grepInvert: /mobile/, use: { ...devices['Desktop Chrome'] } },
     { name: 'safari', grepInvert: /desktop/, use: { ...devices['iPhone 14'] } },
   ],
+  maxFailures: 1,
 })
