@@ -67,7 +67,6 @@ const identity = new Authenticator<User>(sessionStorage)
 
 identity.use(
   new OtpStrategy(async ({ code, methodId }) => {
-    console.log({ methodId, code })
     const stytchId = await authenticateOtp({ methodId, code })
     if (!stytchId) throw new Error('Your code was not valid')
 
