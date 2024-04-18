@@ -7,6 +7,7 @@ function OneTimeCode() {
     useActionData<{ errors?: { code: string }; email: string; methodId: string; sent: string }>() || {}
   const navigation = useNavigation()
   const isLoading = navigation.state !== 'idle'
+
   return (
     <>
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Verification</h2>

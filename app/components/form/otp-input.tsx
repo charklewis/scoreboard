@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { type ClipboardEventHandler, useState } from 'react'
 import { Input, type InputProps } from '@nextui-org/react'
 import OTPInput from 'react-otp-input'
 
@@ -8,7 +8,7 @@ function OtpInput() {
   const { name, error } = useInputGroup()
   const [code, setCode] = useState('')
 
-  const handlePaste: React.ClipboardEventHandler = (event) => {
+  const handlePaste: ClipboardEventHandler = (event) => {
     const data = event.clipboardData.getData('text')
     setCode(data)
   }
@@ -23,7 +23,7 @@ function OtpInput() {
         skipDefaultStyles
         shouldAutoFocus
         containerStyle="gap-1"
-        renderSeparator={<span className="text-xl text-neutral-400">-</span>}
+        renderSeparator={<span className="text-xl text-neutral-300 dark:text-neutral-700">-</span>}
         renderInput={(props, index) => {
           const id = `input-${name}-${index}`
           return (
@@ -36,6 +36,7 @@ function OtpInput() {
               variant="bordered"
               size="lg"
               pattern="[0-9]*"
+              classNames={{ input: 'text-center text-2xl' }}
             />
           )
         }}
