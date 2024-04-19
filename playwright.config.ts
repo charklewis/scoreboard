@@ -10,7 +10,7 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
     trace: 'retain-on-failure',
-    video: 'retain-on-failure',
+    video: process.env.CI ? 'off' : 'retain-on-failure',
   },
   projects: [
     { name: 'chromium', grepInvert: /mobile/, use: { ...devices['Desktop Chrome'] } },
