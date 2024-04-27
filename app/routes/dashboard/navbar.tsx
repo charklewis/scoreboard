@@ -73,7 +73,7 @@ function Navbar() {
             <DropdownItem key="settings" data-testid="link-settings">
               Settings
             </DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem key="logout" color="danger" textValue="Logout">
               <Link id="logout" href="/logout" color="danger" size="sm" text="Log out" />
             </DropdownItem>
           </DropdownMenu>
