@@ -72,11 +72,17 @@ function Players({
         return (
           <Dropdown>
             <DropdownTrigger>
-              <Button isIconOnly size="sm" variant="light" data-testid={`button-player-options-${player.id}`}>
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                data-testid={`button-player-options-${player.id}`}
+                aria-label="Options"
+              >
                 <EllipsisVerticalIcon className="h-5 w-5" />
               </Button>
             </DropdownTrigger>
-            <DropdownMenu variant="light" disabledKeys={getDisabledKeys()}>
+            <DropdownMenu variant="light" disabledKeys={getDisabledKeys()} aria-label="Option">
               <DropdownItem
                 key="move-up"
                 onClick={() => movePlayer(player.id, 'up')}

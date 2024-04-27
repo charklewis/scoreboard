@@ -31,12 +31,14 @@ function Game({ scoreboard, showOutlet }: { scoreboard: Scoreboard; showOutlet: 
               <time dateTime={scoreboard.createdAt}>{new Date(scoreboard.createdAt).toDateString()}</time>
             </div>
           </div>
-          <dl className="mb-1.5 mt-1.5 flex w-full flex-none justify-between gap-x-8">
-            <div className="ml-2 flex -space-x-0.5">
-              <dt className="sr-only">Players</dt>
-              <Players players={scoreboard.players} />
-            </div>
-          </dl>
+          {scoreboard.players.length > 0 ? (
+            <dl className="mb-1.5 mt-1.5 flex w-full flex-none justify-between gap-x-8">
+              <div className="ml-2 flex -space-x-0.5">
+                <dt className="sr-only">Players</dt>
+                <Players players={scoreboard.players} />
+              </div>
+            </dl>
+          ) : null}
         </li>
       </Link>
     </Fragment>

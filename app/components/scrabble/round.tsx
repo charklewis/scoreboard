@@ -27,7 +27,7 @@ function Round({ round }: { round: RoundType }) {
 
   const saveFormValues = useDebouncedCallback(
     (players) => save.submit({ players }, { action: '?/saveRound', method: 'POST' }),
-    750
+    500
   )
 
   const defaultValues = useMemo(
