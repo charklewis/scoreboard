@@ -30,4 +30,25 @@ function calculatePlayerScores(rounds: RoundType[]) {
   return Object.values(scores).sort((a, b) => b.score - a.score)
 }
 
-export { calculatePlayerScores }
+function convertRoundsToRows(rounds: RoundType[]) {
+  return rounds.map((round) => {
+    const playersScores = round.players.reduce(
+      (acc, player) => {
+        return { ...acc, [player.id]: player.score || 0 }
+      },
+      {} as Record<string, number>
+    )
+
+    const winnerId = Object.entries(playersScores).reduce((currentWinnerId, [playerId, score]) => {
+      return score > (playersScores[currentWinnerId] || 0) ? playerId : currentWinnerId
+    }, '')
+
+    return { id: round.id, winner: winnerId, ...playersScores }
+  })
+}
+
+function convertPlayersToColumns(players: Player[]) {
+  return players.map((player) => ({ id: player.id, key: player.id, name: player.name }))
+}
+
+export { calculatePlayerScores, convertRoundsToRows, convertPlayersToColumns }

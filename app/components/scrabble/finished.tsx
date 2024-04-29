@@ -1,13 +1,33 @@
-import { useMemo, useState } from 'react'
-import { Avatar, Card, CardBody, CardHeader, Divider } from '@nextui-org/react'
-import { Button } from '~/components/button'
+import { useMemo } from 'react'
+import {
+  Avatar,
+  Card,
+  CardBody,
+  CardHeader,
+  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from '@nextui-org/react'
 import { getOrdinalSuffix } from '~/components/helpers'
-import { calculatePlayerScores } from './helpers'
+import { calculatePlayerScores, convertPlayersToColumns, convertRoundsToRows } from './helpers'
 import { type RoundType } from './round'
 
 function Finished({ rounds }: { rounds: RoundType[] }) {
-  const [showRounds, setShowRounds] = useState(false)
   const players = useMemo(() => calculatePlayerScores(rounds), [rounds])
+  const tableColumns = useMemo(() => convertPlayersToColumns(players), [players])
+  const tableRows = useMemo(() => convertRoundsToRows(rounds), [rounds])
+
+  const renderCell = (row: (typeof tableRows)[0], columnKey: string) => {
+    const score = row[columnKey as keyof typeof row]
+    if (row.winner === columnKey) {
+      return <span className="font-medium">{score}</span>
+    }
+    return <span className="opacity-75">{score}</span>
+  }
 
   return (
     <div>
@@ -40,7 +60,7 @@ function Finished({ rounds }: { rounds: RoundType[] }) {
             </CardHeader>
             <Divider />
             <CardBody>
-              <p className="font-semibold">
+              <p className="font-medium">
                 {index + 1}
                 {getOrdinalSuffix(index + 1)} place
               </p>
@@ -49,15 +69,24 @@ function Finished({ rounds }: { rounds: RoundType[] }) {
         ))}
       </ul>
 
-      <div className="flex justify-center">
-        {/* todo: this should have a chevron up and down ("see all rounds" then "hide") */}
-        <Button id="all-rounds" text="See All Rounds" size="sm" onPress={() => setShowRounds((value) => !value)} />
-      </div>
+      <Divider className="my-6" />
 
-      {showRounds ? <p>rounds!</p> : null}
+      <p className="text-lg font-semibold capitalize leading-6" data-testid="rounds-title">
+        Rounds
+      </p>
 
-      {/* if showRounds then render a table showing the rounds (player as column with rounds as rows)
-      https://nextui.org/docs/components/table */}
+      <Table className="mt-6" fullWidth={false}>
+        <TableHeader columns={tableColumns}>
+          {(column) => <TableColumn key={column.id}>{column.name}</TableColumn>}
+        </TableHeader>
+        <TableBody items={tableRows}>
+          {(row) => (
+            <TableRow key={row.id}>
+              {(columnKey) => <TableCell>{renderCell(row, String(columnKey))}</TableCell>}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </div>
   )
 }

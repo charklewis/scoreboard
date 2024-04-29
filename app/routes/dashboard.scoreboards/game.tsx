@@ -21,6 +21,7 @@ type Scoreboard = {
 function Game({ scoreboard, showOutlet }: { scoreboard: Scoreboard; showOutlet: Function }) {
   const location = useLocation()
   const isSelected = location.pathname.includes(scoreboard.id)
+
   return (
     <Fragment key={scoreboard.id}>
       <Link isSelected={isSelected} id={scoreboard.id} href={scoreboard.id}>
