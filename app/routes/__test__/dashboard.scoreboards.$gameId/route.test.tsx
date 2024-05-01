@@ -41,14 +41,14 @@ describe('component', () => {
   })
 
   test('user view a finished game', async () => {
-    const loader = vi.fn().mockReturnValue(json({ gameStatus: 'finished', players: [] }))
+    const loader = vi.fn().mockReturnValue(json({ gameType: 'scrabble', gameStatus: 'finished', players: [] }))
     const routes = [{ path, element: <Scoreboards />, loader }]
     renderWithRouter(routes)
-    await screen.findByText(/finished/i)
+    await screen.findByTestId(/rounds-title/i)
   })
 
-  test('user view a finished game', async () => {
-    const loader = vi.fn().mockReturnValue(json({ gameStatus: 'error', players: [] }))
+  test('user will receive an error', async () => {
+    const loader = vi.fn().mockReturnValue(json({ gameType: 'scrabble', gameStatus: 'error', players: [] }))
     const routes = [{ path, element: <Scoreboards />, loader }]
     renderWithRouter(routes)
     await screen.findByText(/error/i)

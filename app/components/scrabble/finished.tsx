@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
   Avatar,
   Card,
@@ -21,13 +21,13 @@ function Finished({ rounds }: { rounds: RoundType[] }) {
   const tableColumns = useMemo(() => convertPlayersToColumns(players), [players])
   const tableRows = useMemo(() => convertRoundsToRows(rounds), [rounds])
 
-  const renderCell = (row: (typeof tableRows)[0], columnKey: string) => {
+  const renderCell = useCallback((row: (typeof tableRows)[0], columnKey: string) => {
     const score = row[columnKey as keyof typeof row]
     if (row.winner === columnKey) {
       return <span className="font-medium">{score}</span>
     }
     return <span className="opacity-75">{score}</span>
-  }
+  }, [])
 
   return (
     <div>
@@ -36,7 +36,7 @@ function Finished({ rounds }: { rounds: RoundType[] }) {
       </h1>
       <ul className="mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         {players.map((player, index) => (
-          <Card key={player.id} data-testid={`round-player-${player.id}`}>
+          <Card key={player.id} data-testid={`scores-player-${player.id}`}>
             <CardHeader className="justify-between">
               <div className="flex gap-3">
                 <Avatar
@@ -51,12 +51,18 @@ function Finished({ rounds }: { rounds: RoundType[] }) {
                 />
                 <div className="flex flex-col">
                   <p className="text-md">{player.name}</p>
-                  <p className="text-small text-default-500" data-testid={`player-${player.id}-total-score`}>
+                  <p className="text-small text-default-500" data-testid={`scores-${player.id}-total-score`}>
                     Score {player.score}
                   </p>
                 </div>
               </div>
-              {index === 0 ? <span className="mr-2">🏆</span> : null}
+              {index === 0 ? (
+                <Medal id={player.id} emoji="🥇" />
+              ) : index === 1 ? (
+                <Medal id={player.id} emoji="🥈" />
+              ) : index === 2 ? (
+                <Medal id={player.id} emoji="🥉" />
+              ) : null}
             </CardHeader>
             <Divider />
             <CardBody>
@@ -71,23 +77,39 @@ function Finished({ rounds }: { rounds: RoundType[] }) {
 
       <Divider className="my-6" />
 
-      <p className="text-lg font-semibold capitalize leading-6" data-testid="rounds-title">
+      <p className="text-lg font-semibold capitalize leading-6" data-testid="rounds-table-title">
         Rounds
       </p>
 
-      <Table className="mt-6" fullWidth={false}>
-        <TableHeader columns={tableColumns}>
-          {(column) => <TableColumn key={column.id}>{column.name}</TableColumn>}
-        </TableHeader>
-        <TableBody items={tableRows}>
-          {(row) => (
-            <TableRow key={row.id}>
-              {(columnKey) => <TableCell>{renderCell(row, String(columnKey))}</TableCell>}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+      {rounds.length === 0 ? (
+        <p>No rounds have been played</p>
+      ) : (
+        <Table className="mt-6" fullWidth={false} aria-label="Rounds" data-testid="table-rounds">
+          <TableHeader columns={tableColumns}>
+            {(column) => (
+              <TableColumn data-testid={`table-rounds-header-${column.name}`} key={column.id}>
+                {column.name}
+              </TableColumn>
+            )}
+          </TableHeader>
+          <TableBody items={tableRows}>
+            {(row) => (
+              <TableRow key={row.id}>
+                {(columnKey) => <TableCell>{renderCell(row, String(columnKey))}</TableCell>}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )}
     </div>
+  )
+}
+
+function Medal({ id, emoji }: { id: string; emoji: string }) {
+  return (
+    <span className="mr-2 text-3xl" data-testid={`player-${id}-medal`}>
+      {emoji}
+    </span>
   )
 }
 
