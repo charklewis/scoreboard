@@ -1,7 +1,9 @@
 import { test } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { render, screen, within } from '@testing-library/react'
+
 import { createPlayer, createRound } from '~/test-utils'
+
 import { Finished } from '../finished'
 
 test('displays the players and their scores', () => {

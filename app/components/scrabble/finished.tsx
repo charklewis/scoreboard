@@ -12,7 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react'
+
 import { getOrdinalSuffix } from '~/components/helpers'
+
 import { calculatePlayerScores, convertPlayersToColumns, convertRoundsToRows } from './helpers'
 import { type RoundType } from './round'
 

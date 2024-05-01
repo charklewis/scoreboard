@@ -16,6 +16,7 @@ import {
 } from '@nextui-org/react'
 
 import { getOrdinalSuffix } from '~/components/helpers'
+
 import { type Player as PlayerType } from '../api.server'
 
 const columns = [
