@@ -2,7 +2,7 @@ import { test } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { act, screen, within } from '@testing-library/react'
 
-import { Scrabble } from '~/components/scrabble'
+import { InProgress } from '~/components/scrabble/in-progress'
 import { renderWithRouter } from '~/test-utils'
 
 function createPlayer({ score = 0, totalScore = 0 } = {}) {
@@ -29,7 +29,7 @@ test('renders the rounds for a scrabble game', async () => {
   const roundTwo = createRound({ roundNumber: 2 })
   const roundThree = createRound({ roundNumber: 3 })
   const rounds = [roundOne, roundTwo, roundThree]
-  const route = [{ path: '/scrabble', element: <Scrabble rounds={rounds} /> }]
+  const route = [{ path: '/scrabble', element: <InProgress rounds={rounds} /> }]
   const { user } = renderWithRouter(route)
 
   await screen.findByTestId(/rounds-title/i)
@@ -53,7 +53,7 @@ test("auto selects the first round that isn't complete", async () => {
   const roundTwo = createRound({ roundNumber: 2 })
   const roundThree = createRound({ roundNumber: 3 })
   const rounds = [roundOne, roundTwo, roundThree]
-  const route = [{ path: '/scrabble', element: <Scrabble rounds={rounds} /> }]
+  const route = [{ path: '/scrabble', element: <InProgress rounds={rounds} /> }]
   renderWithRouter(route)
 
   await screen.findByTestId(/rounds-title/i)

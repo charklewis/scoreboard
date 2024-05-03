@@ -30,6 +30,8 @@ const createPlayer = () => ({
   name: faker.person.fullName(),
   background: faker.color.rgb(),
   emoji: faker.internet.emoji(),
+  score: faker.number.int(),
+  totalScore: faker.number.int(),
 })
 
 const createScoreboard = () => ({
@@ -42,8 +44,13 @@ const createScoreboard = () => ({
 })
 
 const createScoreboardList = () =>
-  Array(faker.number.int({ min: 1, max: 15 }))
-    .fill(0)
-    .map(() => createScoreboard())
+  faker.helpers.multiple(createScoreboard, { count: faker.number.int({ min: 1, max: 15 }) })
 
-export { renderWithRouter, createPlayer, createScoreboard, createScoreboardList }
+const createRound = ({ roundNumber = faker.number.int(), roundCompleted = true, players = [createPlayer()] } = {}) => ({
+  id: faker.string.uuid(),
+  roundNumber,
+  roundCompleted,
+  players,
+})
+
+export { renderWithRouter, createPlayer, createScoreboard, createScoreboardList, createRound }

@@ -105,12 +105,14 @@ function Game() {
     <section>
       {gameStatus === 'new' ? (
         <NewGame />
-      ) : gameStatus === 'in-progress' ? (
+      ) : gameStatus === 'in-progress' || gameStatus === 'finished' ? (
         <section className="pt-9 lg:pt-0">
-          {gameType === 'scrabble' ? <Scrabble rounds={(rounds || []) as any} /> : <p>Game type not supported</p>}
+          {gameType === 'scrabble' ? (
+            <Scrabble isFinished={gameStatus === 'finished'} rounds={(rounds || []) as any} />
+          ) : (
+            <p>Game type not supported</p>
+          )}
         </section>
-      ) : gameStatus === 'finished' ? (
-        <p>finished</p>
       ) : (
         <p>error</p>
       )}

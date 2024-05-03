@@ -22,6 +22,7 @@ describe('desktop', () => {
     const scores = pages.scrabble.generateScores(playerIds, rounds)
     await pages.scrabble.playRounds(scores)
     await pages.scrabble.finishGame()
+    await pages.scrabble.verifyGameResults(scores, rounds)
   })
 })
 
@@ -38,5 +39,6 @@ describe('mobile', () => {
     const scores = pages.scrabble.generateScores(playerIds, rounds)
     await pages.scrabble.playRounds(scores)
     await pages.scrabble.finishGame()
+    await pages.scrabble.verifyGameResults(scores, rounds)
   })
 })
