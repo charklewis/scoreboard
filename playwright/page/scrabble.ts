@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { type Page, expect } from '@playwright/test'
+import { getOrdinalSuffix } from 'playwright/support/helpers'
 
 class Scrabble {
   readonly page: Page
@@ -46,8 +47,8 @@ class Scrabble {
 
   async startGame() {
     await this.page.getByTestId(/button-start-game/i).click()
-    expect(this.page.getByText(/next round/i)).toBeVisible()
-    expect(this.page.getByText(/finish game/i)).toBeVisible()
+    await expect(this.page.getByText(/next round/i)).toBeVisible()
+    await expect(this.page.getByText(/finish game/i)).toBeVisible()
   }
 
   async getPlayerIds(players: string[]) {
@@ -101,7 +102,7 @@ class Scrabble {
 
   async finishGame() {
     await this.page.getByTestId(/button-end-game/i).click()
-    await expect(this.page.getByText(/finished/i)).toBeVisible()
+    await expect(this.page.getByTestId(/rounds-title/i)).toBeVisible()
   }
 
   generateScores(players: string[], numberOfRounds: number) {
@@ -132,6 +133,27 @@ class Scrabble {
 
   generatePlayers() {
     return Array.from({ length: faker.number.int({ min: 2, max: 4 }) }, () => faker.person.fullName())
+  }
+
+  async verifyGameResults(scores: Record<string, number>[], rounds: number) {
+    const cumulativeScores = this.getCumulativeScores(scores, rounds)
+    const sortedPlayers = Object.entries(cumulativeScores).sort((a, b) => b[1] - a[1])
+
+    for (let i = 0; i < sortedPlayers.length; i++) {
+      const [player, score] = sortedPlayers[i]
+      const card = this.page.getByTestId(`scores-player-${player}`)
+      const place = getOrdinalSuffix(i + 1)
+      await expect(card).toContainText(`${place} place`)
+      await expect(card.getByTestId(`scores-player-${player}-total-score`)).toContainText(String(score))
+    }
+
+    const table = this.page.getByTestId(/table-rounds/i)
+
+    for (const round of scores) {
+      for (const [player, score] of Object.entries(round)) {
+        await expect(table.getByTestId(`table-rounds-cell-${player}-${score}`)).toContainText(String(score))
+      }
+    }
   }
 }
 

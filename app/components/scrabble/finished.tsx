@@ -25,10 +25,19 @@ function Finished({ rounds }: { rounds: RoundType[] }) {
 
   const renderCell = useCallback((row: (typeof tableRows)[0], columnKey: string) => {
     const score = row[columnKey as keyof typeof row]
+    const testId = `table-rounds-cell-${columnKey}-${score}`
     if (row.winner === columnKey) {
-      return <span className="font-medium">{score}</span>
+      return (
+        <span className="font-medium" data-testid={testId}>
+          {score}
+        </span>
+      )
     }
-    return <span className="opacity-75">{score}</span>
+    return (
+      <span className="opacity-75" data-testid={testId}>
+        {score}
+      </span>
+    )
   }, [])
 
   return (
@@ -53,7 +62,7 @@ function Finished({ rounds }: { rounds: RoundType[] }) {
                 />
                 <div className="flex flex-col">
                   <p className="text-md">{player.name}</p>
-                  <p className="text-small text-default-500" data-testid={`scores-${player.id}-total-score`}>
+                  <p className="text-small text-default-500" data-testid={`scores-player-${player.id}-total-score`}>
                     Score {player.score}
                   </p>
                 </div>
