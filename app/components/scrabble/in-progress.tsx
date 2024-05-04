@@ -4,6 +4,7 @@ import { Tab, Tabs } from '@nextui-org/react'
 import { useInteractionInFlight } from '~/components/useInteractionInFlight'
 
 import { AddRound } from './add-round'
+import { Dictionary } from './check-word'
 import { EndGame } from './end-game'
 import { Round, type RoundType } from './round'
 
@@ -19,7 +20,10 @@ function InProgress({ rounds }: { rounds: RoundType[] }) {
         <h1 className="mb-2 text-lg font-semibold capitalize leading-6" data-testid="rounds-title">
           Rounds
         </h1>
-        <EndGame roundId={rounds.find((round) => String(round.roundNumber) === selectedRound)?.id} />
+        <div className="flex gap-3">
+          <Dictionary />
+          <EndGame roundId={rounds.find((round) => String(round.roundNumber) === selectedRound)?.id} />
+        </div>
       </div>
       <Tabs
         aria-label="rounds"
