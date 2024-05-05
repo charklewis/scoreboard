@@ -14,3 +14,6 @@ coverage
 
 credentials.json
 token.json
+
+word-list.txt
+convert-word-list.js

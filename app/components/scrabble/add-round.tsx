@@ -33,7 +33,7 @@ function AddRound({
     setUpdateRound(true)
   }
 
-  return <Button id="add-round" color="primary" text="Next Round" onClick={onClick} className="mt-8 w-full" />
+  return <Button id="add-round" color="primary" text="Add Round" onClick={onClick} className="mt-8 w-full lg:w-auto" />
 }
 
 export { AddRound }

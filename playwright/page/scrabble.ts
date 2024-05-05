@@ -47,7 +47,7 @@ class Scrabble {
 
   async startGame() {
     await this.page.getByTestId(/button-start-game/i).click()
-    await expect(this.page.getByText(/next round/i)).toBeVisible()
+    await expect(this.page.getByText(/add round/i)).toBeVisible()
     await expect(this.page.getByText(/finish game/i)).toBeVisible()
   }
 
@@ -98,6 +98,31 @@ class Scrabble {
   async waitForScoresToBeSaved() {
     await expect(this.page.getByText(/score saved/i)).toBeVisible()
     await expect(this.page.getByText(/score saved/i)).toHaveCount(0)
+  }
+
+  async useWordChecker() {
+    await this.page.getByTestId(/button-dictionary/i).click()
+    await expect(this.page.getByTestId(/form-check-word/i)).toBeVisible()
+
+    //check invalid word
+    await this.page.getByTestId(/input-word/i).fill(faker.string.alpha())
+    await this.page.getByTestId(/button-submit-check-word/i).click()
+    await expect(this.page.getByText(/this is not an official scrabble word/i)).toBeVisible()
+
+    //check valid word
+    const word = {
+      value: 'oxyphenbutazone',
+      score: 41,
+      meaning: 'a phenylbutazone derivative having antiinflammatory, analgesic, and antipyretic effects',
+    }
+
+    await this.page.getByTestId(/input-word/i).clear()
+    await this.page.getByTestId(/input-word/i).fill(word.value)
+    await this.page.getByTestId(/button-submit-check-word/i).click()
+    await expect(this.page.getByTestId(/check-word-score/i)).toHaveText(String(word.score))
+    await expect(this.page.getByTestId(/check-word-meaning/i)).toHaveText(word.meaning)
+
+    await this.page.keyboard.press('Escape')
   }
 
   async finishGame() {

@@ -21,7 +21,7 @@ test('renders a button to add a round', async () => {
     { path: '/', element: <AddRound selectedRound="1" rounds={rounds} setSelectedRound={setSelectedRound} /> },
   ])
   await screen.findByTestId(/button-add-round/i)
-  await act(() => user.click(screen.getByText(/next round/i)))
+  await act(() => user.click(screen.getByText(/add round/i)))
   expect(submit).toHaveBeenCalled()
 })
 
@@ -37,6 +37,6 @@ test('updates the selected round when the button is clicked', async () => {
     },
   ])
   await screen.findByTestId(/button-add-round/i)
-  await act(() => user.click(screen.getByText(/next round/i)))
+  await act(() => user.click(screen.getByText(/add round/i)))
   expect(setSelectedRound).toHaveBeenCalledWith('2')
 })
