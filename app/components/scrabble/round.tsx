@@ -7,6 +7,8 @@ import { useDebouncedCallback } from 'use-debounce'
 
 import { Form, Input, InputGroup } from '~/components/form'
 
+import { useInProgressContext } from './in-progress-context'
+
 type RoundType = {
   id: string
   roundNumber: number
@@ -22,6 +24,7 @@ type RoundType = {
 }
 
 function Round({ round }: { round: RoundType }) {
+  const { showScore } = useInProgressContext()
   const save = useFetcher<{ error: string; success: boolean }>()
   const { systemTheme } = useTheme()
 
@@ -77,7 +80,7 @@ function Round({ round }: { round: RoundType }) {
               <div className="flex flex-col">
                 <p className="text-md">{player.name}</p>
                 <p className="text-small text-default-500" data-testid={`player-${player.id}-total-score`}>
-                  Score {player.totalScore}
+                  Score {showScore ? player.totalScore : '∗∗∗'}
                 </p>
               </div>
             </CardHeader>

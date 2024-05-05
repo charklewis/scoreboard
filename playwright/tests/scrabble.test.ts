@@ -12,6 +12,7 @@ async function playScrabble(pages: Page) {
   const scores = pages.scrabble.generateScores(playerIds, rounds)
   await pages.scrabble.playRounds(scores)
   await pages.scrabble.useWordChecker()
+  await pages.scrabble.toggleShowScore(playerIds)
   await pages.scrabble.finishGame()
   await pages.scrabble.verifyGameResults(scores, rounds)
 }

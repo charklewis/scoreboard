@@ -125,6 +125,17 @@ class Scrabble {
     await this.page.keyboard.press('Escape')
   }
 
+  async toggleShowScore(playerIds: string[]) {
+    await this.page.getByTestId(/switch-show-score/i).click()
+    for (const id of playerIds) {
+      await expect(this.page.getByTestId(`player-${id}-total-score`)).toHaveText(/score ∗∗∗/i)
+    }
+    await this.page.getByTestId(/switch-show-score/i).click()
+    for (const id of playerIds) {
+      await expect(this.page.getByTestId(`player-${id}-total-score`)).toHaveText(/score \d+/i)
+    }
+  }
+
   async finishGame() {
     await this.page.getByTestId(/button-end-game/i).click()
     await expect(this.page.getByTestId(/rounds-title/i)).toBeVisible()
