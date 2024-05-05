@@ -26,7 +26,7 @@ test('renders a button to add a round', async () => {
 })
 
 test('updates the selected round when the button is clicked', async () => {
-  ;(useFetcher as Mock).mockReturnValue({ submit: vi.fn(), data: true, state: 'idle' })
+  (useFetcher as Mock).mockReturnValue({ submit: vi.fn(), data: true, state: 'idle' })
 
   const rounds = [faker.string.uuid(), faker.string.uuid()]
   const setSelectedRound = vi.fn()

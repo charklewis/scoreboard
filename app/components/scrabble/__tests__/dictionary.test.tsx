@@ -2,7 +2,9 @@ import { json } from '@remix-run/node'
 import { expect, test, vi } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { act, screen } from '@testing-library/react'
+
 import { renderWithRouter } from '~/test-utils'
+
 import { Dictionary } from '../dictionary'
 
 test('user can check if a word is valid', async () => {
