@@ -4,7 +4,7 @@ import { Tab, Tabs } from '@nextui-org/react'
 import { useInteractionInFlight } from '~/components/useInteractionInFlight'
 
 import { AddRound } from './add-round'
-import { Dictionary } from './check-word'
+import { Dictionary } from './dictionary'
 import { EndGame } from './end-game'
 import { Round, type RoundType } from './round'
 

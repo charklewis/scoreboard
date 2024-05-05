@@ -47,7 +47,7 @@ class Scrabble {
 
   async startGame() {
     await this.page.getByTestId(/button-start-game/i).click()
-    await expect(this.page.getByText(/next round/i)).toBeVisible()
+    await expect(this.page.getByText(/add round/i)).toBeVisible()
     await expect(this.page.getByText(/finish game/i)).toBeVisible()
   }
 

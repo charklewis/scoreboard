@@ -21,12 +21,12 @@ test('renders a button to add a round', async () => {
     { path: '/', element: <AddRound selectedRound="1" rounds={rounds} setSelectedRound={setSelectedRound} /> },
   ])
   await screen.findByTestId(/button-add-round/i)
-  await act(() => user.click(screen.getByText(/next round/i)))
+  await act(() => user.click(screen.getByText(/add round/i)))
   expect(submit).toHaveBeenCalled()
 })
 
 test('updates the selected round when the button is clicked', async () => {
-  (useFetcher as Mock).mockReturnValue({ submit: vi.fn(), data: true, state: 'idle' })
+  ;(useFetcher as Mock).mockReturnValue({ submit: vi.fn(), data: true, state: 'idle' })
 
   const rounds = [faker.string.uuid(), faker.string.uuid()]
   const setSelectedRound = vi.fn()
@@ -37,6 +37,6 @@ test('updates the selected round when the button is clicked', async () => {
     },
   ])
   await screen.findByTestId(/button-add-round/i)
-  await act(() => user.click(screen.getByText(/next round/i)))
+  await act(() => user.click(screen.getByText(/add round/i)))
   expect(setSelectedRound).toHaveBeenCalledWith('2')
 })

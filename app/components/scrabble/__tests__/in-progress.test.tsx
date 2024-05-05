@@ -34,7 +34,7 @@ test('renders the rounds for a scrabble game', async () => {
 
   await screen.findByTestId(/rounds-title/i)
   screen.getByText(/finish game/i)
-  screen.getByText(/next round/i)
+  screen.getByText(/add round/i)
 
   for (const round of rounds) {
     await act(() => user.click(screen.getByText(round.roundNumber)))

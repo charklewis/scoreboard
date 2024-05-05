@@ -11,7 +11,13 @@ function Dictionary() {
   return (
     <>
       <Button id="dictionary" text="Dictionary" variant="flat" color="primary" onPress={onOpen} />
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} hideCloseButton={true} backdrop="blur">
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        hideCloseButton={true}
+        backdrop="blur"
+        data-testid="modal-check-word"
+      >
         <ModalContent>
           <ModalHeader className="mt-2">Dictionary</ModalHeader>
           <ModalBody>
