@@ -63,7 +63,7 @@ test("auto selects the first round that isn't complete", async () => {
   screen.getByTestId(`form-round-${roundTwo.roundNumber}`)
 })
 
-test.only('user can hide the total scores', async () => {
+test('user can hide the total scores', async () => {
   const round = createRound({ roundNumber: 1 })
   const route = [
     {
