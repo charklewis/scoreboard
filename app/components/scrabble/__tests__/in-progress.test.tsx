@@ -1,9 +1,11 @@
-import { test } from 'vitest'
+import { expect, test } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { act, screen, within } from '@testing-library/react'
 
 import { InProgress } from '~/components/scrabble/in-progress'
 import { renderWithRouter } from '~/test-utils'
+
+import { InProgressContext } from '../in-progress-context'
 
 function createPlayer({ score = 0, totalScore = 0 } = {}) {
   return {
@@ -59,4 +61,31 @@ test("auto selects the first round that isn't complete", async () => {
   await screen.findByTestId(/rounds-title/i)
 
   screen.getByTestId(`form-round-${roundTwo.roundNumber}`)
+})
+
+test('user can hide the total scores', async () => {
+  const round = createRound({ roundNumber: 1 })
+  const route = [
+    {
+      path: '/scrabble',
+      element: (
+        <InProgressContext>
+          <InProgress rounds={[round]} />
+        </InProgressContext>
+      ),
+    },
+  ]
+  renderWithRouter(route)
+
+  await screen.findByTestId(/rounds-title/i)
+
+  for (const player of round.players) {
+    expect(screen.getByTestId(`player-${player.id}-total-score`)).toHaveTextContent(`Score ${player.totalScore}`)
+  }
+
+  await act(() => screen.getByTestId(/switch-show-score/i).click())
+
+  for (const player of round.players) {
+    expect(screen.getByTestId(`player-${player.id}-total-score`)).toHaveTextContent('Score ∗∗∗')
+  }
 })

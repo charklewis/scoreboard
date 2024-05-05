@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { Tab, Tabs } from '@nextui-org/react'
+import { Divider, Switch, Tab, Tabs } from '@nextui-org/react'
 
 import { useInteractionInFlight } from '~/components/useInteractionInFlight'
 
 import { AddRound } from './add-round'
 import { Dictionary } from './dictionary'
 import { EndGame } from './end-game'
+import { useInProgressContext } from './in-progress-context'
 import { Round, type RoundType } from './round'
 
 function InProgress({ rounds }: { rounds: RoundType[] }) {
   const isLoading = useInteractionInFlight()
+  const { showScore, toggleScore } = useInProgressContext()
   const [selectedRound, setSelectedRound] = useState(
     () => String(rounds.find((round) => round.roundCompleted === false)?.roundNumber) || '1'
   )
@@ -20,7 +22,11 @@ function InProgress({ rounds }: { rounds: RoundType[] }) {
         <h1 className="mb-2 text-lg font-semibold capitalize leading-6" data-testid="rounds-title">
           Rounds
         </h1>
-        <div className="flex gap-3">
+        <div className="flex items-center justify-center gap-3">
+          <Switch isSelected={showScore} onValueChange={toggleScore} size="sm" data-testid="switch-show-score">
+            Scores
+          </Switch>
+          <Divider orientation="vertical" className="h-9" />
           <Dictionary />
           <EndGame roundId={rounds.find((round) => String(round.roundNumber) === selectedRound)?.id} />
         </div>
