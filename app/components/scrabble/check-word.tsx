@@ -1,6 +1,7 @@
 import { useFetcher } from '@remix-run/react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import { Divider, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react'
+
 import { Button } from '~/components/button'
 import { Form, Input, InputGroup, Button as SubmitButton } from '~/components/form'
 
@@ -44,12 +45,15 @@ function CheckWord() {
         <>
           <Divider className="my-6" />
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-green-600 text-xl font-bold">
+            <div
+              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-green-600 text-xl font-bold"
+              data-testid="check-word-score"
+            >
               {fetcher.data.score}
             </div>
             <div>
               <p className="text-lg font-semibold">{fetcher.data.word}</p>
-              {fetcher.data.meaning ? <p>{fetcher.data.meaning.join(', ')}</p> : null}
+              {fetcher.data.meaning ? <p data-testid="check-word-meaning">{fetcher.data.meaning.join(', ')}</p> : null}
             </div>
           </div>
         </>
@@ -62,7 +66,7 @@ function CheckWord() {
             </div>
             <div>
               <p className="text-lg font-semibold">{fetcher.data.word}</p>
-              <p>This is not an official scrabble word</p>
+              <p data-testid="check-word-invalid">This is not an official scrabble word</p>
             </div>
           </div>
         </>

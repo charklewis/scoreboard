@@ -1,4 +1,5 @@
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
+
 import { calculateScore, checkWord } from '~/services/scrabble-dictionary/index.server'
 
 function loader({ request }: LoaderFunctionArgs) {
