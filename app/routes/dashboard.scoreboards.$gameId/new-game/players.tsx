@@ -60,7 +60,12 @@ function Players({
           </div>
         )
       case 'order':
-        return <p>{getOrdinalSuffix(player.index + 1)}</p>
+        return (
+          <p>
+            {player.index + 1}
+            {getOrdinalSuffix(player.index + 1)}
+          </p>
+        )
       case 'action':
         return (
           <Dropdown>
@@ -75,7 +80,7 @@ function Players({
                 <EllipsisVerticalIcon className="h-5 w-5" />
               </Button>
             </DropdownTrigger>
-            <DropdownMenu variant="light" disabledKeys={getDisabledKeys()} aria-label="Option">
+            <DropdownMenu variant="flat" disabledKeys={getDisabledKeys()} aria-label="Option">
               <DropdownItem
                 key="move-up"
                 onClick={() => movePlayer(player.id, 'up')}

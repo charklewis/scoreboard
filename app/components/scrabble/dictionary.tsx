@@ -1,32 +1,26 @@
 import { useFetcher } from '@remix-run/react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import { Divider, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from '@nextui-org/react'
+import { Divider, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react'
 
-import { Button } from '~/components/button'
 import { Form, Input, InputGroup, Button as SubmitButton } from '~/components/form'
 
-function Dictionary() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
+function Dictionary({ isOpen, onOpenChange }: { isOpen: boolean; onOpenChange: (open: boolean) => void }) {
   return (
-    <>
-      <Button id="dictionary" text="Dictionary" variant="flat" color="primary" onPress={onOpen} />
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        hideCloseButton={true}
-        backdrop="blur"
-        data-testid="modal-check-word"
-      >
-        <ModalContent>
-          <ModalHeader className="mt-2">Dictionary</ModalHeader>
-          <ModalBody>
-            <CheckWord />
-          </ModalBody>
-          <div className="mb-8" />
-        </ModalContent>
-      </Modal>
-    </>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      hideCloseButton={true}
+      backdrop="blur"
+      data-testid="modal-check-word"
+    >
+      <ModalContent>
+        <ModalHeader className="mt-2">Dictionary</ModalHeader>
+        <ModalBody>
+          <CheckWord />
+        </ModalBody>
+        <div className="mb-8" />
+      </ModalContent>
+    </Modal>
   )
 }
 
