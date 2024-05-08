@@ -13,6 +13,15 @@ export default {
     environment: 'jsdom',
     setupFiles: ['./vitest-setup.ts'],
     restoreMocks: true,
-    exclude: [...configDefaults.exclude, 'playwright/**'],
+    exclude: [
+      ...configDefaults.exclude,
+      './playwright/**',
+      './drizzle/**',
+      './app/services/**',
+      './app/database/**',
+      './app/entry.client.tsx',
+      './app/root.tsx',
+      './app/test-utils.tsx',
+    ],
   },
 }
