@@ -42,7 +42,9 @@ function Options({
     <>
       <Dropdown>
         <DropdownTrigger>
-          <Button color="primary">Game Options</Button>
+          <Button color="primary" data-testid="button-game-options">
+            Game Options
+          </Button>
         </DropdownTrigger>
         <DropdownMenu aria-label="Game Options" variant="flat">
           <DropdownSection title="Tools" showDivider>
@@ -50,15 +52,26 @@ function Options({
               key="dictionary"
               startContent={<BookOpenIcon className="size-5" />}
               onPress={dictionaryOnOpen}
+              data-testid="button-game-options-dictionary"
             >
               Dictionary
             </DropdownItem>
-            <DropdownItem key="timer" startContent={<ClockIcon className="size-5" />} onPress={timerOnOpen}>
+            <DropdownItem
+              key="timer"
+              startContent={<ClockIcon className="size-5" />}
+              onPress={timerOnOpen}
+              data-testid="button-game-options-timer"
+            >
               Timer
             </DropdownItem>
           </DropdownSection>
           <DropdownSection title="Actions" showDivider>
-            <DropdownItem key="add-round" startContent={<PlusIcon className="size-5" />} onPress={addRound}>
+            <DropdownItem
+              key="add-round"
+              startContent={<PlusIcon className="size-5" />}
+              onPress={addRound}
+              data-testid="button-game-options-add-round"
+            >
               Add Round
             </DropdownItem>
             <DropdownItem
@@ -66,6 +79,7 @@ function Options({
               startContent={showScore ? <EyeSlashIcon className="size-5" /> : <EyeIcon className="size-5" />}
               onPress={toggleScore}
               closeOnSelect={false}
+              data-testid="button-game-options-scores"
             >
               {showScore ? 'Hide Scores' : 'Show Scores'}
             </DropdownItem>
@@ -76,6 +90,7 @@ function Options({
             className="text-primary"
             description="This action can not be undone"
             onPress={endGameOnOpen}
+            data-testid="button-game-options-end-game"
           >
             End Game
           </DropdownItem>
