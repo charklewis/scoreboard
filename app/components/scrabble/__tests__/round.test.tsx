@@ -75,7 +75,7 @@ test('shows a toast when the score is saved', async () => {
 
 test('shows a toast when there is an error saving the score', async () => {
   const round = createRound()
-  const error = faker.lorem.sentence()
+  const error = faker.lorem.sentence({ min: 2, max: 3 })
   const action = vi.fn().mockReturnValue({ error })
   const { user } = renderWithRouter([{ path: '/', element: <Round round={round} />, action }])
 

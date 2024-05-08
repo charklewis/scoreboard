@@ -1,9 +1,7 @@
 import { useFetcher } from '@remix-run/react'
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 
-import { Button } from '~/components/button'
-
-function AddRound({
+function useAddRound({
   rounds,
   selectedRound,
   setSelectedRound,
@@ -26,14 +24,14 @@ function AddRound({
     }
   }, [fetcher.data, fetcher.state, rounds.length, selectedRound, setSelectedRound, updateRound])
 
-  const onClick = () => {
+  const addRound = () => {
     const roundId = rounds.at(-1)
     if (!roundId) return
     fetcher.submit({ roundId }, { action: '?/addRound', method: 'POST' })
     setUpdateRound(true)
   }
 
-  return <Button id="add-round" color="primary" text="Add Round" onClick={onClick} className="mt-8 w-full lg:w-auto" />
+  return { addRound }
 }
 
-export { AddRound }
+export { useAddRound }

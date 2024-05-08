@@ -47,8 +47,8 @@ class Scrabble {
 
   async startGame() {
     await this.page.getByTestId(/button-start-game/i).click()
-    await expect(this.page.getByText(/add round/i)).toBeVisible()
-    await expect(this.page.getByText(/finish game/i)).toBeVisible()
+    await expect(this.page.getByText(/rounds/i)).toBeVisible()
+    await expect(this.page.getByTestId(/button-game-options/i)).toBeVisible()
   }
 
   async getPlayerIds(players: string[]) {
@@ -71,7 +71,8 @@ class Scrabble {
       await this.waitForScoresToBeSaved()
 
       if (i < scores.length - 1) {
-        await this.page.getByTestId(/button-add-round/i).click()
+        await this.page.getByTestId(/button-game-options/i).click()
+        await this.page.getByTestId(/button-game-options-add-round/i).click()
       }
     }
   }
@@ -101,7 +102,8 @@ class Scrabble {
   }
 
   async useWordChecker() {
-    await this.page.getByTestId(/button-dictionary/i).click()
+    await this.page.getByTestId(/button-game-options/i).click()
+    await this.page.getByTestId(/button-game-options-dictionary/i).click()
     await expect(this.page.getByTestId(/form-check-word/i)).toBeVisible()
 
     //check invalid word
@@ -126,17 +128,23 @@ class Scrabble {
   }
 
   async toggleShowScore(playerIds: string[]) {
-    await this.page.getByTestId(/switch-show-score/i).click()
+    await this.page.getByTestId(/button-game-options/i).click()
+    await this.page.getByTestId(/button-game-options-scores/i).click()
+    await expect(this.page.getByTestId(/button-game-options/i)).toHaveCount(1)
     for (const id of playerIds) {
       await expect(this.page.getByTestId(`player-${id}-total-score`)).toHaveText(/score ∗∗∗/i)
     }
-    await this.page.getByTestId(/switch-show-score/i).click()
+    await this.page.getByTestId(/button-game-options/i).click()
+    await this.page.getByTestId(/button-game-options-scores/i).click()
+    await expect(this.page.getByTestId(/button-game-options/i)).toHaveCount(1)
     for (const id of playerIds) {
       await expect(this.page.getByTestId(`player-${id}-total-score`)).toHaveText(/score \d+/i)
     }
   }
 
   async finishGame() {
+    await this.page.getByTestId(/button-game-options/i).click()
+    await this.page.getByTestId(/button-game-options-end-game/i).click()
     await this.page.getByTestId(/button-end-game/i).click()
     await expect(this.page.getByTestId(/rounds-title/i)).toBeVisible()
   }

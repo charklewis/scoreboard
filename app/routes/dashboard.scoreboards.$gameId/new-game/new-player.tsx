@@ -42,7 +42,7 @@ function CreateNewPlayer() {
         className="w-48"
         isDisabled={isDisabled}
       />
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" hideCloseButton={true}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" hideCloseButton={true} backdrop="blur">
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">Create New Player</ModalHeader>
 
