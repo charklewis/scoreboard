@@ -25,8 +25,7 @@ jobs:
       - name: Install Playwright Browsers
         run: bun playwright install --with-deps
       - name: Run Playwright tests
-        # run: bun run pw:run --project=chromium
-        run: echo test
+        run: bun run pw:run --project=safari
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
       - uses: actions/upload-artifact@v3
