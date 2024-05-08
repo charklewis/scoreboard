@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, test, vi } from 'vitest'
 import { act, screen } from '@testing-library/react'
+
 import { Timer } from '~/components/scrabble/timer'
 import { renderWithRouter } from '~/test-utils'
 
