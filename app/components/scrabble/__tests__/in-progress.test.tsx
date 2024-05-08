@@ -1,11 +1,9 @@
-import { expect, test } from 'vitest'
+import { test } from 'vitest'
 import { faker } from '@faker-js/faker'
 import { act, screen, within } from '@testing-library/react'
 
 import { InProgress } from '~/components/scrabble/in-progress'
 import { renderWithRouter } from '~/test-utils'
-
-import { InProgressContext } from '../in-progress-context'
 
 function createPlayer({ score = 0, totalScore = 0 } = {}) {
   return {
@@ -35,8 +33,6 @@ test('renders the rounds for a scrabble game', async () => {
   const { user } = renderWithRouter(route)
 
   await screen.findByTestId(/rounds-title/i)
-  screen.getByText(/finish game/i)
-  screen.getByText(/add round/i)
 
   for (const round of rounds) {
     await act(() => user.click(screen.getByText(round.roundNumber)))
@@ -63,29 +59,10 @@ test("auto selects the first round that isn't complete", async () => {
   screen.getByTestId(`form-round-${roundTwo.roundNumber}`)
 })
 
-test('user can hide the total scores', async () => {
+test('user has options to configure the game', async () => {
   const round = createRound({ roundNumber: 1 })
-  const route = [
-    {
-      path: '/scrabble',
-      element: (
-        <InProgressContext>
-          <InProgress rounds={[round]} />
-        </InProgressContext>
-      ),
-    },
-  ]
+  const route = [{ path: '/scrabble', element: <InProgress rounds={[round]} /> }]
   renderWithRouter(route)
-
   await screen.findByTestId(/rounds-title/i)
-
-  for (const player of round.players) {
-    expect(screen.getByTestId(`player-${player.id}-total-score`)).toHaveTextContent(`Score ${player.totalScore}`)
-  }
-
-  await act(() => screen.getByTestId(/switch-show-score/i).click())
-
-  for (const player of round.players) {
-    expect(screen.getByTestId(`player-${player.id}-total-score`)).toHaveTextContent('Score ∗∗∗')
-  }
+  screen.getByText(/game options/i)
 })

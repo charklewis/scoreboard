@@ -7,20 +7,23 @@ import { renderWithRouter } from '~/test-utils'
 
 import { Dictionary } from '../dictionary'
 
+test('renders nothing if the modal is not open', async () => {
+  renderWithRouter([{ path: '/', element: <Dictionary isOpen={false} onOpenChange={vi.fn()} /> }])
+  expect(screen.queryByTestId(/modal-check-word/i)).not.toBeInTheDocument()
+})
+
 test('user can check if a word is valid', async () => {
   const word = faker.lorem.word()
   const meaning = faker.lorem.sentence()
   const score = faker.number.int()
 
   const loader = vi.fn().mockReturnValue(json({ success: true, meaning: [meaning], word, score }))
+  const onOpenChange = vi.fn()
 
   const { user } = renderWithRouter([
-    { path: '/', element: <Dictionary /> },
+    { path: '/', element: <Dictionary isOpen={true} onOpenChange={onOpenChange} /> },
     { path: '/scrabble', loader },
   ])
-
-  await screen.findByText(/dictionary/i)
-  await act(() => user.click(screen.getByTestId(/button-dictionary/i)))
 
   await screen.findByTestId(/modal-check-word/i)
 
@@ -35,14 +38,12 @@ test('user can check if a word is invalid', async () => {
   const word = faker.lorem.word()
 
   const loader = vi.fn().mockReturnValue(json({ success: false, word }))
+  const onOpenChange = vi.fn()
 
   const { user } = renderWithRouter([
-    { path: '/', element: <Dictionary /> },
+    { path: '/', element: <Dictionary isOpen={true} onOpenChange={onOpenChange} /> },
     { path: '/scrabble', loader },
   ])
-
-  await screen.findByText(/dictionary/i)
-  await act(() => user.click(screen.getByTestId(/button-dictionary/i)))
 
   await screen.findByTestId(/modal-check-word/i)
 

@@ -98,7 +98,7 @@ function Scoreboards() {
           size="sm"
           isIconOnly
         >
-          <ChevronLeftIcon className="h-5 w-5" />
+          <ChevronLeftIcon className="size-5" />
         </Button>
         <Outlet />
       </div>

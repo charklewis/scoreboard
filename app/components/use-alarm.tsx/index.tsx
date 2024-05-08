@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import sound from './alarm.mp3'
 
 const serverMock = { play: () => {}, currentTime: 0, addEventListener: () => {}, removeEventListener: () => {} }

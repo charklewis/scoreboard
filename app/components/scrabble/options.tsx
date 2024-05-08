@@ -46,20 +46,24 @@ function Options({
         </DropdownTrigger>
         <DropdownMenu aria-label="Game Options" variant="flat">
           <DropdownSection title="Tools" showDivider>
-            <DropdownItem key="dictionary" startContent={<BookOpenIcon className="w-5" />} onPress={dictionaryOnOpen}>
+            <DropdownItem
+              key="dictionary"
+              startContent={<BookOpenIcon className="size-5" />}
+              onPress={dictionaryOnOpen}
+            >
               Dictionary
             </DropdownItem>
-            <DropdownItem key="timer" startContent={<ClockIcon className="w-5" />} onPress={timerOnOpen}>
+            <DropdownItem key="timer" startContent={<ClockIcon className="size-5" />} onPress={timerOnOpen}>
               Timer
             </DropdownItem>
           </DropdownSection>
           <DropdownSection title="Actions" showDivider>
-            <DropdownItem key="add-round" startContent={<PlusIcon className="w-5" />} onPress={addRound}>
+            <DropdownItem key="add-round" startContent={<PlusIcon className="size-5" />} onPress={addRound}>
               Add Round
             </DropdownItem>
             <DropdownItem
               key="scores"
-              startContent={showScore ? <EyeSlashIcon className="w-5" /> : <EyeIcon className="w-5" />}
+              startContent={showScore ? <EyeSlashIcon className="size-5" /> : <EyeIcon className="size-5" />}
               onPress={toggleScore}
               closeOnSelect={false}
             >

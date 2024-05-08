@@ -77,7 +77,7 @@ function Players({
                 data-testid={`button-player-options-${player.id}`}
                 aria-label="Options"
               >
-                <EllipsisVerticalIcon className="h-5 w-5" />
+                <EllipsisVerticalIcon className="size-5" />
               </Button>
             </DropdownTrigger>
             <DropdownMenu variant="flat" disabledKeys={getDisabledKeys()} aria-label="Option">
@@ -85,7 +85,7 @@ function Players({
                 key="move-up"
                 onClick={() => movePlayer(player.id, 'up')}
                 data-testid={`button-move-up-player-${player.id}`}
-                startContent={<ArrowUpIcon className="h-3 w-3" />}
+                startContent={<ArrowUpIcon className="size-3" />}
               >
                 Move Up
               </DropdownItem>
@@ -93,7 +93,7 @@ function Players({
                 key="move-down"
                 onClick={() => movePlayer(player.id, 'down')}
                 data-testid={`button-move-down-player-${player.id}`}
-                startContent={<ArrowDownIcon className="h-3 w-3" />}
+                startContent={<ArrowDownIcon className="size-3" />}
                 showDivider
               >
                 Move Down
@@ -103,7 +103,7 @@ function Players({
                 key="remove"
                 onClick={() => removePlayer(player.id)}
                 data-testid={`button-remove-player-${player.id}`}
-                startContent={<XMarkIcon className="h-4 w-4" />}
+                startContent={<XMarkIcon className="size-4" />}
               >
                 Remove Player
               </DropdownItem>
