@@ -1,9 +1,14 @@
+const OFF = 0
+const WARN = 1
+// const ERROR = 2;
+
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
   extends: [
     '@remix-run/eslint-config',
     '@remix-run/eslint-config/node',
+    '@remix-run/eslint-config/internal',
     '@remix-run/eslint-config/jest-testing-library',
     'prettier',
   ],
@@ -12,14 +17,16 @@ module.exports = {
   // (so the linting plugins work nicely), but it means we have to explicitly
   // set the jest version.
   settings: {
-    jest: {
-      version: 28,
-    },
+    'import/internal-regex': '^~/',
+    jest: { version: 28 },
   },
   rules: {
-    'jsx-a11y/anchor-has-content': [2, { ignoreComponents: ['Link'] }],
+    'prefer-let/prefer-let': OFF,
+    'prefer-const': WARN,
+    'react/jsx-no-leaked-render': [WARN, { validStrategies: ['ternary'] }],
+    'jsx-a11y/anchor-has-content': [WARN, { ignoreComponents: ['Link'] }],
     'import/order': [
-      1,
+      WARN,
       {
         alphabetize: { caseInsensitive: true, order: 'asc' },
         groups: ['builtin', 'external', 'internal', 'parent', 'sibling'],

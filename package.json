@@ -14,7 +14,6 @@
     "pw:open": "playwright test --ui",
     "pw:run": "playwright test",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:repo": "bun lint -- --config .eslintrc.repo.cjs",
     "typecheck": "tsc --skipLibCheck",
     "db:migrate": "drizzle-kit generate:pg --schema=./app/database/schema.ts",
     "db:push": "bun run app/database/migrate.ts",
