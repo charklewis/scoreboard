@@ -1,6 +1,8 @@
 import { beforeEach, describe, test } from 'playwright/fixtures'
 import { Page } from 'playwright/page'
 
+test.describe.configure({ mode: 'parallel' })
+
 async function playScrabble(pages: Page) {
   await pages.scrabble.createNewGame()
   const players = pages.scrabble.generatePlayers()

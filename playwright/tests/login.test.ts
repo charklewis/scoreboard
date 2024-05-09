@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { beforeEach, describe, expect, test } from 'playwright/fixtures'
 
+test.describe.configure({ mode: 'parallel' })
+
 beforeEach(async ({ page }) => {
   await page.goto('/')
 })
