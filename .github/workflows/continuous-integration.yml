@@ -4,18 +4,48 @@ on:
   push:
 
 jobs:
-  basic_checks:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
       - name: Install Packages
         run: bun install
-      - name: Typecheck
-        run: bun typecheck
-      - name: Eslint
-        run: bun lint
-      - name: Vitest
-        run: bun run test -- --coverage --run
-      - name: Build
-        run: bun run build
+    outputs:
+      timestamp: ${{ steps.current_time.outputs.timestamp }}
+
+  checks:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        check: ['Typecheck', 'Eslint', 'Vitest', 'Build']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+      - name: Run check
+        run: |
+          case "${{ matrix.check }}" in
+            'Typecheck')
+              bun typecheck
+              ;;
+            'Eslint')
+              bun lint
+              ;;
+            'Vitest')
+              bun run test -- --coverage --run
+              ;;
+            'Build')
+              bun run build
+              ;;
+          esac
