@@ -24,7 +24,7 @@ function OneTimeCode() {
             id="submit-otp"
             type="submit"
             text="Verify"
-            loadingText="Verify..."
+            loadingText="Verifying..."
             color="primary"
             className="w-full"
           />

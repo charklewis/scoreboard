@@ -1,1 +1,1 @@
-export { getOneTimeCodeEmail } from './email'
+export { getOneTimeCodeFromGmail } from './email'

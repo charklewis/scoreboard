@@ -39,6 +39,48 @@ async function loginWithOtp(email: string) {
   return false
 }
 
+async function sendOtp({ stytchId, email }: { stytchId: string; email: string }) {
+  try {
+    const response = await client.otps.email.send({ user_id: stytchId, email })
+
+    if (response.status_code !== 200) {
+      return false
+    }
+    return response.email_id || false
+  } catch (error) {
+    console.log(error)
+    //todo: handle "error_type":"inactive_email" (ask the user to unblock stytch)
+  }
+  return false
+}
+
+async function getUserEmail(stytchId: string) {
+  try {
+    const response = await client.users.get({ user_id: stytchId })
+    if (response.status_code !== 200) {
+      return ''
+    }
+    return response.emails[0].email || ''
+  } catch {}
+  return ''
+}
+
+async function updateEmail({ stytchId, email }: { stytchId: string; email: string }) {
+  try {
+    const user = await client.users.get({ user_id: stytchId })
+    if (user.status_code !== 200) {
+      return false
+    }
+    const emailsToDelete = user.emails.filter((item) => item.email !== email)
+    for (const emailToDelete of emailsToDelete) {
+      await client.users.deleteEmail({ email_id: emailToDelete.email_id })
+      //send email that the email was removed https://resend.com
+    }
+    return true
+  } catch {}
+  return false
+}
+
 class OtpStrategy extends Strategy<User, { code: string; methodId: string }> {
   name = 'otp'
   async authenticate(request: Request, sessionStorage: SessionStorage, options: AuthenticateOptions): Promise<User> {
@@ -77,4 +119,4 @@ identity.use(
   })
 )
 
-export { identity, loginWithOtp, authenticateOtp }
+export { identity, loginWithOtp, authenticateOtp, getUserEmail, updateEmail, sendOtp }

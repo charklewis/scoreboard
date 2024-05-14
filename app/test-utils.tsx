@@ -53,4 +53,21 @@ const createRound = ({ roundNumber = faker.number.int(), roundCompleted = true, 
   players,
 })
 
-export { renderWithRouter, createPlayer, createScoreboard, createScoreboardList, createRound }
+function createRequest({
+  pathname,
+  body,
+  method,
+}: {
+  pathname?: string
+  body?: URLSearchParams
+  method?: 'GET' | 'POST'
+} = {}) {
+  const url = `${faker.internet.url({ appendSlash: false })}/${pathname || ''}`
+  return {
+    request: new Request(url, { method: method || 'GET', body }),
+    params: {},
+    context: {},
+  }
+}
+
+export { renderWithRouter, createPlayer, createScoreboard, createScoreboardList, createRound, createRequest }

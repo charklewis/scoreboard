@@ -1,20 +1,28 @@
-import { type LoaderFunctionArgs, redirect } from '@remix-run/node'
-import { Outlet } from '@remix-run/react'
+import { type LoaderFunctionArgs, json, redirect } from '@remix-run/node'
+import { Outlet, useLoaderData } from '@remix-run/react'
 
-import { Navbar } from './navbar'
+import { getUserEmail, identity } from '~/services/identity.server'
+import { Navbar } from '../../components/navbar'
 
-function loader({ request }: LoaderFunctionArgs) {
+async function loader({ request }: LoaderFunctionArgs) {
   const { pathname } = new URL(request.url.toLowerCase())
   if (pathname === '/dashboard' || pathname === '/dashboard/') {
     return redirect('/dashboard/scoreboards')
   }
-  return null
+  const user = await identity.isAuthenticated(request)
+  if (user && user.stytchId) {
+    const email = await getUserEmail(user.stytchId)
+    return json({ email: email || 'User' })
+  } else {
+    return json({ email: 'User' })
+  }
 }
 
 function Dashboard() {
+  const { email } = useLoaderData<typeof loader>() || {}
   return (
     <div>
-      <Navbar />
+      <Navbar user={email} />
       <main data-testid="dashboard-content">
         <Outlet />
       </main>

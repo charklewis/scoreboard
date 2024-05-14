@@ -6,7 +6,7 @@ import { screen } from '@testing-library/react'
 
 import Login, { action } from '~/routes/login/route'
 import { identity, loginWithOtp } from '~/services/identity.server'
-import { renderWithRouter } from '~/test-utils'
+import { createRequest, renderWithRouter } from '~/test-utils'
 
 vi.mock('~/services/identity.server', () => ({ identity: { authenticate: vi.fn() }, loginWithOtp: vi.fn() }))
 vi.mock('@remix-run/react', async () => {
@@ -18,14 +18,6 @@ const LoginWithOtpMock = loginWithOtp as Mock
 const AuthenticateMock = identity.authenticate as Mock
 const MockUseActionData = useActionData as Mock
 const path = '/login'
-
-function createRequest(body: URLSearchParams, namedAction: string) {
-  return {
-    request: new Request(`http://test/login${namedAction}`, { method: 'POST', body: body }),
-    params: {},
-    context: {},
-  }
-}
 
 describe('action', () => {
   beforeEach(() => {
@@ -39,7 +31,7 @@ describe('action', () => {
       const methodId = faker.string.uuid()
       const body = new URLSearchParams({ email })
       LoginWithOtpMock.mockResolvedValue(methodId)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(loginWithOtp).toHaveBeenCalledWith(email)
       expect(response).toEqual({ methodId, email })
@@ -49,7 +41,7 @@ describe('action', () => {
       const methodId = faker.string.uuid()
       const body = new URLSearchParams({ email })
       LoginWithOtpMock.mockResolvedValue(methodId)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(response).toEqual({
         errors: { email: 'An email is required' },
@@ -59,7 +51,7 @@ describe('action', () => {
       const email = faker.internet.email()
       const body = new URLSearchParams({ email })
       LoginWithOtpMock.mockResolvedValue(false)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(loginWithOtp).toHaveBeenCalledWith(email)
       expect(response).toEqual({
@@ -70,7 +62,7 @@ describe('action', () => {
       const email = faker.lorem.word()
       const body = new URLSearchParams({ email })
       LoginWithOtpMock.mockRejectedValue('error')
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(response).toEqual({
         errors: { email: 'An email is required' },
@@ -87,7 +79,7 @@ describe('action', () => {
       const body = new URLSearchParams({ email, methodId, code })
       const response = redirect('/dashboard')
       AuthenticateMock.mockRejectedValue(response)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       //we can't check for the exact error because it's a Response object
       await expect(() => action(request)).rejects.toThrowError()
     })
@@ -100,7 +92,7 @@ describe('action', () => {
       const message = faker.lorem.word()
       const error = new Error(message, { cause: `${methodId}:${email}` })
       AuthenticateMock.mockRejectedValue(error)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(response).toEqual({ methodId, email, errors: { code: message } })
     })
@@ -111,7 +103,7 @@ describe('action', () => {
       const code = faker.string.numeric(6)
       const body = new URLSearchParams({ email, methodId, code })
       AuthenticateMock.mockRejectedValue(false)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(response).toEqual({ errors: { generic: 'Our system appears to be down, please try again later' } })
     })
@@ -124,7 +116,7 @@ describe('action', () => {
       const methodId = faker.string.uuid()
       const body = new URLSearchParams({ email })
       LoginWithOtpMock.mockResolvedValue(methodId)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(loginWithOtp).toHaveBeenCalledWith(email)
       expect(response).toEqual({ methodId, email, sent: expect.any(String) })
@@ -134,7 +126,7 @@ describe('action', () => {
       const methodId = faker.string.uuid()
       const body = new URLSearchParams({ email })
       LoginWithOtpMock.mockResolvedValue(methodId)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(response).toEqual({
         errors: { email: 'An email is required' },
@@ -144,7 +136,7 @@ describe('action', () => {
       const email = faker.internet.email()
       const body = new URLSearchParams({ email })
       LoginWithOtpMock.mockResolvedValue(false)
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(loginWithOtp).toHaveBeenCalledWith(email)
       expect(response).toEqual({
@@ -155,7 +147,7 @@ describe('action', () => {
       const email = faker.lorem.word()
       const body = new URLSearchParams({ email })
       LoginWithOtpMock.mockRejectedValue('error')
-      const request = createRequest(body, namedAction)
+      const request = createRequest({ method: 'POST', body, pathname: namedAction })
       const response = await action(request).then((res) => res.json())
       expect(response).toEqual({
         errors: { email: 'An email is required' },

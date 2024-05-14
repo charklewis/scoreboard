@@ -103,7 +103,7 @@ function getMessageContent(payload: any) {
   return content
 }
 
-async function getOneTimeCodeEmail(email: string) {
+async function getOneTimeCodeFromGmail(email: string) {
   const messages = await authorize().then((auth) => getMessages(auth, email))
   const codes = messages.map((message) => {
     const { text } = getMessageContent(message.payload)
@@ -112,4 +112,4 @@ async function getOneTimeCodeEmail(email: string) {
   return codes.filter((code) => code)[0]
 }
 
-export { getOneTimeCodeEmail }
+export { getOneTimeCodeFromGmail }
