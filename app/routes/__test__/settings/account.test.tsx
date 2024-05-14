@@ -31,7 +31,7 @@ test('user can update their email', async () => {
   await act(() => user.click(screen.getByText(/verify/i, { selector: 'button' })))
 
   screen.getByText(/success/i)
-  screen.getByText(/you email has been verified and changed/i)
+  screen.getByText(/your email verification is complete/i)
 
   await act(() => user.click(screen.getByText(/close/i)))
 

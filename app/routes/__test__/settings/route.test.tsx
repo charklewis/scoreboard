@@ -223,7 +223,7 @@ describe('loader', () => {
     IsAuthenticatedMock.mockResolvedValue({})
     const request = createRequest()
     const response = await loader(request).then((res) => res.json())
-    expect(response).toEqual({ email: 'unknown user' })
+    expect(response).toEqual({ email: 'User' })
   })
 })
 
