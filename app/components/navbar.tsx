@@ -16,9 +16,9 @@ import {
 
 import { Link } from '~/components/link'
 
-import { AddNewScoreboard } from './add-new-scoreboard'
+import { AddNewScoreboard } from '~/routes/dashboard/add-new-scoreboard'
 
-function Navbar() {
+function Navbar({ user }: { user: string }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -68,12 +68,14 @@ function Navbar() {
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat" disabledKeys={['profile']}>
             <DropdownItem textValue="email" key="profile" className="h-14 gap-2 opacity-100" isReadOnly showDivider>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold" data-testid="navbar-text-email">
+                {user}
+              </p>
             </DropdownItem>
-            <DropdownItem key="settings" data-testid="link-settings">
-              Settings
+            <DropdownItem key="settings" href="/settings">
+              <Link id="settings" href="/settings" size="sm" text="Settings" color="foreground" />
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" textValue="Logout">
+            <DropdownItem key="logout" color="danger" className="text-danger" href="/logout">
               <Link id="logout" href="/logout" color="danger" size="sm" text="Log out" />
             </DropdownItem>
           </DropdownMenu>

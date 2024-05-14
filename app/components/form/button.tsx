@@ -1,4 +1,4 @@
-import { useNavigation } from '@remix-run/react'
+import { useFetchers, useNavigation } from '@remix-run/react'
 import { type ButtonProps, Button as NextUiButton } from '@nextui-org/react'
 
 import { useForm } from '.'
@@ -8,12 +8,17 @@ function Button(
     id: string
     text: string
     loadingText?: string
+    isWaiting?: boolean
   }
 ) {
   const { isLoading, action } = useForm()
   const { formAction, state } = useNavigation()
+  const fetchers = useFetchers()
 
-  const isWaiting = Boolean(isLoading && action && formAction && formAction.includes(action))
+  const isWaiting =
+    fetchers.some((fetcher) => action && fetcher.formAction?.includes(action)) ||
+    Boolean(isLoading && action && formAction && formAction.includes(action))
+
   const isDisabled = state !== 'idle' || props.isDisabled
 
   return (
@@ -25,7 +30,7 @@ function Button(
       data-testid={`button-${props.id}`}
       disableRipple={true}
     >
-      {isWaiting && props.loadingText ? props.loadingText : props.text}
+      {isWaiting ? props.loadingText || '' : props.text}
     </NextUiButton>
   )
 }

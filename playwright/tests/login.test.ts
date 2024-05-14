@@ -7,22 +7,11 @@ beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-describe('desktop', () => {
-  test('a user can login and logout', async ({ page, sandboxLogin, baseURL, logout }) => {
-    await sandboxLogin()
-    await expect(page.getByTestId(/dashboard-content/i)).toBeVisible()
-    await logout()
-    await page.waitForURL(`${baseURL}/login`)
-  })
-})
-
-describe('mobile', () => {
-  test('a user can login and logout', async ({ page, sandboxLogin, logout, baseURL }) => {
-    await sandboxLogin()
-    await expect(page.getByTestId(/dashboard-content/i)).toBeVisible()
-    await logout()
-    await page.waitForURL(`${baseURL}/login`)
-  })
+test('a user can login and logout', async ({ page, sandboxLogin, logout, verifyLogin, baseURL }) => {
+  const email = await sandboxLogin()
+  await verifyLogin(email)
+  await logout()
+  await page.waitForURL(`${baseURL}/login`)
 })
 
 test('a user resend a code', async ({ page }) => {

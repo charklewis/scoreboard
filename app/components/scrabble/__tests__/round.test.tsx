@@ -66,9 +66,9 @@ test('shows a toast when the score is saved', async () => {
   const player = round.players[0]
 
   const container = screen.getByTestId(`round-player-${player.id}`)
-  const score = faker.string.numeric()
+  const score = faker.number.int()
   const input = within(container).getByTestId(`input-${player.id}`)
-  await act(() => user.type(input, score))
+  await act(() => user.type(input, String(score)))
 
   await screen.findByText(/score saved/i)
 })
@@ -84,9 +84,9 @@ test('shows a toast when there is an error saving the score', async () => {
   const player = round.players[0]
 
   const container = screen.getByTestId(`round-player-${player.id}`)
-  const score = faker.string.numeric()
+  const score = faker.number.int()
   const input = within(container).getByTestId(`input-${player.id}`)
-  await act(() => user.type(input, score))
+  await act(() => user.type(input, String(score)))
 
   await screen.findByText(error)
 })

@@ -124,7 +124,10 @@ class Scrabble {
     await expect(this.page.getByTestId(/check-word-score/i)).toHaveText(String(word.score))
     await expect(this.page.getByTestId(/check-word-meaning/i)).toHaveText(word.meaning)
 
-    await this.page.keyboard.press('Escape')
+    //note: this should work, but a weird bug in some package is preventing it
+    // await this.page.keyboard.press('Escape')
+    //so for now, click outside the modal
+    await this.page.mouse.click(0, 0)
   }
 
   async toggleShowScore(playerIds: string[]) {

@@ -5,6 +5,7 @@ import { useForm, useInputGroup } from '.'
 function Input(props: Omit<InputProps, 'name' | 'id' | 'data-testid' | 'defaultValue' | 'error' | 'variant'>) {
   const { isLoading } = useForm()
   const { name, defaultValue, error } = useInputGroup()
+
   return (
     <NextUiInput
       {...props}

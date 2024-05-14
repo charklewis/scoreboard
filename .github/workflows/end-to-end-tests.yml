@@ -42,7 +42,7 @@ jobs:
           path: blob-report
           retention-days: 1
   merge-reports:
-    if: ${{ !cancelled() }}
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'preview'
     needs: [run_e2e]
 
     runs-on: ubuntu-latest

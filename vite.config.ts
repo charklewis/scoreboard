@@ -15,6 +15,7 @@ const filesToExclude = [
   'app/entry.client.tsx',
   'app/root.tsx',
   'app/test-utils.tsx',
+  '**/api.server.ts',
   '.eslintrc.cjs',
   '.eslintrc.repo.cjs',
   'playwright.config.ts',
@@ -31,8 +32,6 @@ export default {
     setupFiles: ['./vitest-setup.ts'],
     restoreMocks: true,
     exclude: filesToExclude,
-    coverage: {
-      exclude: filesToExclude,
-    },
+    coverage: { exclude: filesToExclude },
   },
 }
