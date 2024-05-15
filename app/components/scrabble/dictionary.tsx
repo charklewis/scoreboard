@@ -46,7 +46,7 @@ function CheckWord() {
           <Divider className="my-6" />
           <div className="flex items-center gap-4">
             <div
-              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-green-600 text-xl font-bold"
+              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-green-600 text-xl font-bold text-white"
               data-testid="check-word-score"
             >
               {fetcher.data.score}
@@ -61,7 +61,7 @@ function CheckWord() {
         <>
           <Divider className="my-6" />
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-red-500">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-red-500 text-white">
               <XMarkIcon className="size-8" />
             </div>
             <div>
