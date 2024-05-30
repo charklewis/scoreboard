@@ -15,7 +15,7 @@ type Fixture = {
 const SANDBOX_EMAIL = 'sandbox@stytch.com'
 
 const generateEmail = () => {
-  const emailId = faker.string.uuid()
+  const emailId = faker.string.nanoid()
   return `scoreboard.test.email+${emailId}@gmail.com`
 }
 
