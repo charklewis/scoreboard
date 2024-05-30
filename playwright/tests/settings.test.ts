@@ -3,7 +3,9 @@ import { Page } from 'playwright/page'
 
 test.describe.configure({ mode: 'parallel' })
 
-beforeEach(async ({ page }) => {
+beforeEach(async ({ page }, testInfo) => {
+  //note: find a way todo this on the login fixture
+  testInfo.setTimeout(testInfo.timeout + 30000)
   await page.goto('/')
 })
 

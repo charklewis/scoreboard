@@ -39,6 +39,8 @@ async function loginWithOtp(email: string) {
   return false
 }
 
+console.log('hi')
+
 async function sendOtp({ stytchId, email }: { stytchId: string; email: string }) {
   try {
     const response = await client.otps.email.send({ user_id: stytchId, email })
@@ -47,8 +49,7 @@ async function sendOtp({ stytchId, email }: { stytchId: string; email: string })
       return false
     }
     return response.email_id || false
-  } catch (error) {
-    console.log(error)
+  } catch {
     //todo: handle "error_type":"inactive_email" (ask the user to unblock stytch)
   }
   return false
