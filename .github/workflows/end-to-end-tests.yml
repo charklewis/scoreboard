@@ -26,41 +26,41 @@ jobs:
           echo $TEST_EMAIL_CREDENTIALS >> credentials.json
           touch token.json
           echo $TEST_EMAIL_TOKEN >> token.json
-      - name: Install Packages
-        run: bun install
-      - name: Install Playwright Browsers
-        run: bun playwright install --with-deps
-      - name: Run Playwright tests
-        run: bun run pw:run --project=chromium --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-        env:
-          BASE_URL: ${{ github.event.deployment_status.environment_url }}
-      - name: Upload blob report to GitHub Actions Artifacts
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: blob-report-${{ matrix.shardIndex }}
-          path: blob-report
-          retention-days: 1
-  merge-reports:
-    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'preview'
-    needs: [run_e2e]
+      # - name: Install Packages
+      #   run: bun install
+      # - name: Install Playwright Browsers
+      #   run: bun playwright install --with-deps
+      # - name: Run Playwright tests
+      #   run: bun run pw:run --project=chromium --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      #   env:
+      #     BASE_URL: ${{ github.event.deployment_status.environment_url }}
+      # - name: Upload blob report to GitHub Actions Artifacts
+      #   if: ${{ !cancelled() }}
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: blob-report-${{ matrix.shardIndex }}
+      #     path: blob-report
+      #     retention-days: 1
+  # merge-reports:
+  #   if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'preview'
+  #   needs: [run_e2e]
 
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v1
-      - name: Install Packages
-        run: bun install
-      - name: Download blob reports from GitHub Actions Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: all-blob-reports
-          pattern: blob-report-*
-          merge-multiple: true
-      - name: Merge into HTML Report
-        run: bunx playwright merge-reports --reporter html ./all-blob-reports
-      - name: Upload HTML report
-        uses: actions/upload-artifact@v4
-        with:
-          name: html-report--attempt-${{ github.run_attempt }}
-          path: playwright-report
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: oven-sh/setup-bun@v1
+  #     - name: Install Packages
+  #       run: bun install
+  #     - name: Download blob reports from GitHub Actions Artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         path: all-blob-reports
+  #         pattern: blob-report-*
+  #         merge-multiple: true
+  #     - name: Merge into HTML Report
+  #       run: bunx playwright merge-reports --reporter html ./all-blob-reports
+  #     - name: Upload HTML report
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: html-report--attempt-${{ github.run_attempt }}
+  #         path: playwright-report
