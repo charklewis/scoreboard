@@ -1,0 +1,21 @@
+name: Smoke Tests
+
+on:
+  deployment_status:
+
+jobs:
+  run_e2e:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'production'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - name: Install Packages
+        run: bun install
+      - name: Install Playwright Browsers
+        run: bun playwright install --with-deps
+      - name: Run Playwright tests
+        run: bun run pw:run --project=chromium smoke
+        env:
+          BASE_URL: ${{ github.event.deployment_status.environment_url }}
