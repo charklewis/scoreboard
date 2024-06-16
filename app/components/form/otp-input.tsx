@@ -5,7 +5,7 @@ import OTPInput from 'react-otp-input'
 import { useInputGroup } from '.'
 
 function OtpInput() {
-  const { name, error } = useInputGroup()
+  const { name } = useInputGroup()
   const [code, setCode] = useState('')
 
   const handlePaste: ClipboardEventHandler = (event) => {
@@ -29,7 +29,6 @@ function OtpInput() {
           return (
             <Input
               {...(props as InputProps)}
-              isInvalid={Boolean(error)}
               id={id}
               name={id}
               data-testid={id}
