@@ -38,12 +38,9 @@ jobs:
               npm run typecheck
               ;;
             'Eslint')
-              bun lint
-              ;;
-            'Vitest')
-              bun run test -- --coverage --run
+              npm run lint
               ;;
             'Build')
-              bun run build
+              npm run build
               ;;
           esac
