@@ -1,1 +1,0 @@
-export { getOneTimeCodeFromGmail } from './email'

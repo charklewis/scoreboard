@@ -7,7 +7,7 @@ export default defineConfig({
   retries: 3,
   reporter: process.env.CI ? 'blob' : 'html',
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.BASE_URL || 'http://localhost:5173',
     trace: 'retain-on-failure',
     video: process.env.CI ? 'off' : 'retain-on-failure',
   },

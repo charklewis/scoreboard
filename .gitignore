@@ -12,6 +12,9 @@ coverage
 /blob-report/
 /playwright/.cache/
 
+/.react-router/
+/build/
+
 credentials.json
 token.json
 
