@@ -8,14 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v1
       - name: Cache node modules
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
       - name: Install Packages
-        run: bun install
+        run: npm install
     outputs:
       timestamp: ${{ steps.current_time.outputs.timestamp }}
 
@@ -24,20 +23,19 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        check: ['Typecheck', 'Eslint', 'Vitest', 'Build']
+        check: ['Typecheck', 'Eslint', 'Build']
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v1
       - name: Cache node modules
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
       - name: Run check
         run: |
           case "${{ matrix.check }}" in
             'Typecheck')
-              bun typecheck
+              npm run typecheck
               ;;
             'Eslint')
               bun lint

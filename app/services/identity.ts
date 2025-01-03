@@ -1,20 +1,6 @@
 import * as stytch from 'stytch'
-import { string, z } from 'zod'
-
-// import { createUser } from '~/database/user'
-import { sessionStorage } from '~/services/session'
 
 import { environment } from './environment'
-import { withZod } from '@rvf/zod'
-
-type User = { stytchId: string }
-
-export namespace OtpStrategy {
-  export interface VerifyOptions {
-    code: string
-    methodId: string
-  }
-}
 
 const client = new stytch.Client({ project_id: environment.STYTCH_PROJECT_ID, secret: environment.STYTCH_SECRET })
 

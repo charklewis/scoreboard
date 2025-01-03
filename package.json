@@ -10,6 +10,7 @@
     "dev": "react-router dev",
     "start": "cross-env NODE_ENV=production react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
+    "lint": "eslint .",
     "db:migrate": "drizzle-kit generate --dialect=postgresql --schema=./app/database/schema.ts",
     "db:push": "bun run app/database/migrate.ts",
     "db:studio": "drizzle-kit studio --config ./drizzle.config.ts",
@@ -43,6 +44,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@epic-web/config": "^1.16.4",
     "@faker-js/faker": "^9.3.0",
     "@playwright/test": "^1.49.1",
     "@react-router/dev": "^7.1.1",

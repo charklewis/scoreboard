@@ -1,15 +1,15 @@
-import { ArrowLeft, Dices, LoaderCircle, PenLine } from 'lucide-react'
-import { Button } from '~/components/ui/button'
-import { data, Form, redirect, useActionData, useLocation, useNavigate, useSearchParams } from 'react-router'
-import type { Route } from './+types/new-account'
-import { withZod } from '@rvf/zod'
 import { isValidationErrorResponse, useForm, validationError } from '@rvf/react-router'
+import { withZod } from '@rvf/zod'
+import { Dices, LoaderCircle, PenLine } from 'lucide-react'
+import { data, Form, redirect, useActionData, useNavigate, useSearchParams } from 'react-router'
 import { z } from 'zod'
-import { useToast } from '~/hooks/use-toast'
-import { ToastAction } from '~/components/ui/toast'
+import { type Route } from './+types/new-account'
+import { Button } from '~/components/ui/button'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '~/components/ui/input-otp'
-import { verifyOtp } from '~/services/identity'
+import { ToastAction } from '~/components/ui/toast'
 import { createUser } from '~/database/user'
+import { useToast } from '~/hooks/use-toast'
+import { verifyOtp } from '~/services/identity'
 import { decodeBase64 } from '~/services/public-ids'
 import { sessionStorage } from '~/services/session'
 
@@ -17,7 +17,7 @@ const validator = withZod(
   z.object({
     code: z.string().min(6, { message: 'The code must be 6 digits. Please check and try again.' }),
     emailId: z.string().min(1, { message: 'An email address is required. Please go back and enter one to continue.' }),
-  })
+  }),
 )
 
 const formId = 'otp'
