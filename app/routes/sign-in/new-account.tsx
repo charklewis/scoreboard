@@ -90,7 +90,7 @@ function NewAccount() {
                   <Label htmlFor="email">Email</Label>
                   <Input {...form.getInputProps('email')} id="email" type="email" required />
                 </div>
-                <Button type="submit" className="w-full" disabled>
+                <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? (
                     <>
                       <LoaderCircle className="animate-spin" /> Loading

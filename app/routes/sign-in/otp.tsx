@@ -28,10 +28,10 @@ async function action({ request }: Route.ActionArgs) {
   if (result.error) return validationError(result.error)
 
   const response = await verifyOtp(decodeBase64(result.data.emailId), result.data.code)
-  if (typeof response === 'string') {
-    await createUser(response)
+  if (typeof response === 'object') {
+    await createUser(response.userId)
     let session = await sessionStorage.getSession(request.headers.get('cookie'))
-    session.set('userId', response)
+    session.set('userId', response.userId)
     throw redirect('/', {
       headers: { 'Set-Cookie': await sessionStorage.commitSession(session) },
     })

@@ -58,7 +58,12 @@ async function verifyOtp(methodId: string, code: string) {
     if (response.status_code !== 200) {
       return false
     }
-    return response.user_id || false
+    return response?.user_id
+      ? {
+          userId: response.user_id,
+          email: response.user?.emails.find((email) => email.email_id === methodId)?.email as string,
+        }
+      : false
   } catch {}
   return false
 }

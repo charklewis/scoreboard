@@ -40,7 +40,7 @@ async function action({ request }: Route.ActionArgs) {
     return redirect(`/sign-in/otp?emailId=${encodeBase64(response)}`)
   }
   if (response.noAccount) {
-    return redirect(`/sign-in/new-account?email=${result.data.email}`)
+    return redirect(`/sign-in/new-account?email=${encodeURIComponent(result.data.email)}`)
   }
   return validationError({ formId, fieldErrors: { email: response.message } })
 }
@@ -87,13 +87,13 @@ function SignIn() {
           <Form {...form.getFormProps()}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center gap-2">
-                <a href="#" className="flex flex-col items-center gap-2 font-medium">
+                <div className="flex flex-col items-center gap-2 font-medium">
                   <div className="flex items-center justify-center rounded-md">
                     <Dices className="size-6" />
                     <PenLine className="size-6" />
                   </div>
                   <span className="sr-only">Scoreboard.</span>
-                </a>
+                </div>
                 <h1 className="text-xl font-bold">Welcome to Scoreboard</h1>
               </div>
               <div className="flex flex-col gap-6">
