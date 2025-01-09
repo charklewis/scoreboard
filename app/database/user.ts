@@ -16,4 +16,9 @@ async function createUser(stytchId: string) {
   return false
 }
 
-export { createUser }
+async function getUserId(stytchId: string) {
+  const response = await db.query.user.findFirst({ where: eq(schema.stytchId, stytchId), columns: { id: true } })
+  return response?.id
+}
+
+export { createUser, getUserId }

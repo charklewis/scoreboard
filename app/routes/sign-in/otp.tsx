@@ -13,14 +13,14 @@ import { verifyOtp } from '~/services/identity'
 import { decodeBase64 } from '~/services/public-ids'
 import { sessionStorage } from '~/services/session'
 
+const formId = 'otp'
+
 const validator = withZod(
   z.object({
     code: z.string().min(6, { message: 'The code must be 6 digits. Please check and try again.' }),
     emailId: z.string().min(1, { message: 'An email address is required. Please go back and enter one to continue.' }),
   }),
 )
-
-const formId = 'otp'
 
 async function action({ request }: Route.ActionArgs) {
   const form = await request.formData()

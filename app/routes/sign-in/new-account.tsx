@@ -12,13 +12,13 @@ import { createUserByEmail } from '~/services/identity'
 import { encodeBase64 } from '~/services/public-ids'
 import { sessionStorage } from '~/services/session'
 
+const formId = 'new-account'
+
 const validator = withZod(
   z.object({
     email: z.string().email({ message: 'The email address you entered isn’t valid. Please check and try again.' }),
   }),
 )
-
-const formId = 'new-account'
 
 async function action({ request }: Route.ActionArgs) {
   const form = await request.formData()

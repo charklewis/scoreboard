@@ -16,7 +16,12 @@ export default [
           index('routes/dashboard/games/index.tsx'),
           route('scrabble', 'routes/dashboard/games/scrabble.tsx'),
         ]),
-        ...prefix('players', [index('routes/dashboard/players/index.tsx')]),
+        route('players', 'routes/dashboard/players/index.tsx', [
+          route(':playerId', 'routes/dashboard/players/player.tsx', [
+            route('remove-player', 'routes/dashboard/players/remove-player.ts'),
+          ]),
+          route('add-player', 'routes/dashboard/players/add-player.tsx'),
+        ]),
       ]),
     ]),
   ]),
