@@ -47,7 +47,7 @@ const roundPlayer = pgTable(
   },
   (table) => {
     return { id: primaryKey({ columns: [table.roundId, table.playerId] }) }
-  }
+  },
 )
 
 const userRelations = relations(user, ({ many }) => ({ players: many(player), games: many(game) }))
